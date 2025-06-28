@@ -1,0 +1,240 @@
+.calendar-title-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.calendar-day.memoed {
+  background: #d6f5e6 !important;
+  color: #2a7d4b !important;
+  border: 2px solid #2a7d4b;
+  font-weight: 800;
+}
+.calendar-memo-modal-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.18);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.calendar-memo-modal {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #4666e433;
+  padding: 28px 22px 18px 22px;
+  min-width: 320px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.calendar-memo-modal-title {
+  font-size: 1.13rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.calendar-memo-textarea {
+  width: 100%;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1.08rem;
+  padding: 10px;
+  resize: none;
+  font-family: inherit;
+}
+.calendar-memo-modal-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+.calendar-memo-btn {
+  background: #4666e4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 18px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+.calendar-memo-btn.cancel {
+  background: #eee;
+  color: #444;
+}
+.calendar-memo-btn:hover {
+  filter: brightness(0.95);
+}
+.calendar-month-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #4666e4;
+  margin: 0 10px;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.calendar-month-btn:hover, .calendar-month-btn:focus {
+  background: #f2f6ff;
+  outline: none;
+}
+.calendar-day.today {
+  border: 2px solid #4666e4;
+  background: #eaf1ff;
+  color: #4666e4;
+  font-weight: 800;
+}
+
+/* 캘린더 페이지 전체 */
+.calendar-page {
+  min-height: 100vh;
+  background: #fff;
+  font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
+}
+.calendar-content {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 0 32px 0;
+}
+.calendar-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin: 0 0 18px 0;
+  padding-top: 12px;
+}
+.calendar-back-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: #444;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-right: 2px;
+}
+.calendar-header-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  margin-left: 8px;
+}
+.calendar-box {
+  background: #fff;
+  border: 1.5px solid #ececec;
+  border-radius: 16px;
+  padding: 28px 18px 18px 18px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 8px #4666e41a;
+}
+.calendar-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+.calendar-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  text-align: center;
+}
+.calendar-table th {
+  color: #8b8b8b;
+  font-size: 1.08rem;
+  font-weight: 600;
+  padding-bottom: 8px;
+}
+.calendar-table td {
+  height: 38px;
+}
+.calendar-day {
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  border-radius: 10px;
+  font-size: 1.13rem;
+  font-weight: 600;
+  color: #444;
+  background: none;
+  transition: background 0.15s;
+}
+.calendar-day.confirmed {
+  background: #d6f5e6;
+  color: #2a7d4b;
+}
+.calendar-day.pending {
+  background: #f8f5d6;
+  color: #bfae2a;
+}
+.calendar-pay-title {
+  font-size: 1.13rem;
+  font-weight: 700;
+  margin: 0 0 16px 4px;
+}
+.calendar-pay-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.calendar-pay-card {
+  background: #fff;
+  border: 1.5px solid #ececec;
+  border-radius: 14px;
+  padding: 18px 18px 12px 18px;
+  box-shadow: 0 2px 8px #4666e41a;
+}
+.calendar-pay-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.calendar-pay-company {
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #222;
+}
+.calendar-pay-amount {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: #4666e4;
+}
+.calendar-pay-row2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.calendar-pay-date {
+  color: #888;
+  font-size: 1.01rem;
+}
+.calendar-pay-status {
+  font-size: 1.01rem;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 3px 16px;
+  margin-left: 8px;
+  display: inline-block;
+}
+.pay-status-confirmed {
+  background: #eafaf1;
+  color: #2a7d4b;
+}
+.pay-status-pending {
+  background: #f8f5d6;
+  color: #bfae2a;
+}
+@media (max-width: 480px) {
+  .calendar-content {
+    padding: 0 0 32px 0;
+  }
+  .calendar-box {
+    padding: 18px 4px 12px 4px;
+  }
+}

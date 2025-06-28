@@ -1,0 +1,340 @@
+/* 마이페이지 뒤로가기 버튼 */
+.mypage-back-btn {
+  background: none;
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background 0.13s;
+  cursor: pointer;
+  margin-right: 8px;
+  padding: 0;
+}
+.mypage-back-btn:active, .mypage-back-btn:focus {
+  background: #f3f4f6;
+}
+.mypage-page {
+  background: #f7f8fa;
+  min-height: 100vh;
+  padding-bottom: 40px;
+  font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
+}
+
+.mypage-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: #fff;
+  padding: 18px 20px 12px 20px;
+  border-bottom: 1.5px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  min-height: 56px;
+}
+
+.mypage-header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #222;
+  margin-left: -24px;
+}
+
+/* 마이페이지 헤더(상단바) */
+.mypage-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: #fff;
+  padding: 18px 20px 12px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  min-height: 56px;
+}
+.mypage-header-back {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: #222;
+  cursor: pointer;
+  margin-right: 8px;
+  padding: 0 4px 0 0;
+  display: flex;
+  align-items: center;
+}
+
+/* 마이페이지 푸터 */
+.mypage-footer {
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+  padding: 16px 0 12px 0;
+  text-align: center;
+  font-size: 0.98rem;
+  color: #888;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 9;
+}
+.mypage-footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 6px;
+}
+.mypage-footer-link {
+  color: #4f8cff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.05rem;
+  transition: color 0.13s;
+}
+.mypage-footer-link:hover {
+  color: #1a6be6;
+}
+
+@media (max-width: 600px) {
+  .mypage-footer {
+    font-size: 0.93rem;
+    padding: 12px 0 8px 0;
+  }
+  .mypage-footer-nav {
+    gap: 18px;
+  }
+}
+
+/* 프로필 카드 */
+.mypage-profile-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin: 20px 12px 16px 12px;
+  padding: 22px 16px 16px 16px;
+  border: 1.5px solid #e5e7eb;
+}
+.mypage-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.mypage-profile-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  border: 1.5px solid #e5e7eb;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.mypage-profile-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.mypage-profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mypage-profile-name {
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 2px;
+  margin-top: 2px;
+}
+.mypage-profile-desc {
+  color: #666;
+  font-size: 0.98rem;
+  margin-bottom: 2px;
+}
+.mypage-profile-rating-row {
+  margin-top: 2px;
+  color: #fbbf24;
+  font-size: 0.97rem;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.mypage-profile-rating svg {
+  margin-right: 2px;
+}
+.mypage-profile-score {
+  color: #222;
+  font-weight: 600;
+  margin-right: 3px;
+  font-size: 0.97rem;
+}
+.mypage-profile-badge {
+  background: #e6fcef;
+  color: #22c55e;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 2px 10px 2px 10px;
+  margin-left: 8px;
+}
+.mypage-profile-edit {
+  font-size: 0.92rem;
+  color: #4f8cff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 2px;
+  padding: 0;
+}
+.mypage-profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+  border: 2px solid #e5e7eb;
+}
+.mypage-profile-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 4px;
+}
+.mypage-profile-email {
+  font-size: 0.97rem;
+  color: #888;
+  margin-bottom: 8px;
+}
+.mypage-profile-edit {
+  font-size: 0.92rem;
+  color: #4f8cff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 2px;
+  padding: 0;
+}
+
+/* 통계 카드 */
+.mypage-stats-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 12px 18px 12px;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 10px 0 6px 0;
+  border: 1px solid #e5e7eb;
+}
+.mypage-stat-box {
+  flex: 1;
+  text-align: center;
+}
+.mypage-stat-value {
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 2px;
+}
+.mypage-stat-value.blue {
+  color: #2563eb;
+}
+.mypage-stat-value.green {
+  color: #22c55e;
+}
+.mypage-stat-label {
+  color: #888;
+  font-size: 0.97rem;
+}
+
+/* 메뉴 리스트 */
+.mypage-menu-list {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin: 0 16px 18px 16px;
+  padding: 8px 0;
+}
+.mypage-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: background 0.13s;
+}
+.mypage-menu-item:not(:last-child) {
+  border-bottom: 1px solid #f0f1f3;
+}
+.mypage-menu-item:hover {
+  background: #f7f8fa;
+}
+.mypage-menu-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  font-size: 1.2rem;
+}
+.mypage-menu-title {
+  font-size: 1.05rem;
+  color: #222;
+  font-weight: 500;
+}
+.mypage-menu-desc {
+  color: #888;
+  font-size: 0.97rem;
+}
+.mypage-menu-arrow {
+  margin-left: auto;
+  color: #bbb;
+  font-size: 1.1rem;
+}
+
+/* 로그아웃 버튼 */
+.mypage-logout-btn {
+  width: calc(100% - 32px);
+  margin: 0 16px 8px 16px;
+  background: #fff;
+  color: #ff4d4f;
+  border: 1.5px solid #ff4d4f;
+  border-radius: 12px;
+  padding: 13px 0 11px 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.13s, color 0.13s;
+}
+.mypage-logout-btn:hover {
+  background: #ff4d4f;
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .mypage-header-bar, .mypage-profile-card, .mypage-menu-list {
+    margin-left: 4px;
+    margin-right: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .mypage-profile-img {
+    width: 56px;
+    height: 56px;
+  }
+  .mypage-logout-btn {
+    width: calc(100% - 8px);
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+}

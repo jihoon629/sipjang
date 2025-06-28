@@ -1,0 +1,173 @@
+.jobdetail-page {
+  background: #fff;
+  min-height: 100vh;
+  font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
+  padding-bottom: 24px;
+}
+.jobdetail-header-bar {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 18px 20px 12px 20px;
+  border-bottom: 1.5px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  min-height: 56px;
+}
+.jobdetail-back-btn {
+  background: none;
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background 0.13s;
+  cursor: pointer;
+  margin-right: 8px;
+  padding: 0;
+}
+.jobdetail-header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #222;
+  margin-left: -24px;
+}
+.jobdetail-call-btn {
+  background: none;
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background 0.13s;
+  cursor: pointer;
+  margin-left: 8px;
+  padding: 0;
+}
+.jobdetail-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1.5px solid #e5e7eb;
+  padding: 26px 20px 18px 20px;
+  margin: 24px 12px 16px 12px;
+}
+.jobdetail-row1 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+.jobdetail-title-main {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #222;
+}
+.jobdetail-company {
+  color: #888;
+  font-size: 1.01rem;
+  margin-bottom: 2px;
+}
+.jobdetail-pay-col {
+  text-align: right;
+}
+.jobdetail-pay {
+  color: #2563eb;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+.jobdetail-period {
+  color: #888;
+  font-size: 0.98rem;
+}
+.jobdetail-row2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.jobdetail-rating {
+  color: #fbbf24;
+  font-size: 1.01rem;
+  font-weight: 600;
+}
+.jobdetail-badge-cert {
+  color: #22c55e;
+  font-size: 1.1rem;
+}
+.jobdetail-section {
+  margin-bottom: 10px;
+}
+.jobdetail-label {
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 2px;
+  font-size: 1.01rem;
+}
+.jobdetail-location {
+  color: #222;
+  font-size: 0.98rem;
+}
+.jobdetail-distance {
+  color: #888;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+.jobdetail-list {
+  margin: 0 0 0 0;
+  padding-left: 0;
+  list-style: none;
+  color: #222;
+  font-size: 0.98rem;
+}
+.jobdetail-list li {
+  margin-bottom: 2px;
+}
+.jobdetail-bottom-bar {
+  display: flex;
+  gap: 12px;
+  margin: 0 12px 0 12px;
+  margin-bottom: 0;
+}
+.jobdetail-photo-btn {
+  flex: 1;
+  background: #fff;
+  color: #222;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 13px 0 11px 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.13s, color 0.13s;
+}
+.jobdetail-apply-btn {
+  flex: 2;
+  background: linear-gradient(90deg, #4f8cff 0%, #ff9c4b 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 13px 0 11px 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.13s;
+}
+.jobdetail-apply-btn:hover {
+  opacity: 0.9;
+}
+@media (max-width: 600px) {
+  .jobdetail-header-bar, .jobdetail-card {
+    margin-left: 4px;
+    margin-right: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
