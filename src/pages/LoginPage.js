@@ -1,5 +1,6 @@
 // src/pages/LoginPage.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // useNavigate import
 import { login } from '../services/authService';
 // 라우팅을 위해 react-router-dom의 useNavigate를 사용할 수 있습니다.
 // import { useNavigate } from 'react-router-dom';
@@ -58,11 +59,11 @@ const successStyle = {
 // ... (import 구문 및 스타일, 함수 정의는 그대로)
 
 function LoginPage() {
-    const [usernameOrEmail, setUsernameOrEmail] = useState('');
+    const [email, setemail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
   
     // handleGoogleLogin 함수는 GoogleLoginButton 컴포넌트 내부에서 처리하므로
     // LoginPage에서는 직접 사용할 필요가 없습니다.
@@ -75,20 +76,21 @@ function LoginPage() {
       setError('');
       setSuccessMessage('');
   
-      if (!usernameOrEmail || !password) {
+      if (!email || !password) {
         setError('사용자 이름(또는 이메일)과 비밀번호를 모두 입력해주세요.');
         return;
       }
   
       try {
-        const credentials = { usernameOrEmail, password };
+        const credentials = { email, password };
         const data = await login(credentials);
         console.log('Login successful:', data);
         setSuccessMessage('로그인에 성공했습니다! 메인 페이지로 이동합니다.');
   
-        // ... (성공 후 처리 로직)
-        setUsernameOrEmail('');
-        setPassword('');
+        setTimeout(() => {
+          navigate('/'); 
+        }, 1000);
+        
       } catch (err) {
         setError(err.message || '로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.');
         console.error('Login page error:', err);
@@ -114,8 +116,8 @@ function LoginPage() {
             <input
               type="text"
               placeholder="사용자 이름 또는 이메일"
-              value={usernameOrEmail}
-              onChange={(e) => setUsernameOrEmail(e.target.value)}
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
               style={inputStyle}
               required
             />
