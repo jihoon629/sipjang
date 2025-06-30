@@ -1,6 +1,5 @@
 .signup-container {
-  max-width: 430px;
-  margin: 0 auto;
+  max-width: 100%;
   background: #fff;
   min-height: 100vh;
   font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
