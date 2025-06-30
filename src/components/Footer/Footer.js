@@ -18,14 +18,7 @@ function Footer() {
         </svg>
         <div className="footer-label">일자리</div>
       </Link>
-      <Link to="/messages" className={pathname.startsWith("/messages") ? "active" : ""}>
-        <svg className="footer-icon" width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M21 15.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9.5A2.5 2.5 0 0 0 5.5 18H12l4 3v-3h2.5A2.5 2.5 0 0 0 21 15.5Z" stroke={pathname.startsWith("/messages") ? "#4666e4" : "#444"} strokeWidth="1.7" strokeLinejoin="round"/>
-        </svg>
-        <div className="footer-label">메시지
-          <span className="footer-badge" />
-        </div>
-      </Link>
+
       <Link to="/mypage" className={pathname.startsWith("/mypage") ? "active" : ""}>
         <svg className="footer-icon" width="26" height="26" viewBox="0 0 24 24" fill="none">
           <circle cx="12" cy="8.5" r="4" stroke={pathname.startsWith("/mypage") ? "#4666e4" : "#444"} strokeWidth="1.7"/>

@@ -1,3 +1,4 @@
+
 .jobdetail-page {
   background: #f5f6f9;
   padding: 5%;
@@ -10,70 +11,68 @@
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  padding: 6% 5%;
+  padding: 5%;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid #e5e7eb;
-  box-sizing: border-box;
-}
-
-.jobdetail-title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 4%;
 }
 
 .jobdetail-title {
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: #111827;
-  width: 65%;
+  background-color: #e7f0ff; /* 기존 배경 유지 */
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  border-radius: 12px; /* 좌우 모두 둥글게 */
+  width: fit-content;
+  box-shadow: 2px;
+  text-align: center;
 }
-
-.jobdetail-location {
-  font-size: 0.9rem;
-  color: #6b7280;
-  width: 35%;
-  text-align: right;
-}
-
-.jobdetail-summary {
+.jobdetail-table .row {
   display: flex;
   justify-content: space-between;
-  font-size: 1.05rem;
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.jobdetail-table .label {
+  color: #6b7280;
   font-weight: 600;
-  margin-bottom: 6%;
 }
 
-.jobdetail-pay {
-  color: #2563eb;
-}
-
-.jobdetail-period {
-  color: #ff7849;
+.jobdetail-table .value {
+  color: #1f2937;
   text-align: right;
 }
 
-.jobdetail-meta {
-  font-size: 0.95rem;
-  color: #374151;
-  line-height: 1.6;
-  margin-bottom: 8%;
+.jobdetail-section {
+  margin-top: 28px;
 }
 
-.jobdetail-meta div {
-  margin-bottom: 4%;
+.section-title {
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.section-content {
+  color: #374151;
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 8px;
+  line-height: 1.6;
 }
 
 .jobdetail-buttons {
   display: flex;
-  gap: 5%;
+  gap: 12px;
+  margin-top: 32px;
 }
 
 .jobdetail-btn {
   flex: 1;
-  padding: 4% 0;
+  padding: 14px;
   border-radius: 12px;
   font-weight: 600;
   font-size: 1rem;

@@ -16,28 +16,31 @@ import Calendar from "./pages/Calendar/Calendar";
 import Resume from "./pages/Resume/Resume";
 import Nearby from "./pages/Nearby/Nearby";
 import AIJobs from "./pages/AIJobs/AIJobs";
-import Messages from "./pages/Messages/Messages";
 
 function App() {
   return (
-    <Router>
-      <div className="app">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/main" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<UnifiedSignup />} /> 
-          <Route path="/jobs" element={<JobList />} />
-          <Route path="/jobs/:id" element={<JobDetail />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/calendar" element={<Calendar />} />
-          <Route path="/resume" element={<Resume />} />
-          <Route path="/nearby" element={<Nearby />} />
-          <Route path="/aijobs" element={<AIJobs />} />
-          <Route path="/messages" element={<Messages />} />
-        </Routes>
-      </div>
-    </Router>
+    <UserProvider>
+      <Router>
+        <div className="app">
+          <Header />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/main" element={<Main />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<UnifiedSignup />} />
+            <Route path="/jobs" element={<JobList />} />
+            <Route path="/jobs/:id" element={<JobDetail />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/resume" element={<Resume />} />
+            <Route path="/nearby" element={<Nearby />} />
+            <Route path="/aijobs" element={<AIJobs />} />
+          </Routes>
+        </div>
+        <Footer />
+      </Router>
+
+    </UserProvider>
   );
 }
 

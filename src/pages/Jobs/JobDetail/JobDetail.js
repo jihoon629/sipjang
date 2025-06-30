@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { getJobPostingDetails } from "../../../services/jobPostingsService";
 import "./JobDetail.css";
 
-
 function JobDetail() {
   const { id } = useParams();
   const [job, setJob] = useState(null);
@@ -25,22 +24,26 @@ function JobDetail() {
   return (
     <div className="jobdetail-page">
       <div className="jobdetail-card">
-        <div className="jobdetail-title-row">
-          <div className="jobdetail-title">{job.title}</div>
-          <div className="jobdetail-location">📍 {job.region}</div>
+        <div className="jobdetail-title">{job.title}</div>
+
+        <div className="jobdetail-table">
+          <div className="row"><span className="label">회사명</span><span className="value">{job.user?.username || "더미데이터입니다"}</span></div>
+          <div className="row"><span className="label">위치</span><span className="value">📍 {job.region}</span></div>
+          <div className="row"><span className="label">일급</span><span className="value">{job.dailyWage.toLocaleString()}원</span></div>
+          <div className="row"><span className="label">기간</span><span className="value">{job.workStartDate} ~ {job.workEndDate}</span></div>
+          <div className="row"><span className="label">직종</span><span className="value">{job.jobType || "더미데이터입니다"}</span></div>
+          <div className="row"><span className="label">근무 시간</span><span className="value">{job.workHours || "더미데이터입니다"}</span></div>
+          <div className="row"><span className="label">연락처</span><span className="value">{job.contactInfo || "더미데이터입니다"}</span></div>
         </div>
 
-        <div className="jobdetail-summary">
-          <div className="jobdetail-pay">일급 {job.dailyWage.toLocaleString()} 원</div>
-          <div className="jobdetail-period">{job.workStartDate} ~ {job.workEndDate}</div>
+        <div className="jobdetail-section">
+          <div className="section-title">요구 역량</div>
+          <div className="section-content">{job.requiredSkills || "더미데이터입니다"}</div>
         </div>
 
-        <div className="jobdetail-meta">
-          <div><strong>직종:</strong> {job.jobType || "더미데이터입니다"}</div>
-          <div><strong>현장 설명:</strong> {job.siteDescription || "더미데이터입니다"}</div>
-          <div><strong>요구 역량:</strong> {job.requiredSkills || "더미데이터입니다"}</div>
-          <div><strong>근무 시간:</strong> {job.workHours || "더미데이터입니다"}</div>
-          <div><strong>연락처:</strong> {job.contactInfo || "더미데이터입니다"}</div>
+        <div className="jobdetail-section">
+          <div className="section-title">현장 설명</div>
+          <div className="section-content">{job.siteDescription || "더미데이터입니다"}</div>
         </div>
 
         <div className="jobdetail-buttons">
