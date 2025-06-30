@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { UserProvider } from "./contexts/UserContext";
 
 import Main from "./pages/Main/Main";
 import Login from "./pages/Login/Login";
@@ -16,24 +17,26 @@ import Messages from "./pages/Messages/Messages";
 
 function App() {
   return (
-    <Router>
-      <div className="app">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/main" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<UnifiedSignup />} /> 
-          <Route path="/jobs" element={<JobList />} />
-          <Route path="/jobs/:id" element={<JobDetail />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/calendar" element={<Calendar />} />
-          <Route path="/resume" element={<Resume />} />
-          <Route path="/nearby" element={<Nearby />} />
-          <Route path="/aijobs" element={<AIJobs />} />
-          <Route path="/messages" element={<Messages />} />
-        </Routes>
-      </div>
-    </Router>
+    <UserProvider>
+      <Router>
+        <div className="app">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/main" element={<Main />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<UnifiedSignup />} /> 
+            <Route path="/jobs" element={<JobList />} />
+            <Route path="/jobs/:id" element={<JobDetail />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/resume" element={<Resume />} />
+            <Route path="/nearby" element={<Nearby />} />
+            <Route path="/aijobs" element={<AIJobs />} />
+            <Route path="/messages" element={<Messages />} />
+          </Routes>
+        </div>
+      </Router>
+    </UserProvider>
   );
 }
 
