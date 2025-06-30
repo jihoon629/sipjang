@@ -1,0 +1,129 @@
+/* 회원가입 유형 선택 페이지 스타일 */
+/* 상단 상태바 (모바일용) */
+.signup-statusbar {
+  width: 100vw;
+  height: 18px;
+  background: #000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.signup-container {
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signup-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 0 12px 0;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  margin-top: 18px;
+}
+.signup-back-btn {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.signup-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.signup-main {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 0 0 0;
+}
+.signup-question {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #222;
+  text-align: center;
+}
+.signup-sub {
+  color: #888;
+  margin-bottom: 32px;
+  font-size: 1.08rem;
+  text-align: center;
+}
+.signup-card-list {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.signup-card {
+  background: #fff;
+  border: 2px solid #e5e8ef;
+  border-radius: 14px;
+  padding: 36px 0 28px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+  transition: box-shadow 0.2s, border 0.2s;
+  cursor: pointer;
+}
+.signup-card:hover {
+  border: 2px solid #4666e4;
+  box-shadow: 0 4px 16px rgba(70,102,228,0.08);
+}
+.signup-card-icon {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 18px;
+}
+.signup-card-icon.worker {
+  background: #eaf1ff;
+}
+.signup-card-icon.employer {
+  background: #fff4e6;
+}
+.signup-card-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #222;
+}
+.signup-card-desc {
+  color: #555;
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+}
+.signup-card-list-detail {
+  color: #6a6a6a;
+  font-size: 0.98rem;
+  padding-left: 0;
+  list-style: disc inside;
+  margin: 0;
+}
+.signup-card-list-detail li {
+  margin-bottom: 2px;
+}

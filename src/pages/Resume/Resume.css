@@ -1,0 +1,228 @@
+
+/* Resume.css - 이력서 페이지 스타일 */
+.resume-page {
+  background: #f7f8fa;
+  min-height: 100vh;
+  padding-bottom: 40px;
+  font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
+}
+
+.resume-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 18px 20px 12px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.resume-back-btn,
+.resume-edit-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.resume-back-btn:hover,
+.resume-edit-btn:hover {
+  background: #f0f1f3;
+}
+.resume-header-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.resume-profile-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin: 20px 12px 16px 12px;
+  padding: 22px 16px 16px 16px;
+  border: 1.5px solid #e5e7eb;
+}
+.resume-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.resume-profile-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #f3f4f6 url('../../assets/123.jpg') center/cover no-repeat;
+  border: 1.5px solid #e5e7eb;
+  margin-right: 0;
+}
+.resume-profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.resume-profile-name {
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 2px;
+}
+.resume-profile-desc {
+  color: #666;
+  font-size: 0.98rem;
+  margin-bottom: 2px;
+}
+.resume-profile-rating {
+  margin-top: 2px;
+  color: #fbbf24;
+  font-size: 0.97rem;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.resume-profile-star {
+  font-size: 1.05rem;
+  margin-right: 1px;
+}
+.resume-profile-score {
+  color: #222;
+  font-weight: 600;
+  margin-right: 3px;
+  font-size: 0.97rem;
+}
+.resume-profile-projects {
+  color: #888;
+  font-size: 0.97rem;
+}
+.resume-profile-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 10px 0 6px 0;
+  border: 1px solid #e5e7eb;
+}
+.resume-profile-stat {
+  flex: 1;
+  text-align: center;
+}
+.resume-profile-stat-value {
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 2px;
+}
+.resume-profile-stat-value.blue {
+  color: #2563eb;
+}
+.resume-profile-stat-value.green {
+  color: #22c55e;
+}
+.resume-profile-stat-value.orange {
+  color: #f59e42;
+}
+.resume-profile-stat-label {
+
+  color: #888;
+  font-size: 0.97rem;
+}
+
+.resume-section {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  margin: 0 16px 18px 16px;
+  padding: 20px 18px 14px 18px;
+}
+.resume-section-title {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.resume-skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.resume-skill {
+  background: #f1f5f9;
+  color: #2563eb;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 0.98rem;
+}
+.resume-career-list {
+  margin-top: 6px;
+}
+.resume-career-item {
+  margin-bottom: 12px;
+}
+.resume-career-title {
+  font-weight: 600;
+  color: #222;
+  font-size: 1.05rem;
+}
+.resume-career-meta {
+  color: #888;
+  font-size: 0.97rem;
+  margin-bottom: 2px;
+}
+.resume-career-desc {
+  color: #444;
+  font-size: 0.98rem;
+}
+.resume-cert-list {
+  margin-top: 6px;
+}
+.resume-cert-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+.resume-cert-name {
+  color: #222;
+  font-weight: 500;
+}
+.resume-cert-date {
+  color: #888;
+  font-size: 0.97rem;
+}
+.resume-contact-list {
+  margin-top: 6px;
+}
+.resume-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #444;
+  font-size: 1rem;
+  margin-bottom: 7px;
+}
+.resume-contact-icon {
+  font-size: 1.1rem;
+}
+
+@media (max-width: 600px) {
+  .resume-header-bar, .resume-profile-card, .resume-section {
+    margin-left: 4px;
+    margin-right: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .resume-profile-img {
+    width: 56px;
+    height: 56px;
+  }
+}

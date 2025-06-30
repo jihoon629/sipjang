@@ -1,0 +1,147 @@
+
+.joblist-page {
+  background: #fff;
+  min-height: 100vh;
+  font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
+  padding-bottom: 24px;
+}
+.joblist-header {
+  padding: 18px 0 8px 0;
+  text-align: left;
+  margin-left: 24px;
+}
+.joblist-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #222;
+}
+.joblist-searchbar {
+  margin: 0 24px 12px 24px;
+}
+.joblist-search {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  background: #fafbfc;
+  outline: none;
+  margin-bottom: 8px;
+}
+.joblist-filters {
+  display: flex;
+  gap: 10px;
+  margin: 0 24px 18px 24px;
+  flex-wrap: wrap;
+}
+.joblist-filter {
+  background: #f7f8fa;
+  border: none;
+  border-radius: 16px;
+  padding: 7px 18px;
+  font-size: 1.01rem;
+  color: #222;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.13s, color 0.13s;
+}
+.joblist-filter.selected {
+  background: linear-gradient(90deg, #4f8cff 0%, #ff9c4b 100%);
+  color: #fff;
+}
+.joblist-cards {
+  margin: 0 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+.joblist-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  border: 1.5px solid #e5e7eb;
+  padding: 22px 20px 18px 20px;
+  width: 95%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.joblist-card-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.joblist-title-main {
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #222;
+}
+.joblist-badge-urgent {
+  background: #ffebeb;
+  color: #e53e3e;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 2px 10px;
+  margin-left: 4px;
+}
+.joblist-badge-cert {
+  color: #22c55e;
+  font-size: 1.1rem;
+  margin-left: 4px;
+}
+.joblist-pay {
+  margin-left: auto;
+  color: #2563eb;
+  font-size: 1.18rem;
+  font-weight: 700;
+}
+.joblist-period {
+  color: #888;
+  font-size: 0.98rem;
+  margin-left: 8px;
+}
+.joblist-company {
+  color: #222;
+  font-size: 1.01rem;
+  margin-bottom: 2px;
+}
+.joblist-location-row {
+  margin-bottom: 2px;
+}
+.joblist-location {
+  color: #888;
+  font-size: 0.97rem;
+}
+.joblist-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.joblist-time {
+  color: #888;
+  font-size: 0.97rem;
+}
+.joblist-rating {
+  color: #fbbf24;
+  font-size: 0.97rem;
+  font-weight: 600;
+}
+.joblist-apply-btn {
+  width: 100%;
+  background: linear-gradient(90deg, #4f8cff 0%, #ff9c4b 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 0 11px 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.13s;
+}
+.joblist-apply-btn:hover {
+  opacity: 0.9;
+}
