@@ -2,27 +2,41 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../services/authService";
-
-import { FiChevronLeft } from "react-icons/fi";
-import { MdEmail, MdLock } from "react-icons/md";
-import { BsEye, BsEyeSlash } from "react-icons/bs";
-
+import { login } from "../../services/authService"; // 경로 확인 필요
 
 function Login() {
   const navigate = useNavigate();
+  const { loginUser } = useUser(); // useUser 훅 사용
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage(""); // 새로운 시도 전에 에러 메시지 초기화
+
+    // 클라이언트 측 유효성 검사
+    if (!email || !password) {
+      setErrorMessage("이메일과 비밀번호를 모두 입력해주세요.");
+      return;
+    }
+
+
+    
+
+    if (password.length < 6) { // 최소 비밀번호 길이 설정 (예시: 6자)
+      setErrorMessage("비밀번호는 최소 6자 이상이어야 합니다.");
+      return;
+    }
+
+    setLoading(true); // 로딩 시작
     try {
       await login({ email, password });
       alert("로그인 성공");
-      navigate("/");
+      navigate("/"); // 홈 또는 메인 페이지로 이동
     } catch (error) {
-      alert("로그인 실패: " + (error.message || "알 수 없는 오류"));
+      setErrorMessage(error.message || "로그인 실패: 알 수 없는 오류"); // 에러 메시지 상태 업데이트
+    } finally {
+      setLoading(false); // 로딩 종료
     }
   };
 
@@ -49,20 +63,13 @@ function Login() {
 
         <label className="login-label">비밀번호</label>
         <div className="login-input-box">
-          <span className="login-input-icon"><MdLock size={20} /></span>
-          <input
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="비밀번호를 입력하세요"
-            required
-          />
-          <span className="login-input-eye" onClick={() => setShowPassword((v) => !v)} style={{cursor:'pointer'}}>
-            {showPassword ? <BsEyeSlash size={18}/> : <BsEye size={18}/>} 
-          </span>
+          <span className="login-input-icon">🔒</span>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="비밀번호를 입력하세요" required />
+          <span className="login-input-eye">👁️</span>
         </div>
 
-        <button className="login-btn-main" type="submit">로그인</button>
+        <button className="login-btn-main" type="submit" disabled={loading}>{loading ? '로그인 중...' : '로그인'}</button>
+        {errorMessage && <p className="login-error-message">{errorMessage}</p>} {/* 에러 메시지 표시 */}
       </form>
 
       <Link to="#" className="login-forgot">비밀번호를 잊으셨나요?</Link>
