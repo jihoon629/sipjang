@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Bell, User } from "lucide-react";
 import "./Header.css";
+import { useUser } from "../../contexts/UserContext"; // UserContext 임포트
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 더미 로그인 상태
+  const { user, loading } = useUser(); // useUser 훅 사용
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
@@ -23,7 +24,7 @@ function Header() {
 
       <div className="header-right">
         {isMobile ? (
-          isLoggedIn ? (
+          user ? (
             <>
               <button className="icon-button"><Bell size={20} /></button>
               <Link to="/mypage" className="icon-button" aria-label="마이페이지로 이동"><User size={20} /></Link>
@@ -39,8 +40,8 @@ function Header() {
           <nav className="desktop-nav">
             <Link to="/jobs" className="nav-link">일자리</Link>
             <Link to="/mypage" className="nav-link">마이페이지</Link>
-            {isLoggedIn ? (
-              <span className="welcome-text">김철수님</span>
+            {user ? (
+              <span className="welcome-text">{user.username}님</span>
             ) : (
               <>
                 <Link to="/login" className="btn login-btn">로그인</Link>

@@ -1,6 +1,7 @@
 // App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { UserProvider } from "./contexts/UserContext";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -20,13 +21,12 @@ import Messages from "./pages/Messages/Messages";
 function App() {
   return (
     <Router>
-      <Header />
-      <main>
+      <div className="app">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/main" element={<Main />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<UnifiedSignup />} />
+          <Route path="/signup" element={<UnifiedSignup />} /> 
           <Route path="/jobs" element={<JobList />} />
           <Route path="/jobs/:id" element={<JobDetail />} />
           <Route path="/mypage" element={<MyPage />} />
@@ -36,8 +36,7 @@ function App() {
           <Route path="/aijobs" element={<AIJobs />} />
           <Route path="/messages" element={<Messages />} />
         </Routes>
-      </main>
-      <Footer />
+      </div>
     </Router>
   );
 }

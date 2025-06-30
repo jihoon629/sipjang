@@ -2,14 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import JobCard from "../../components/JobCard/JobCard";
 import "./HomePage.css";
+import { useUser } from "../../contexts/UserContext"; // UserContext 임포트
 
 function HomePage() {
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  useEffect(() => {
-    const stored = localStorage.getItem("user");
-    if (stored) setUser(JSON.parse(stored));
-  }, []);
+  const { user, loading } = useUser(); // useUser 훅 사용
 
   // 샘플 데이터 (실제 연동 전)
   const stats = { done: 12, rating: 4.8, trust: 98 };
@@ -43,7 +40,7 @@ function HomePage() {
         <div className="main-stats-card-bg">
           <div className="main-stats-card-info">
             <div className="main-stats-card-title">
-              <strong>안녕하세요, {user?.name || "김철수"}님!</strong>
+              <strong>안녕하세요, {user?.username || "김철수"}님!</strong>
               <div className="main-stats-card-sub">오늘도 좋은 하루 되세요</div>
             </div>
             <div className="main-stats-card-numbers">
