@@ -1,7 +1,7 @@
 // src/services/authService.js
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8001/api';
+const API_BASE_URL = 'http://172.30.112.48:8001/api';
 
 // axios 인스턴스 생성 시 withCredentials 옵션 추가
 const apiClient = axios.create({

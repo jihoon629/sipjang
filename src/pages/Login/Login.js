@@ -1,14 +1,19 @@
 
 import React, { useState } from "react";
+import { FiChevronLeft } from "react-icons/fi";
+import { MdEmail } from "react-icons/md";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../services/authService"; // 경로 확인 필요
 
+
 function Login() {
   const navigate = useNavigate();
-  const { loginUser } = useUser(); // useUser 훅 사용
+  // const { loginUser } = useUser(); // useUser 훅 사용 (사용하지 않으므로 주석 처리)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
