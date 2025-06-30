@@ -1,26 +1,25 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom'; // Link 임포트
-import axios from 'axios';
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8001/api';
+import { useParams, Link } from 'react-router-dom';
+import * as jobPostingsService from '../services/jobPostingsService';
+import * as applicationsService from '../services/applicationsService';
 
 function ApplicationsManagePage() {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { id: jobPostingId } = useParams(); // URL에서 공고 ID를 가져옴
+  const { id: jobPostingId } = useParams();
 
   const fetchApplications = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_BASE_URL}/job-postings/${jobPostingId}/applications`);
-      if (response.data && response.data.status === 'success') {
-        setApplications(response.data.data.applications || []);
+      const response = await jobPostingsService.getJobApplicants(jobPostingId);
+      if (response.status === 'success') {
+        setApplications(response.data.applications || []);
       } else {
         setError('Failed to load applications.');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'An error occurred while fetching applications.');
+      setError(err.message || 'An error occurred while fetching applications.');
     } finally {
       setLoading(false);
     }
@@ -32,19 +31,19 @@ function ApplicationsManagePage() {
 
   const handleStatusUpdate = async (applicationId, status) => {
     try {
-      await axios.put(`${API_BASE_URL}/applications/${applicationId}/status`, { status });
+      await applicationsService.updateApplicationStatus(applicationId, status);
       fetchApplications();
     } catch (err) {
-      alert(`Failed to update status: ${err.response?.data?.message || err.message}`);
+      alert(`Failed to update status: ${err.message}`);
     }
   };
 
   const handleComplete = async (applicationId) => {
     try {
-      await axios.post(`${API_BASE_URL}/applications/${applicationId}/complete`);
+      await applicationsService.completeApplication(applicationId);
       fetchApplications();
     } catch (err) {
-      alert(`Failed to complete application: ${err.response?.data?.message || err.message}`);
+      alert(`Failed to complete application: ${err.message}`);
     }
   };
 

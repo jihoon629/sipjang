@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080';
+import * as authService from '../services/authService';
 
 function AuthPage({ setCurrentUserId }) {
   const [registerForm, setRegisterForm] = useState({
@@ -27,28 +25,27 @@ function AuthPage({ setCurrentUserId }) {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/register`, registerForm);
-      setMessage(`Register Success: ${response.data.message}`);
+      const response = await authService.signup(registerForm);
+      setMessage(`Register Success: ${response.message}`);
     } catch (error) {
-      setMessage(`Register Error: ${error.response?.data?.message || error.message}`);
+      setMessage(`Register Error: ${error.message}`);
     }
   };
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/login`, loginForm);
-      setMessage(`Login Success: ${response.data.message} (Token will be in HTTP-only cookie)`);
-      // 로그인 성공 후 /auth/me 엔드포인트 호출하여 사용자 ID 가져오기
-      const meResponse = await axios.get(`${API_BASE_URL}/auth/me`);
-      if (meResponse.data && meResponse.data.id) {
-        setCurrentUserId(meResponse.data.id);
-        setMessage(prev => prev + ` User ID: ${meResponse.data.id}`);
+      const response = await authService.login(loginForm);
+      setMessage(`Login Success: ${response.message} (Token will be in HTTP-only cookie)`);
+      const meResponse = await authService.getCurrentUser();
+      if (meResponse.id) {
+        setCurrentUserId(meResponse.id);
+        setMessage(prev => prev + ` User ID: ${meResponse.id}`);
       } else {
         setMessage(prev => prev + ` Failed to get user ID from /auth/me`);
       }
     } catch (error) {
-      setMessage(`Login Error: ${error.response?.data?.message || error.message}`);
+      setMessage(`Login Error: ${error.message}`);
     }
   };
 

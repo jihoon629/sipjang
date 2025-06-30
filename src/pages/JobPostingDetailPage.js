@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import * as jobPostingsService from '../services/jobPostingsService';
+import * as resumesService from '../services/resumesService';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8001/api';
-
-function JobPostingDetailPage({ currentUserId }) { // currentUserId 프롭 추가
+function JobPostingDetailPage({ currentUserId }) {
   const [jobPosting, setJobPosting] = useState(null);
   const [resumes, setResumes] = useState([]);
   const [selectedResumeId, setSelectedResumeId] = useState('');
@@ -23,23 +22,21 @@ function JobPostingDetailPage({ currentUserId }) { // currentUserId 프롭 추�
     const fetchPageData = async () => {
       try {
         setLoading(true);
-        // 공고 상세 정보 가져오기
-        const jobResponse = await axios.get(`${API_BASE_URL}/job-postings/${id}`);
-        if (jobResponse.data && jobResponse.data.status === 'success') {
-          setJobPosting(jobResponse.data.data);
+        const jobResponse = await jobPostingsService.getJobPostingDetails(id);
+        if (jobResponse.status === 'success') {
+          setJobPosting(jobResponse.data);
         } else {
           throw new Error('Failed to load job posting details.');
         }
 
-        // 로그인한 사용자의 이력서 목록 가져오기
         if (currentUserId) {
-          const resumeResponse = await axios.get(`${API_BASE_URL}/resumes/user/${currentUserId}`);
-          if (resumeResponse.data && resumeResponse.data.status === 'success') {
-            setResumes(resumeResponse.data.data.resumes || []);
+          const resumeResponse = await resumesService.getUserResumes(currentUserId);
+          if (resumeResponse.status === 'success') {
+            setResumes(resumeResponse.data.resumes || []);
           }
         }
       } catch (err) {
-        setError(err.response?.data?.message || err.message || 'An error occurred.');
+        setError(err.message || 'An error occurred.');
       } finally {
         setLoading(false);
       }
@@ -57,12 +54,10 @@ function JobPostingDetailPage({ currentUserId }) { // currentUserId 프롭 추�
     }
     try {
       setMessage('');
-      const response = await axios.post(`${API_BASE_URL}/job-postings/${id}/apply`, {
-        resumeId: selectedResumeId,
-      });
-      setMessage(response.data.message || '성공적으로 지원했습니다.');
+      const response = await jobPostingsService.applyToJob(id, selectedResumeId);
+      setMessage(response.message || '성공적으로 지원했습니다.');
     } catch (err) {
-      setMessage(err.response?.data?.message || '지원 중 오류가 발생했습니다.');
+      setMessage(err.message || '지원 중 오류가 발생했습니다.');
     }
   };
 

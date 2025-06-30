@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Link 임포트
-import axios from 'axios';
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8001/api';
+import { Link } from 'react-router-dom';
+import * as jobPostingsService from '../services/jobPostingsService';
 
 function JobPostingPage({ currentUserId }) {
   const [createForm, setCreateForm] = useState({
@@ -14,34 +12,32 @@ function JobPostingPage({ currentUserId }) {
     requiredSkills: '', workStartDate: '', workEndDate: '', workHours: '', contactInfo: '',
   });
   const [jobPostings, setJobPostings] = useState([]);
-  const [allJobPostings, setAllJobPostings] = useState([]); // 전체 공고 목록 상태 추가
+  const [allJobPostings, setAllJobPostings] = useState([]);
   const [message, setMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchField, setSearchField] = useState('jobType');
   const [searchResults, setSearchResults] = useState([]);
 
-  // 현재 사용자의 공고를 가져오는 함수
   const fetchUserJobPostings = async () => {
     if (!currentUserId) {
       setJobPostings([]);
       return;
     }
     try {
-      const response = await axios.get(`${API_BASE_URL}/job-postings/user/${currentUserId}`);
-      setJobPostings(response.data.data.postings || []);
+      const response = await jobPostingsService.getUserJobPostings(currentUserId);
+      setJobPostings(response.data.postings || []);
     } catch (error) {
-      setMessage(`Error fetching user job postings: ${error.response?.data?.message || error.message}`);
+      setMessage(`Error fetching user job postings: ${error.message}`);
     }
   };
 
-  // 전체 공고를 가져오는 함수
   const fetchAllJobPostings = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/job-postings`);
-      setAllJobPostings(response.data.data.postings || []);
+      const response = await jobPostingsService.getJobPostings();
+      setAllJobPostings(response.data.postings || []);
       setMessage('All job postings loaded.');
     } catch (error) {
-      setMessage(`Error fetching all job postings: ${error.response?.data?.message || error.message}`);
+      setMessage(`Error fetching all job postings: ${error.message}`);
     }
   };
 
@@ -65,11 +61,11 @@ function JobPostingPage({ currentUserId }) {
     e.preventDefault();
     try {
       const payload = { ...createForm, requiredSkills: createForm.requiredSkills.split(',').map(s => s.trim()) };
-      const response = await axios.post(`${API_BASE_URL}/job-postings`, payload);
-      setMessage(`Create Success: ${response.data.message}`);
-      fetchUserJobPostings(); // 내 공고 목록 새로고침
+      const response = await jobPostingsService.createJobPosting(payload);
+      setMessage(`Create Success: ${response.message}`);
+      fetchUserJobPostings();
     } catch (error) {
-      setMessage(`Create Error: ${error.response?.data?.message || error.message}`);
+      setMessage(`Create Error: ${error.message}`);
     }
   };
 
@@ -77,32 +73,32 @@ function JobPostingPage({ currentUserId }) {
     e.preventDefault();
     try {
       const payload = { ...updateForm, requiredSkills: updateForm.requiredSkills.split(',').map(s => s.trim()) };
-      const response = await axios.put(`${API_BASE_URL}/job-postings/${updateForm.id}`, payload);
-      setMessage(`Update Success: ${response.data.message}`);
-      fetchUserJobPostings(); // 내 공고 목록 새로고침
+      const response = await jobPostingsService.updateJobPosting(updateForm.id, payload);
+      setMessage(`Update Success: ${response.message}`);
+      fetchUserJobPostings();
     } catch (error) {
-      setMessage(`Update Error: ${error.response?.data?.message || error.message}`);
+      setMessage(`Update Error: ${error.message}`);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`${API_BASE_URL}/job-postings/${id}`);
-      setMessage(`Delete Success: ${response.data.message}`);
-      fetchUserJobPostings(); // 내 공고 목록 새로고침
+      const response = await jobPostingsService.deleteJobPosting(id);
+      setMessage(`Delete Success: ${response.message}`);
+      fetchUserJobPostings();
     } catch (error) {
-      setMessage(`Delete Error: ${error.response?.data?.message || error.message}`);
+      setMessage(`Delete Error: ${error.message}`);
     }
   };
 
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`${API_BASE_URL}/job-postings/search/similarity?query=${searchQuery}&field=${searchField}`);
-      setSearchResults(response.data.data.postings || []);
-      setMessage(`Search Success: Found ${response.data.data.postings.length} results.`);
+      const response = await jobPostingsService.searchJobPostings(searchQuery, searchField);
+      setSearchResults(response.data.postings || []);
+      setMessage(`Search Success: Found ${response.data.postings.length} results.`);
     } catch (error) {
-      setMessage(`Search Error: ${error.response?.data?.message || error.message}`);
+      setMessage(`Search Error: ${error.message}`);
     }
   };
 

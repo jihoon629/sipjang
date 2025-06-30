@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8001/api';
+import * as usersService from '../services/usersService';
 
 function ExperiencePage() {
   const [experience, setExperience] = useState([]);
@@ -14,14 +12,14 @@ function ExperiencePage() {
     const fetchExperience = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${API_BASE_URL}/users/${userId}/experience`);
-        if (response.data && response.data.status === 'success') {
-          setExperience(response.data.data);
+        const response = await usersService.getUserExperience(userId);
+        if (response.status === 'success') {
+          setExperience(response.data);
         } else {
           setError('Failed to load experience.');
         }
       } catch (err) {
-        setError(err.response?.data?.message || 'An error occurred while fetching experience.');
+        setError(err.message || 'An error occurred while fetching experience.');
       } finally {
         setLoading(false);
       }

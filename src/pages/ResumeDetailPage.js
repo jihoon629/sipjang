@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8001/api';
+import * as resumesService from '../services/resumesService';
 
 function ResumeDetailPage() {
   const [resume, setResume] = useState(null);
@@ -20,14 +18,14 @@ function ResumeDetailPage() {
     const fetchResume = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${API_BASE_URL}/resumes/${id}`);
-        if (response.data && response.data.status === 'success') {
-          setResume(response.data.data);
+        const response = await resumesService.getResumeDetails(id);
+        if (response.status === 'success') {
+          setResume(response.data);
         } else {
           setError('Failed to load resume details.');
         }
       } catch (err) {
-        setError(err.response?.data?.message || 'An error occurred.');
+        setError(err.message || 'An error occurred.');
       } finally {
         setLoading(false);
       }

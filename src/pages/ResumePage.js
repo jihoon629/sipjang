@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8001/api';
+import * as resumesService from '../services/resumesService';
 
 function ResumePage({ currentUserId }) {
   const [createForm, setCreateForm] = useState({
@@ -22,16 +20,16 @@ function ResumePage({ currentUserId }) {
       return;
     }
     try {
-      const response = await axios.get(`${API_BASE_URL}/resumes/user/${currentUserId}`);
-      setResumes(response.data.data.resumes || []);
+      const response = await resumesService.getUserResumes(currentUserId);
+      setResumes(response.data.resumes || []);
     } catch (error) {
-      setMessage(`Error fetching resumes: ${error.response?.data?.message || error.message}`);
+      setMessage(`Error fetching resumes: ${error.message}`);
     }
   };
 
   useEffect(() => {
     fetchResumes();
-  }, [currentUserId]); // currentUserId가 변경될 때마다 다시 불러오기
+  }, [currentUserId]);
 
   useEffect(() => {
     setCreateForm(prev => ({ ...prev, userId: currentUserId || '' }));
@@ -49,11 +47,11 @@ function ResumePage({ currentUserId }) {
     e.preventDefault();
     try {
       const payload = { ...createForm, skills: createForm.skills.split(',').map(s => s.trim()) };
-      const response = await axios.post(`${API_BASE_URL}/resumes`, payload);
-      setMessage(`Create Success: ${response.data.message}`);
+      const response = await resumesService.createResume(payload);
+      setMessage(`Create Success: ${response.message}`);
       fetchResumes();
     } catch (error) {
-      setMessage(`Create Error: ${error.response?.data?.message || error.message}`);
+      setMessage(`Create Error: ${error.message}`);
     }
   };
 
@@ -61,32 +59,32 @@ function ResumePage({ currentUserId }) {
     e.preventDefault();
     try {
       const payload = { ...updateForm, skills: updateForm.skills.split(',').map(s => s.trim()) };
-      const response = await axios.put(`${API_BASE_URL}/resumes/${updateForm.id}`, payload);
-      setMessage(`Update Success: ${response.data.message}`);
+      const response = await resumesService.updateResume(updateForm.id, payload);
+      setMessage(`Update Success: ${response.message}`);
       fetchResumes();
     } catch (error) {
-      setMessage(`Update Error: ${error.response?.data?.message || error.message}`);
+      setMessage(`Update Error: ${error.message}`);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`${API_BASE_URL}/resumes/${id}`);
-      setMessage(`Delete Success: ${response.data.message}`);
+      const response = await resumesService.deleteResume(id);
+      setMessage(`Delete Success: ${response.message}`);
       fetchResumes();
     } catch (error) {
-      setMessage(`Delete Error: ${error.response?.data?.message || error.message}`);
+      setMessage(`Delete Error: ${error.message}`);
     }
   };
 
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`${API_BASE_URL}/resumes/search/similarity?query=${searchQuery}&field=${searchField}`);
-      setSearchResults(response.data);
+      const response = await resumesService.searchResumes(searchQuery, searchField);
+      setSearchResults(response.data || []);
       setMessage(`Search Success: Found ${response.data.length} results.`);
     } catch (error) {
-      setMessage(`Search Error: ${error.response?.data?.message || error.message}`);
+      setMessage(`Search Error: ${error.message}`);
     }
   };
 
