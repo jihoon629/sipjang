@@ -1,7 +1,7 @@
 
 
-import Header from "../../../components/Header/Header";
-import Footer from "../../../components/Footer/Footer";
+// import Header from "../../../components/Header/Header";
+// import Footer from "../../../components/Footer/Footer";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./JobList.css";
@@ -46,7 +46,7 @@ function JobList() {
   const filtered = selected === "전체" ? jobs : jobs.filter(j => j.type === selected || (selected === "급구" && j.urgent));
   return (
     <div className="joblist-page">
-      <Header />
+      
       <div className="joblist-header">
         <span className="joblist-title">일자리</span>
       </div>
@@ -80,7 +80,7 @@ function JobList() {
           </div>
         ))}
       </div>
-      <Footer />
+      
     </div>
   );
 }

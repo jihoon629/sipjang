@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import "./Calendar.css";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header/Header";
+// import Header from "../../components/Header/Header";
 
 const payData = [
   {
@@ -116,7 +116,7 @@ function Calendar() {
 
   return (
     <div className="calendar-page">
-      <Header />
+      
       <div className="calendar-content">
         <div className="calendar-header-row">
           <button className="calendar-back-btn" onClick={() => navigate(-1)}>
