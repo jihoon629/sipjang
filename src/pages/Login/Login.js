@@ -1,19 +1,26 @@
+
 import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../services/authService"; // 경로 확인 필요
+import { login } from "../../services/authService";
+
+import { FiChevronLeft } from "react-icons/fi";
+import { MdEmail, MdLock } from "react-icons/md";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
+
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await login({ email, password });
       alert("로그인 성공");
-      navigate("/"); // 홈 또는 메인 페이지로 이동
+      navigate("/");
     } catch (error) {
       alert("로그인 실패: " + (error.message || "알 수 없는 오류"));
     }
@@ -22,12 +29,10 @@ function Login() {
   return (
     <div className="login-page">
       <header className="login-header">
-        <button className="login-back" type="button" aria-label="뒤로가기" onClick={() => navigate("/")}> 
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M15 19l-7-7 7-7" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+        <button className="login-back" type="button" aria-label="뒤로가기" onClick={() => navigate(-1)}>
+          <FiChevronLeft size={24} /> 뒤로
         </button>
-        <span className="login-title">로그인</span>
+        <span className="login-title" style={{fontWeight:700}}>로그인</span>
       </header>
       <div className="login-logo-box">
         <div className="login-logo-gradient"><span className="login-logo-text">내</span></div>
@@ -36,17 +41,25 @@ function Login() {
       </div>
 
       <form className="login-form" onSubmit={handleSubmit}>
-        <label>이메일</label>
+        <label className="login-label">이메일</label>
         <div className="login-input-box">
-          <span className="login-input-icon">📧</span>
+          <span className="login-input-icon"><MdEmail size={20} /></span>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일을 입력하세요" required />
         </div>
 
-        <label>비밀번호</label>
+        <label className="login-label">비밀번호</label>
         <div className="login-input-box">
-          <span className="login-input-icon">🔒</span>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="비밀번호를 입력하세요" required />
-          <span className="login-input-eye">👁️</span>
+          <span className="login-input-icon"><MdLock size={20} /></span>
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="비밀번호를 입력하세요"
+            required
+          />
+          <span className="login-input-eye" onClick={() => setShowPassword((v) => !v)} style={{cursor:'pointer'}}>
+            {showPassword ? <BsEyeSlash size={18}/> : <BsEye size={18}/>} 
+          </span>
         </div>
 
         <button className="login-btn-main" type="submit">로그인</button>

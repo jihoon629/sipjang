@@ -68,8 +68,10 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 340px;
+  width: 100%;
 }
 .login-form label {
   font-size: 1.05rem;
@@ -86,6 +88,10 @@
   padding: 0 14px;
   height: 48px;
   margin-bottom: 2px;
+  max-width: 340px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .login-input-icon {
   font-size: 1.25rem;
@@ -147,8 +153,12 @@
   margin: 0 12px;
   line-height: 0.1em;
 }
+/* 소셜 로그인 버튼도 로그인 입력 박스와 동일한 좌우 여백 및 최대 너비 적용 */
 .login-btn-social {
   width: 100%;
+  max-width: 340px;
+  margin-left: auto;
+  margin-right: auto;
   height: 48px;
   border: 1.5px solid #e5e7eb;
   border-radius: 10px;
@@ -164,12 +174,18 @@
   cursor: pointer;
   transition: background 0.15s, border 0.15s;
 }
+/* 구글 로그인 버튼의 좌우 패딩을 늘려서 내부 여백을 키움 */
+.login-btn-social.google {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+/* 구글 로그인 버튼의 아이콘과 텍스트 사이 간격을 더 넓게 */
 .login-btn-social.google .login-social-icon {
   width: 22px;
   height: 22px;
   background: url('https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg') no-repeat center/cover;
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 24px;
 }
 .login-btn-social.kakao .login-social-icon {
   width: 22px;
@@ -196,5 +212,8 @@
   }
   .login-logo-box {
     margin: 24px 0 18px 0;
+  }
+  .login-form, .login-input-box, .login-btn-social {
+    max-width: 96vw;
   }
 }
