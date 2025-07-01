@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getJobPostingDetails, applyToJob } from "../../../services/jobPostingsService";
 import { getUserResumes } from "../../../services/resumesService";
+import { useUser } from "../../../contexts/UserContext"; // useUser 훅 가져오기
 import "./JobDetail.css";
 
 function JobDetail() {
   const { id } = useParams();
+  const { user } = useUser(); // 로그인한 사용자 정보 가져오기
   const [job, setJob] = useState(null);
 
   useEffect(() => {
@@ -21,10 +23,13 @@ function JobDetail() {
   }, [id]);
 
   const handleApplyClick = async () => {
+    if (!user) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
     try {
-      // TODO: 실제 로그인된 사용자 ID를 동적으로 가져와야 합니다.
-      const userId = 2;
-      const response = await getUserResumes(userId);
+      const response = await getUserResumes(user.id);
       const resumes = response.data.resumes;
 
       if (resumes && resumes.length > 0) {
