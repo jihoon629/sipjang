@@ -20,13 +20,14 @@ function Resume() {
     region: "",
     selfIntroduction: "",
     desiredDailyWage: "",
-    skills: []
+    skills: [],
+    experience: "",
+    phone: ""
   });
 
-  // 간단한 프로필 정보 (이름, 경력만) - 사용자 정보에서 가져올 예정
+  // 간단한 프로필 정보 (이름만) - 사용자 정보에서 가져올 예정
   const [profile, setProfile] = useState({
-    name: "",
-    experience: ""
+    name: ""
   });
 
   // 기술 선택 옵션들
@@ -72,19 +73,19 @@ function Resume() {
             region: latestResume.region || "",
             selfIntroduction: latestResume.selfIntroduction || "",
             desiredDailyWage: latestResume.desiredDailyWage || "",
-            skills: latestResume.skills ? (typeof latestResume.skills === 'string' ? JSON.parse(latestResume.skills) : latestResume.skills) : []
+            skills: latestResume.skills ? (typeof latestResume.skills === 'string' ? JSON.parse(latestResume.skills) : latestResume.skills) : [],
+            experience: latestResume.experience || "",
+            phone: latestResume.phone || ""
           });
           
           // 사용자 정보 설정
           if (latestResume.user) {
             setProfile({
-              name: latestResume.user.username || user.name || "",
-              experience: latestResume.user.experience || ""
+              name: latestResume.user.username || user.name || ""
             });
           } else {
             setProfile({
-              name: user.name || "",
-              experience: ""
+              name: user.name || ""
             });
           }
           
@@ -96,8 +97,7 @@ function Resume() {
           setIsCreatingNew(true);
           setCurrentResume(null);
           setProfile({
-            name: user.name || "",
-            experience: ""
+            name: user.name || ""
           });
           console.log('[Resume] 기존 이력서 없음, 새로 작성 모드');
           console.log('[Resume] userResumes 상세:', JSON.stringify(userResumes, null, 2));
@@ -110,8 +110,7 @@ function Resume() {
         setIsCreatingNew(true);
         setCurrentResume(null);
         setProfile({
-          name: user.name || "",
-          experience: ""
+          name: user.name || ""
         });
       } finally {
         setLoading(false);
@@ -179,7 +178,9 @@ function Resume() {
       region: "",
       selfIntroduction: "",
       desiredDailyWage: "",
-      skills: []
+      skills: [],
+      experience: "",
+      phone: ""
     });
   };
 
@@ -213,6 +214,8 @@ function Resume() {
         selfIntroduction: resumeData.selfIntroduction,
         desiredDailyWage: resumeData.desiredDailyWage,
         skills: resumeData.skills,
+        experience: resumeData.experience,
+        phone: resumeData.phone,
         certificateImages: null
       };
 
@@ -226,9 +229,17 @@ function Resume() {
         alert('새 이력서가 성공적으로 생성되었습니다.');
       } else {
         // 기존 이력서 업데이트
-        console.log('이력서 업데이트 시도:', currentResume.id, resumePayload);
+        console.log('이력서 업데이트 시도:', currentResume?.id, resumePayload);
+        if (!currentResume?.id) {
+          console.error('currentResume.id가 없습니다:', currentResume);
+          alert('이력서 ID를 찾을 수 없습니다. 페이지를 새로고침해주세요.');
+          return;
+        }
         const updatedResume = await resumeAPI.updateResume(currentResume.id, resumePayload);
-        setCurrentResume(updatedResume);
+        console.log('업데이트된 이력서 응답:', updatedResume);
+        // 응답 구조에 따라 적절히 처리
+        const resumeToSet = updatedResume?.data || updatedResume;
+        setCurrentResume({ ...currentResume, ...resumeToSet });
         alert('이력서가 성공적으로 수정되었습니다.');
       }
       
@@ -249,7 +260,9 @@ function Resume() {
           region: currentResume.region || "",
           selfIntroduction: currentResume.selfIntroduction || "",
           desiredDailyWage: currentResume.desiredDailyWage || "",
-          skills: currentResume.skills ? (typeof currentResume.skills === 'string' ? JSON.parse(currentResume.skills) : currentResume.skills) : []
+          skills: currentResume.skills ? (typeof currentResume.skills === 'string' ? JSON.parse(currentResume.skills) : currentResume.skills) : [],
+          experience: currentResume.experience || "",
+          phone: currentResume.phone || ""
         });
       }
       setIsCreatingNew(false);
@@ -325,14 +338,14 @@ function Resume() {
             {editMode ? (
               <input 
                 className="resume-form-input"
-                type="text"
+                type="number"
                 name="experience"
-                value={profile.experience}
-                onChange={handleProfileChange}
-                placeholder="경력을 입력하세요 (예: 15년 경력)"
+                value={resumeData.experience}
+                onChange={handleResumeChange}
+                placeholder="경력 (년)"
               />
             ) : (
-              <div className="resume-form-value">{profile.experience}</div>
+              <div className="resume-form-value">{resumeData.experience}년</div>
             )}
           </div>
         </div>
@@ -503,18 +516,25 @@ function Resume() {
         <div className="resume-section-title">
           <span role="img" aria-label="연락처">📞</span> 연락처
         </div>
-        <div className="resume-contact-list">
-          <div className="resume-contact-item">
-            <span className="resume-contact-icon">📱</span>
-            <span>010-1234-5678</span>
+        <div className="resume-form-grid">
+          <div className="resume-form-item">
+            <label className="resume-form-label">전화번호</label>
+            {editMode ? (
+              <input 
+                className="resume-form-input"
+                type="tel"
+                name="phone"
+                value={resumeData.phone}
+                onChange={handleResumeChange}
+                placeholder="전화번호를 입력하세요 (예: 010-1234-5678)"
+              />
+            ) : (
+              <div className="resume-form-value">{resumeData.phone}</div>
+            )}
           </div>
-          <div className="resume-contact-item">
-            <span className="resume-contact-icon">📧</span>
-            <span>kim.cs@email.com</span>
-          </div>
-          <div className="resume-contact-item">
-            <span className="resume-contact-icon">🏠</span>
-            <span>서울시 강남구 거주</span>
+          <div className="resume-form-item">
+            <label className="resume-form-label">이메일</label>
+            <div className="resume-form-value">{user?.email || ''}</div>
           </div>
         </div>
       </div>
