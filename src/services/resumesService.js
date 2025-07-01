@@ -1,21 +1,17 @@
 
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8001/api';
+const API_BASE_URL = '/api';
 
 // axios 인스턴스 생성 (인증 관련 설정 통일)
 const apiClient = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
   withCredentials: true, // 쿠키 포함
 });
 
 // 이력서 상세 조회
 export const getResumeDetails = async (id) => {
   try {
-    const response = await apiClient.get(`/resumes/${id}`);
+    const response = await apiClient.get(`${API_BASE_URL}/resumes/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching resume details for id ${id}:`, error);
@@ -26,7 +22,7 @@ export const getResumeDetails = async (id) => {
 // 사용자별 이력서 조회
 export const getUserResumes = async (userId) => {
   try {
-    const response = await apiClient.get(`/resumes/user/${userId}`);
+    const response = await apiClient.get(`${API_BASE_URL}/resumes/user/${userId}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching resumes for user ${userId}:`, error);
@@ -37,7 +33,7 @@ export const getUserResumes = async (userId) => {
 // 이력서 생성
 export const createResume = async (data) => {
   try {
-    const response = await apiClient.post('/resumes', data);
+    const response = await apiClient.post(`${API_BASE_URL}/resumes`, data);
     return response.data;
   } catch (error) {
     console.error('Error creating resume:', error);
@@ -53,7 +49,7 @@ export const saveResume = async (data) => {
 // 이력서 수정
 export const updateResume = async (id, data) => {
   try {
-    const response = await apiClient.put(`/resumes/${id}`, data);
+    const response = await apiClient.put(`${API_BASE_URL}/resumes/${id}`, data);
     return response.data;
   } catch (error) {
     console.error(`Error updating resume ${id}:`, error);
@@ -64,7 +60,7 @@ export const updateResume = async (id, data) => {
 // 이력서 삭제
 export const deleteResume = async (id) => {
   try {
-    const response = await apiClient.delete(`/resumes/${id}`);
+    const response = await apiClient.delete(`${API_BASE_URL}/resumes/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error deleting resume ${id}:`, error);
@@ -75,7 +71,7 @@ export const deleteResume = async (id) => {
 // 이력서 유사도 검색
 export const searchResumes = async (query, field) => {
   try {
-    const response = await apiClient.get(`/resumes/search/similarity?query=${query}&field=${field}`);
+    const response = await apiClient.get(`${API_BASE_URL}/resumes/search/similarity?query=${query}&field=${field}`);
     return response.data;
   } catch (error) {
     console.error('Error searching resumes:', error);
@@ -86,7 +82,7 @@ export const searchResumes = async (query, field) => {
 // 블록체인 경력 조회
 export const getBlockchainExperience = async (userId) => {
   try {
-    const response = await apiClient.get(`/users/${userId}/experience`);
+    const response = await apiClient.get(`${API_BASE_URL}/users/${userId}/experience`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching blockchain experience for user ${userId}:`, error);
@@ -104,3 +100,16 @@ export const resumeAPI = {
   getBlockchainExperience: getBlockchainExperience,
   searchResumes: searchResumes
 };
+
+
+// 이력서 목록 조회
+export const getResumes = async () => {
+  try {
+    const response = await apiClient.get(`${API_BASE_URL}/resumes`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching resumes:', error);
+    throw error;
+  }
+};
+

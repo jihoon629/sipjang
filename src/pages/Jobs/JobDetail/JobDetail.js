@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getJobPostingDetails } from "../../../services/jobPostingsService";
+import { getJobPostingDetails, applyToJob } from "../../../services/jobPostingsService";
+import { getUserResumes } from "../../../services/resumesService";
 import "./JobDetail.css";
 
 function JobDetail() {
@@ -18,6 +19,29 @@ function JobDetail() {
     };
     fetchDetail();
   }, [id]);
+
+  const handleApplyClick = async () => {
+    try {
+      // TODO: 실제 로그인된 사용자 ID를 동적으로 가져와야 합니다.
+      const userId = 2;
+      const response = await getUserResumes(userId);
+      const resumes = response.data.resumes;
+
+      if (resumes && resumes.length > 0) {
+        const firstResume = resumes[0];
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm(`'${firstResume.title || '제목 없는 이력서'}' 이력서로 지원하시겠습니까?`)) {
+          await applyToJob(id, firstResume.id);
+          alert("지원이 완료되었습니다.");
+        }
+      } else {
+        alert("제출할 이력서가 없습니다. 먼저 이력서를 작성해주세요.");
+      }
+    } catch (err) {
+      console.error("Error submitting application", err);
+      alert("지원 중 오류가 발생했습니다.");
+    }
+  };
 
   if (!job) return <div className="jobdetail-page">불러오는 중...</div>;
 
@@ -48,7 +72,7 @@ function JobDetail() {
 
         <div className="jobdetail-buttons">
           <button className="jobdetail-btn view">현장 보기</button>
-          <button className="jobdetail-btn apply">지원하기</button>
+          <button className="jobdetail-btn apply" onClick={handleApplyClick}>지원하기</button>
         </div>
       </div>
     </div>
