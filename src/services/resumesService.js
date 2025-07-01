@@ -1,5 +1,16 @@
 
-import { apiClient } from './authService';
+import axios from 'axios';
+
+const API_BASE_URL = 'http://localhost:8001/api';
+
+// axios 인스턴스 생성 (인증 관련 설정 통일)
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true, // 쿠키 포함
+});
 
 // 이력서 상세 조회
 export const getResumeDetails = async (id) => {
@@ -34,6 +45,11 @@ export const createResume = async (data) => {
   }
 };
 
+// 이력서 저장 (createResume의 별칭)
+export const saveResume = async (data) => {
+  return createResume(data);
+};
+
 // 이력서 수정
 export const updateResume = async (id, data) => {
   try {
@@ -65,4 +81,26 @@ export const searchResumes = async (query, field) => {
     console.error('Error searching resumes:', error);
     throw error;
   }
+};
+
+// 블록체인 경력 조회
+export const getBlockchainExperience = async (userId) => {
+  try {
+    const response = await apiClient.get(`/users/${userId}/experience`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching blockchain experience for user ${userId}:`, error);
+    throw error;
+  }
+};
+
+// Resume.js에서 사용할 래퍼 객체 (API.md 사양에 맞춤)
+export const resumeAPI = {
+  getResume: getResumeDetails,
+  saveResume: saveResume,
+  updateResume: updateResume,
+  deleteResume: deleteResume,
+  getUserResumes: getUserResumes,
+  getBlockchainExperience: getBlockchainExperience,
+  searchResumes: searchResumes
 };

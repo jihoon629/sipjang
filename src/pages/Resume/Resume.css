@@ -39,99 +39,7 @@
   color: #222;
 }
 
-.resume-profile-card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  margin: 20px 12px 16px 12px;
-  padding: 22px 16px 16px 16px;
-  border: 1.5px solid #e5e7eb;
-}
-.resume-profile-row {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-.resume-profile-img {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: #f3f4f6 url('../../assets/123.jpg') center/cover no-repeat;
-  border: 1.5px solid #e5e7eb;
-  margin-right: 0;
-}
-.resume-profile-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.resume-profile-name {
-  font-size: 1.13rem;
-  font-weight: 700;
-  color: #222;
-  margin-bottom: 2px;
-}
-.resume-profile-desc {
-  color: #666;
-  font-size: 0.98rem;
-  margin-bottom: 2px;
-}
-.resume-profile-rating {
-  margin-top: 2px;
-  color: #fbbf24;
-  font-size: 0.97rem;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-.resume-profile-star {
-  font-size: 1.05rem;
-  margin-right: 1px;
-}
-.resume-profile-score {
-  color: #222;
-  font-weight: 600;
-  margin-right: 3px;
-  font-size: 0.97rem;
-}
-.resume-profile-projects {
-  color: #888;
-  font-size: 0.97rem;
-}
-.resume-profile-stats {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
-  background: #f8fafc;
-  border-radius: 10px;
-  padding: 10px 0 6px 0;
-  border: 1px solid #e5e7eb;
-}
-.resume-profile-stat {
-  flex: 1;
-  text-align: center;
-}
-.resume-profile-stat-value {
-  font-size: 1.15rem;
-  font-weight: 700;
-  display: block;
-  margin-bottom: 2px;
-}
-.resume-profile-stat-value.blue {
-  color: #2563eb;
-}
-.resume-profile-stat-value.green {
-  color: #22c55e;
-}
-.resume-profile-stat-value.orange {
-  color: #f59e42;
-}
-.resume-profile-stat-label {
-
-  color: #888;
-  font-size: 0.97rem;
-}
+/* 기존 프로필 카드 스타일 제거 - 일반 섹션으로 대체됨 */
 
 .resume-section {
   background: #fff;
@@ -214,15 +122,171 @@
   font-size: 1.1rem;
 }
 
+/* 폼 스타일 */
+.resume-form-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.resume-form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resume-form-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.resume-form-input,
+.resume-form-select,
+.resume-form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #fafbfc;
+  transition: border-color 0.2s, background 0.2s;
+  box-sizing: border-box;
+}
+
+.resume-form-input:focus,
+.resume-form-select:focus,
+.resume-form-textarea:focus {
+  outline: none;
+  border-color: #4666e4;
+  background: #fff;
+}
+
+.resume-form-textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.resume-form-value {
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #333;
+  border: 1px solid #e5e7eb;
+}
+
+.resume-intro-text {
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+  border: 1px solid #e5e7eb;
+}
+
+/* 기술 선택기 스타일 */
+.resume-skill-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resume-skill-selector-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.resume-skill-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.resume-skill-option {
+  padding: 8px 16px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.95rem;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.resume-skill-option:hover {
+  border-color: #4666e4;
+  color: #4666e4;
+}
+
+.resume-skill-option.selected {
+  background: #4666e4;
+  border-color: #4666e4;
+  color: #fff;
+}
+
+/* 블록체인 경력 스타일 */
+.resume-career-item.blockchain {
+  background: linear-gradient(135deg, #f0f7ff 0%, #e8f5e8 100%);
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.resume-career-item.blockchain .resume-career-title {
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.resume-career-item.blockchain .resume-career-meta {
+  color: #059669;
+  font-weight: 500;
+}
+
+.resume-career-timestamp {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.resume-no-experience {
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+  background: #f9fafb;
+  border-radius: 10px;
+  border: 1px dashed #d1d5db;
+  font-style: italic;
+}
+
 @media (max-width: 600px) {
-  .resume-header-bar, .resume-profile-card, .resume-section {
+  .resume-header-bar, .resume-section {
     margin-left: 4px;
     margin-right: 4px;
     padding-left: 8px;
     padding-right: 8px;
   }
-  .resume-profile-img {
-    width: 56px;
-    height: 56px;
+  
+  .resume-form-input,
+  .resume-form-select,
+  .resume-form-textarea {
+    font-size: 16px; /* iOS zoom 방지 */
+  }
+  
+  .resume-skill-options {
+    gap: 6px;
+  }
+  
+  .resume-skill-option {
+    padding: 6px 12px;
+    font-size: 0.9rem;
   }
 }
