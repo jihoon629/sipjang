@@ -1,4 +1,8 @@
-import { useState, useEffect } from "react";
+
+
+// import Header from "../../../components/Header/Header";
+// import Footer from "../../../components/Footer/Footer";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getJobPostings } from "../../../services/jobPostingsService";
 import "./JobList.css";
@@ -26,6 +30,7 @@ function JobList() {
 
   return (
     <div className="joblist-page">
+      
       <div className="joblist-header">
         <span className="joblist-title">일자리</span>
       </div>
@@ -57,6 +62,7 @@ function JobList() {
           </div>
         ))}
       </div>
+      
     </div>
   );
 }

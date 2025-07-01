@@ -1,5 +1,3 @@
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
 import "./Messages.css";
 
 const messages = [
@@ -22,7 +20,7 @@ const messages = [
 function Messages() {
   return (
     <div className="messages-page">
-      <Header />
+      
       <div className="messages-header">메시지</div>
       <div className="messages-list">
         {messages.map(msg => (
@@ -39,7 +37,7 @@ function Messages() {
           </div>
         ))}
       </div>
-      <Footer />
+      
     </div>
   );
 }

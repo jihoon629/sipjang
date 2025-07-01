@@ -6,6 +6,7 @@ import constructionImage from "../../assets/123.jpg";
 function Main() {
   return (
     <div className="main-wrapper">
+      
       <div className="main-container">
         <div className="main-left">
           <span className="main-badge">블록체인 기반 플랫폼</span>
