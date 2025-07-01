@@ -1,14 +1,11 @@
 
 import React from "react";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
 import "./Main.css";
 import constructionImage from "../../assets/123.jpg";
 
 function Main() {
   return (
     <div className="main-wrapper">
-      <Header />
       <div className="main-container">
         <div className="main-left">
           <span className="main-badge">블록체인 기반 플랫폼</span>
@@ -37,7 +34,6 @@ function Main() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
