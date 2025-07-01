@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getJobPostingDetails } from "../../../services/jobPostingsService";
+import { getJobPostingDetails, applyToJob } from "../../../services/jobPostingsService";
+import { getUserResumes } from "../../../services/resumesService";
+import { useUser } from "../../../contexts/UserContext"; // useUser 훅 가져오기
 import "./JobDetail.css";
 
 function JobDetail() {
   const { id } = useParams();
+  const { user } = useUser(); // 로그인한 사용자 정보 가져오기
   const [job, setJob] = useState(null);
 
   useEffect(() => {
@@ -18,6 +21,32 @@ function JobDetail() {
     };
     fetchDetail();
   }, [id]);
+
+  const handleApplyClick = async () => {
+    if (!user) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    try {
+      const response = await getUserResumes(user.id);
+      const resumes = response.data.resumes;
+
+      if (resumes && resumes.length > 0) {
+        const firstResume = resumes[0];
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm(`'${firstResume.title || '제목 없는 이력서'}' 이력서로 지원하시겠습니까?`)) {
+          await applyToJob(id, firstResume.id);
+          alert("지원이 완료되었습니다.");
+        }
+      } else {
+        alert("제출할 이력서가 없습니다. 먼저 이력서를 작성해주세요.");
+      }
+    } catch (err) {
+      console.error("Error submitting application", err);
+      alert("지원 중 오류가 발생했습니다.");
+    }
+  };
 
   if (!job) return <div className="jobdetail-page">불러오는 중...</div>;
 
@@ -48,7 +77,7 @@ function JobDetail() {
 
         <div className="jobdetail-buttons">
           <button className="jobdetail-btn view">현장 보기</button>
-          <button className="jobdetail-btn apply">지원하기</button>
+          <button className="jobdetail-btn apply" onClick={handleApplyClick}>지원하기</button>
         </div>
       </div>
     </div>
