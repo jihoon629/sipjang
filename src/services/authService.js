@@ -1,10 +1,10 @@
 // src/services/authService.js
 import axios from 'axios';
 
-const API_BASE_URL = `http://172.30.112.48:8001/api`;
+const API_BASE_URL = '/api';
 
 // axios 인스턴스 생성 시 withCredentials 옵션 추가
-const apiClient = axios.create({
+export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export const login = async (credentials) => {
     console.log('[authService] Login API call successful. Response:', response.data);
     // 로그인 성공 시 서버가 httpOnly 쿠키로 토큰을 설정해 줄 것이므로,
     // 프론트엔드에서 토큰을 직접 저장할 필요가 없습니다.
-    return response.data;
+    return response.data.user; // user 객체만 반환
   } catch (error) {
     console.error('[authService] Login API call failed:', error.response ? error.response.data : error.message);
     throw error.response ? error.response.data : new Error('Login failed');
