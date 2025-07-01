@@ -5,9 +5,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
 import JobList from "./pages/Jobs/JobList/JobList";
 import JobDetail from "./pages/Jobs/JobDetail/JobDetail";
 import Login from "./pages/Login/Login";
@@ -26,7 +23,6 @@ function App() {
       <Router>
         <Header />
         <div className="app">
-          <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/main" element={<Main />} />
