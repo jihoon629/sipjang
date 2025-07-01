@@ -5,7 +5,7 @@ import "./Header.css";
 import { useUser } from "../../contexts/UserContext"; // UserContext 임포트
 
 function Header() {
-  const { user, loading } = useUser(); // useUser 훅 사용
+  const { user } = useUser(); // useUser 훅 사용
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
