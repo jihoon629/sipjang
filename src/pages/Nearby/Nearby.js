@@ -8,19 +8,21 @@ function Nearby() {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    // 카카오맵 스크립트 동적 로드
+    // 구글맵 스크립트 동적 로드
     const script = document.createElement("script");
-    script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_API_KEY&autoload=false";
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDco6eiL8iltEdylzgCkpTHSjz-TzlBDXA`;
     script.async = true;
     script.onload = () => {
-      window.kakao.maps.load(() => {
+      if (window.google && window.google.maps) {
         const container = mapRef.current;
         const options = {
-          center: new window.kakao.maps.LatLng(37.5665, 126.9780),
-          level: 5,
+          center: { lat: 37.5665, lng: 126.9780 },
+          zoom: 13,
         };
-        new window.kakao.maps.Map(container, options);
-      });
+        new window.google.maps.Map(container, options);
+      } else {
+        alert('구글맵 스크립트 로드 실패! API 키를 확인하세요.');
+      }
     };
     document.body.appendChild(script);
     return () => { document.body.removeChild(script); };
