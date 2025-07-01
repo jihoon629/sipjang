@@ -1,6 +1,9 @@
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
 import Main from "./pages/Main/Main";
 import Login from "./pages/Login/Login";
@@ -19,6 +22,7 @@ function App() {
   return (
     <UserProvider>
       <Router>
+        <Header />
         <div className="app">
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -35,6 +39,7 @@ function App() {
             <Route path="/messages" element={<Messages />} />
           </Routes>
         </div>
+        <Footer />
       </Router>
     </UserProvider>
   );

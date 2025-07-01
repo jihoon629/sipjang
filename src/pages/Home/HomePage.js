@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
 import JobCard from "../../components/JobCard/JobCard";
 import "./HomePage.css";
 import { useUser } from "../../contexts/UserContext"; // UserContext 임포트
@@ -37,7 +35,6 @@ function HomePage() {
 
   return (
     <div className="home-page">
-      <Header />
       {/* 상단 인사/통계 카드 */}
       <div className="main-stats-card">
         <div className="main-stats-card-bg">
@@ -128,7 +125,6 @@ function HomePage() {
           <JobCard job={job} key={i} />
         ))}
       </div>
-      <Footer />
     </div>
   );
 }

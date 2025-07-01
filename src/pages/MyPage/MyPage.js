@@ -1,7 +1,7 @@
 
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
+// import Header from "../../components/Header/Header";
+// import Footer from "../../components/Footer/Footer";
 import "./MyPage.css";
 
 function MyPage() {
@@ -15,7 +15,7 @@ function MyPage() {
   };
   return (
     <div className="mypage-page">
-      <Header />
+      
       <div className="mypage-header-bar">
         <button className="mypage-back-btn" onClick={() => navigate('/')} aria-label="뒤로가기">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -137,7 +137,7 @@ function MyPage() {
         </div>
       </div>
       <button className="mypage-logout-btn">로그아웃</button>
-      <Footer />
+      
     </div>
   );
 }

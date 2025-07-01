@@ -1,7 +1,7 @@
 
 import { useNavigate } from "react-router-dom";
-import Header from "../../../components/Header/Header";
-import Footer from "../../../components/Footer/Footer";
+// import Header from "../../../components/Header/Header";
+// import Footer from "../../../components/Footer/Footer";
 import "./JobDetail.css";
 
 function JobDetail() {
@@ -25,7 +25,7 @@ function JobDetail() {
   };
   return (
     <div className="jobdetail-page">
-      <Header />
+      
       <div className="jobdetail-header-bar">
         <button className="jobdetail-back-btn" onClick={() => navigate(-1)} aria-label="뒤로가기">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -84,7 +84,7 @@ function JobDetail() {
         <button className="jobdetail-photo-btn">현장 사진</button>
         <button className="jobdetail-apply-btn">지원하기</button>
       </div>
-      <Footer />
+      
     </div>
   );
 }
