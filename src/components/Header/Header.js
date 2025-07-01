@@ -14,6 +14,7 @@ function Header() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  
   return (
     <header className="header">
       <div className="header-left">
