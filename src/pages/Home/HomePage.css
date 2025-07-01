@@ -49,18 +49,43 @@
   text-align: center;
   opacity: 0.95;
 }
-.main-stats-card-profile {
-  margin-left: 24px;
-}
-.main-stats-card-profile-img {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: #fff4;
-  border: 2px solid #fff8;
+
+/* 비로그인 시 카드 내부 버튼 */
+.main-stats-card-buttons {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.btn-primary {
+  background: #4666e4;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #3754d4;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
 }
 
 /* 바로가기 버튼 그리드 */
@@ -233,7 +258,7 @@
   filter: brightness(0.95);
 }
 
-/* 하단 네비게이션(기존 FooterNav.css와 충돌 없게) */
+/* 하단 네비게이션 */
 .footer-nav {
   position: fixed;
   left: 0;
@@ -257,7 +282,8 @@
   font-weight: 500;
   transition: color 0.15s;
 }
-.footer-nav a.active, .footer-nav a:focus {
+.footer-nav a.active,
+.footer-nav a:focus {
   color: #4666e4;
   font-weight: 700;
   border-bottom: 2.5px solid #4666e4;
@@ -281,3 +307,4 @@
     padding: 14px 10px 10px 10px;
   }
 }
+
