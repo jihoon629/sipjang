@@ -4,10 +4,8 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./Main.css";
 import constructionImage from "../../assets/123.jpg";
-import { useNavigate } from "react-router-dom";
 
 function Main() {
-  const navigate = useNavigate();
   return (
     <div className="main-wrapper">
       <Header />

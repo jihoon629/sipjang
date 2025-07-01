@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -8,7 +7,7 @@ import { useUser } from "../../contexts/UserContext"; // UserContext 임포트
 
 function HomePage() {
   const navigate = useNavigate();
-  const { user, loading } = useUser(); // useUser 훅 사용
+  const { user } = useUser(); // useUser 훅 사용
 
   // 샘플 데이터 (실제 연동 전)
   const stats = { done: 12, rating: 4.8, trust: 98 };

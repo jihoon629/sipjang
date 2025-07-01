@@ -1,10 +1,10 @@
 // src/services/authService.js
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8001/api';
+const API_BASE_URL = 'http://172.30.112.48:8001/api';
 
 // axios 인스턴스 생성 시 withCredentials 옵션 추가
-const apiClient = axios.create({
+export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export const getCurrentUser = async () => {
     // withCredentials: true 설정으로 인해 브라우저가 자동으��� 쿠키를 포함하여 요청합니다.
     const response = await apiClient.get('/auth/me');
     console.log('[authService] Get current user API call successful. Response:', response.data);
-    return response.data; // user 객체만 반환
+    return response.data;
   } catch (error) {
     console.error('[authService] Get current user API call failed:', error.response ? error.response.data : error.message);
     throw error.response ? error.response.data : new Error('Failed to get current user');
