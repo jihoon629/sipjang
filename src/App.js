@@ -16,7 +16,7 @@ import Calendar from "./pages/Calendar/Calendar";
 import Resume from "./pages/Resume/Resume";
 import Nearby from "./pages/Nearby/Nearby";
 import AIJobs from "./pages/AIJobs/AIJobs";
-import Support from "./pages/support/support";
+import Support from "./pages/Support/Support";
 
 function App() {
   return (
