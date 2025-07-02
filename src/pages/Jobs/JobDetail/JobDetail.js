@@ -35,7 +35,7 @@ function JobDetail() {
       if (resumes && resumes.length > 0) {
         const firstResume = resumes[0];
         // eslint-disable-next-line no-restricted-globals
-        if (confirm(`'${firstResume.title || '제목 없는 이력서'}' 이력서로 지원하시겠습니까?`)) {
+        if (confirm(`'${job.title|| '제목 없는 이력서'}' 에 지원하시겠습니까?`)) {
           await applyToJob(id, firstResume.id);
           alert("지원이 완료되었습니다.");
         }
@@ -44,8 +44,8 @@ function JobDetail() {
       }
     } catch (err) {
       console.error("Error submitting application", err);
-      alert("지원 중 오류가 발생했습니다.");
-    }
+      const errorMessage = err.response?.data?.message || "지원 중 오류가 발생했습니다.";
+      alert(errorMessage);    }
   };
 
   if (!job) return <div className="jobdetail-page">불러오는 중...</div>;
