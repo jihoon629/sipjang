@@ -1,37 +1,15 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import "./Calendar.css";
 import { useNavigate } from "react-router-dom";
-// import Header from "../../components/Header/Header";
 
-const payData = [
-  {
-    company: "대한건설",
-    date: "2024-01-15",
-    amount: 150000,
-    status: "확정",
-  },
-  {
-    company: "현대건축",
-    date: "2024-01-20",
-    amount: 130000,
-    status: "대기",
-  },
-  {
-    company: "삼성건설",
-    date: "2024-01-25",
-    amount: 140000,
-    status: "확정",
-  },
-];
-
-
+// 급여 상태에 따른 색상 정의
 const payStatusColor = {
   "확정": "pay-status-confirmed",
-  "대기": "pay-status-pending",
+  "대기": "pay-status-pending", // API 연동 후에는 '확정' 상태만 사용될 수 있습니다.
 };
 
+// 특정 년/월의 달력 날짜 배열을 생성하는 헬퍼 함수
 function getMonthMatrix(year, month) {
-  // month: 1-based (1=January)
   const firstDay = new Date(year, month - 1, 1);
   const lastDay = new Date(year, month, 0);
   const matrix = [];
@@ -51,58 +29,94 @@ function getMonthMatrix(year, month) {
 function Calendar() {
   const navigate = useNavigate();
 
-  // 오늘 날짜
+  // --- 상태 관리 --- //
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
-  const [month, setMonth] = useState(today.getMonth() + 1); // 1-based
-  const days = useMemo(() => getMonthMatrix(year, month), [year, month]);
+  const [month, setMonth] = useState(today.getMonth() + 1); // 1-based month
 
-  // 메모 상태: { '2024-01-15': '메모내용', ... }
+  // API로부터 받아온 급여 데이터 상태
+  const [salaries, setSalaries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // 로컬스토리지 기반 메모 상태
   const [memos, setMemos] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem("calendarMemos") || "{}")
+      return JSON.parse(localStorage.getItem("calendarMemos") || "{}");
     } catch { return {}; }
   });
   const [memoModal, setMemoModal] = useState({ open: false, date: null, value: "" });
 
-  // 급여 일정이 있는 날짜 (예시: 2024년 1월만)
+  // --- 데이터 로딩 --- //
+  useEffect(() => {
+    const fetchSalaries = async () => {
+      console.log("급여 데이터 로딩 시작...");
+      setLoading(true);
+      try {
+        const response = await fetch('/api/salaries/my');
+        console.log("API 응답 수신:", response);
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("API 오류 응답:", errorData);
+          throw new Error(errorData.message || '급여 정보를 불러오는데 실패했습니다.');
+        }
+
+        const result = await response.json();
+        console.log("API 성공 응답 (파싱 후):", result);
+
+        const fetchedSalaries = result.data.applications || [];
+        console.log("상태에 저장될 급여 데이터:", fetchedSalaries);
+        setSalaries(fetchedSalaries);
+
+      } catch (err) {
+        console.error("급여 데이터 로딩 중 예외 발생:", err);
+        setError(err.message);
+      } finally {
+        console.log("급여 데이터 로딩 종료.");
+        setLoading(false);
+      }
+    };
+
+    fetchSalaries();
+  }, []); // 컴포넌트 마운트 시 1회만 실행
+
+  // --- 메모라이즈된 계산 --- //
+  const days = useMemo(() => getMonthMatrix(year, month), [year, month]);
+
+  // 현재 달력에 표시할 급여 지급일 계산
   const payDays = useMemo(() => {
-    if (year === 2024 && month === 1) {
-      return { 15: "confirmed", 20: "pending", 25: "confirmed" };
-    }
-    return {};
-  }, [year, month]);
+    const daysMap = {};
+    salaries.forEach(salary => {
+      if (salary.paymentDate) { // paymentDate로 변경
+        const salaryDate = new Date(salary.paymentDate); // paymentDate로 변경
+        if (salaryDate.getFullYear() === year && salaryDate.getMonth() + 1 === month) {
+          // 모든 급여는 지급 완료된 상태이므로 'confirmed'로 표시
+          daysMap[salaryDate.getDate()] = "confirmed";
+        }
+      }
+    });
+    return daysMap;
+  }, [year, month, salaries]);
 
-  // 월 이름 한글
-  const monthNames = [
-    "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"
-  ];
+  // --- 이벤트 핸들러 --- //
+  const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
 
-  // 이전/다음 달 이동
   const goPrevMonth = () => {
-    if (month === 1) {
-      setYear(y => y - 1);
-      setMonth(12);
-    } else {
-      setMonth(m => m - 1);
-    }
+    if (month === 1) { setYear(y => y - 1); setMonth(12); } 
+    else { setMonth(m => m - 1); }
   };
   const goNextMonth = () => {
-    if (month === 12) {
-      setYear(y => y + 1);
-      setMonth(1);
-    } else {
-      setMonth(m => m + 1);
-    }
+    if (month === 12) { setYear(y => y + 1); setMonth(1); } 
+    else { setMonth(m => m + 1); }
   };
 
-  // 날짜 클릭 시 메모 모달 열기
   const handleDayClick = (day) => {
     if (!day) return;
     const key = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     setMemoModal({ open: true, date: key, value: memos[key] || "" });
   };
-  // 메모 저장
+
   const handleMemoSave = () => {
     setMemos(prev => {
       const next = { ...prev, [memoModal.date]: memoModal.value };
@@ -111,12 +125,12 @@ function Calendar() {
     });
     setMemoModal({ open: false, date: null, value: "" });
   };
-  // 메모 모달 닫기
+
   const handleMemoClose = () => setMemoModal({ open: false, date: null, value: "" });
 
+  // --- 렌더링 --- //
   return (
     <div className="calendar-page">
-      
       <div className="calendar-content">
         <div className="calendar-header-row">
           <button className="calendar-back-btn" onClick={() => navigate(-1)}>
@@ -141,31 +155,57 @@ function Calendar() {
                 <tr key={i}>
                   {week.map((day, j) => {
                     const key = day ? `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}` : null;
+                    const isToday = year === today.getFullYear() && month === today.getMonth() + 1 && day === today.getDate();
+                    const dayClass = [
+                      "calendar-day",
+                      payDays[day] ? payDays[day] : "",
+                      isToday ? "today" : "",
+                      memos[key] ? "memoed" : ""
+                    ].join(" ");
+
                     return (
                       <td key={j}>
-                        {day ? (
+                        {day && (
                           <span
-                            className={[
-                              "calendar-day",
-                              payDays[day] === "confirmed"
-                                ? "confirmed"
-                                : payDays[day] === "pending"
-                                ? "pending"
-                                : "",
-                              year === today.getFullYear() && month === today.getMonth() + 1 && day === today.getDate()
-                                ? "today" : "",
-                              memos[key] ? "memoed" : ""
-                            ].join(" ")}
+                            className={dayClass}
                             onClick={() => handleDayClick(day)}
                             tabIndex={0}
                             aria-label={key + (memos[key] ? ` 메모 있음: ${memos[key]}` : "")}
                           >
                             {day}
                           </span>
-                        ) : null}
+                        )}
                       </td>
                     );
                   })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="calendar-pay-title">받은 급여 내역</div>
+        <div className="calendar-pay-list">
+          {loading && <p>급여 내역을 불러오는 중입니다...</p>}
+          {error && <p style={{ color: 'red' }}>오류: {error}</p>}
+          {!loading && !error && salaries.length === 0 && (
+            <p>아직 받은 급여 내역이 없습니다.</p>
+          )}
+          {!loading && !error && salaries.map((item) => (
+            <div className="calendar-pay-card" key={item.id}>
+              <div className="calendar-pay-row">
+                <span className="calendar-pay-company">{item.jobPosting?.title || '알 수 없는 공고'}</span>
+                <span className="calendar-pay-amount">{item.paymentAmount?.toLocaleString() || 0}원</span>
+              </div>
+              <div className="calendar-pay-row2">
+                <span className="calendar-pay-date">{item.paymentDate}</span>
+                <span className={`calendar-pay-status ${payStatusColor['확정']}`}>확정</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* 메모 모달 */}
       {memoModal.open && (
         <div className="calendar-memo-modal-bg" onClick={handleMemoClose}>
@@ -186,27 +226,6 @@ function Calendar() {
           </div>
         </div>
       )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="calendar-pay-title">예정된 급여</div>
-        <div className="calendar-pay-list">
-          {payData.map((item, idx) => (
-            <div className="calendar-pay-card" key={idx}>
-              <div className="calendar-pay-row">
-                <span className="calendar-pay-company">{item.company}</span>
-                <span className="calendar-pay-amount">{item.amount.toLocaleString()}원</span>
-              </div>
-              <div className="calendar-pay-row2">
-                <span className="calendar-pay-date">{item.date}</span>
-                <span className={`calendar-pay-status ${payStatusColor[item.status]}`}>{item.status}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
