@@ -1,0 +1,112 @@
+.employer-jobs-wrapper {
+    padding: 20px;
+    background: #f4f6f8;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.job-search-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    font-size: 16px;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: #eee;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.filter-btn.selected {
+    background-color: #4666e4;
+    color: white;
+}
+
+.job-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* 카드 그라데이션 배경 */
+.job-card {
+    border-radius: 16px;
+    padding: 20px;
+    color: #333;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+.job-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.job-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.job-pay {
+    font-size: 18px;
+    color: #4666e4;
+    font-weight: bold;
+}
+
+.job-company {
+    font-size: 15px;
+    color: #444;
+    margin: 6px 0;
+}
+
+.job-location {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 14px;
+}
+
+.job-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.job-duration {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* 상세보기 버튼 */
+.view-btn {
+    background: linear-gradient(to right, #4666e4, #e47a3f);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.view-btn:hover {
+    opacity: 0.9;
+}

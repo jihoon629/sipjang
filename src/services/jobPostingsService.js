@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 
-const API_URL = 'http://172.30.112.48:8001/api/job-postings';
+const API_URL = 'api/job-postings';
 
 // 전체 구인공고 조회
 export const getJobPostings = async () => {
