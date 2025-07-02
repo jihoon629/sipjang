@@ -1,0 +1,47 @@
+.job-post-create-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #f5f8ff, #e9efff);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form-grid input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    background-color: #fff;
+}
+
+.submit-btn {
+    margin-top: 24px;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    background: linear-gradient(to right, #4666e4, #e47a3f);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+    opacity: 0.95;
+}
