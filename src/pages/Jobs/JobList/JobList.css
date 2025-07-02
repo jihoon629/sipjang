@@ -1,3 +1,115 @@
+/* 즐겨찾기 등록/해제 토스트 메시지 */
+.joblist-favorite-toast {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 8px 18px 8px 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  z-index: 9999;
+  box-shadow: 0 2px 12px #0003;
+  opacity: 0.98;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  font-weight: 400;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+/* 즐겨찾기 해제 모달 배경 */
+.joblist-unfavorite-modal-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(30,40,60,0.10);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.joblist-unfavorite-modal {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px #0002;
+  padding: 36px 28px 24px 28px;
+  min-width: 320px;
+  max-width: 90vw;
+  text-align: center;
+}
+.joblist-unfavorite-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 10px;
+}
+.joblist-unfavorite-desc {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+.joblist-unfavorite-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.joblist-unfavorite-btn-no {
+  background: #f4f7fa;
+  color: #1976d2;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px 0;
+  width: 100px;
+  cursor: pointer;
+}
+.joblist-unfavorite-btn-yes {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px 0;
+  width: 100px;
+  cursor: pointer;
+}
+/* 즐겨찾기 상단 이동 애니메이션 */
+/* 즐겨찾기 상단 이동 액션: 카드가 살짝 오른쪽으로 이동 후 원래 자리로 돌아오며 그림자와 배경 강조 */
+.joblist-card-animate {
+  animation: moveToTopRight 0.6s cubic-bezier(.4,1.4,.6,1);
+  z-index: 10;
+  position: relative;
+}
+
+@keyframes moveToTopRight {
+  0% {
+    box-shadow: 0 0 0 0 #ffd60000;
+    transform: scale(1) translate(0, 0);
+    background: #fffbe6;
+  }
+  30% {
+    box-shadow: 0 8px 24px 0 #ffd60055;
+    transform: scale(1.04) translate(30px, -10px);
+    background: #fffbe6;
+  }
+  60% {
+    box-shadow: 0 0 0 0 #ffd60000;
+    transform: scale(1) translate(0, 0);
+    background: #fffbe6;
+  }
+  100% {
+    background: #fff;
+  }
+}
 .joblist-page {
   background: #fff;
   min-height: 100vh;
@@ -6,15 +118,32 @@
 }
 
 .joblist-header {
-  padding: 18px 0 8px 0;
+  padding: 18px 0 8px 24px;
   text-align: left;
-  margin-left: 24px;
-}
-
-.joblist-title {
-  font-size: 1.35rem;
+  font-size: 1.18rem;
   font-weight: 700;
-  color: #222;
+  color: #444;
+  letter-spacing: -1px;
+}
+.joblist-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #444;
+}
+.joblist-reset-btn {
+  background: none;
+  border: none;
+  color: #b0b0b0;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+  transition: color 0.13s;
+}
+.joblist-reset-btn:hover {
+  color: #4666e4;
+  opacity: 1;
 }
 
 .joblist-searchbar {
@@ -42,18 +171,29 @@
 .joblist-filter {
   background: #f7f8fa;
   border: none;
-  border-radius: 16px;
-  padding: 7px 18px;
-  font-size: 1.01rem;
+  border-radius: 10px;
+  padding: 5px 12px 5px 12px;
+  font-size: 0.97rem;
   color: #222;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.13s, color 0.13s;
+  transition: background 0.13s, color 0.13s, box-shadow 0.13s, border 0.13s;
+  box-shadow: none;
+  border: 1.2px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 28px;
+  min-width: 0;
 }
-
 .joblist-filter.selected {
   background: linear-gradient(90deg, #4f8cff 0%, #ff9c4b 100%);
   color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px #4666e41a;
+}
+.joblist-filter:active {
+  filter: brightness(0.97);
 }
 
 .joblist-cards {
