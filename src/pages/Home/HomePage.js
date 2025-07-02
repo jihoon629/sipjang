@@ -15,6 +15,8 @@ function HomePage() {
     }
   }, [user, fetchUser]);
 
+  const isEmployer = user?.role === "employer";
+
   const stats = { done: 12, rating: 4.8, trust: 98 };
 
   const jobs = [
@@ -86,23 +88,44 @@ function HomePage() {
         </div>
       </div>
 
-      {/* 바로가기 버튼 영역 */}
       <div className="shortcut-grid">
-        <a className="shortcut-card" href="/resume">
-          <div className="shortcut-icon" style={{ background: "#f3e8ff" }}>📄</div>
-          <div className="shortcut-title">내 이력서</div>
-          <div className="shortcut-desc">프로필 관리</div>
-        </a>
-        <a className="shortcut-card" href="/calendar">
-          <div className="shortcut-icon" style={{ background: "#e6f9e6" }}>📅</div>
-          <div className="shortcut-title">급여 달력</div>
-          <div className="shortcut-desc">지급일 확인</div>
-        </a>
-        <a className="shortcut-card" href="/nearby">
-          <div className="shortcut-icon" style={{ background: "#e6f0ff" }}>📍</div>
-          <div className="shortcut-title">내 주변</div>
-          <div className="shortcut-desc">근처 일자리</div>
-        </a>
+        {isEmployer ? (
+          <>
+            <a className="shortcut-card" href="/Employerjobs">
+              <div className="shortcut-icon" style={{ background: "#f3e8ff" }}>📢</div>
+              <div className="shortcut-title">내 공고</div>
+              <div className="shortcut-desc">등록한 공고 목록</div>
+            </a>
+            <a className="shortcut-card" href="/job-create">
+              <div className="shortcut-icon" style={{ background: "#e6f9e6" }}>➕</div>
+              <div className="shortcut-title">공고 등록</div>
+              <div className="shortcut-desc">새로운 일자리 등록</div>
+            </a>
+            <a className="shortcut-card" href="/calendar">
+              <div className="shortcut-icon" style={{ background: "#e6f0ff" }}>📅</div>
+              <div className="shortcut-title">급여 달력</div>
+              <div className="shortcut-desc">지급 일정 관리</div>
+            </a>
+          </>
+        ) : (
+          <>
+            <a className="shortcut-card" href="/resume">
+              <div className="shortcut-icon" style={{ background: "#f3e8ff" }}>📄</div>
+              <div className="shortcut-title">내 이력서</div>
+              <div className="shortcut-desc">프로필 관리</div>
+            </a>
+            <a className="shortcut-card" href="/calendar">
+              <div className="shortcut-icon" style={{ background: "#e6f9e6" }}>📅</div>
+              <div className="shortcut-title">급여 달력</div>
+              <div className="shortcut-desc">지급일 확인</div>
+            </a>
+            <a className="shortcut-card" href="/nearby">
+              <div className="shortcut-icon" style={{ background: "#e6f0ff" }}>📍</div>
+              <div className="shortcut-title">내 주변</div>
+              <div className="shortcut-desc">근처 일자리</div>
+            </a>
+          </>
+        )}
         <a className="shortcut-card" href="/mypage">
           <div className="shortcut-icon" style={{ background: "#fff4e6" }}>⚙️</div>
           <div className="shortcut-title">마이페이지</div>
@@ -110,23 +133,27 @@ function HomePage() {
         </a>
       </div>
 
-      {/* 매칭 알림 */}
-      <div className="matching-alert" onClick={() => navigate('/aijobs')}>
-        <span className="matching-dot" />
-        <span className="matching-text">새로운 매칭! 2개의 일자리가 매칭되었습니다</span>
-        <span className="matching-arrow">&gt;</span>
-      </div>
-
-      {/* 추천 일자리 */}
-      <div className="job-section">
-        <div className="job-section-header">
-          <span className="job-section-title">추천 일자리</span>
-          <a href="/jobs" className="job-section-more">전체보기</a>
+      {/* 매칭 알림 (worker만 표시) */}
+      {!isEmployer && (
+        <div className="matching-alert" onClick={() => navigate('/aijobs')}>
+          <span className="matching-dot" />
+          <span className="matching-text">새로운 매칭! 2개의 일자리가 매칭되었습니다</span>
+          <span className="matching-arrow">&gt;</span>
         </div>
-        {jobs.map((job, i) => (
-          <JobCard job={job} key={i} />
-        ))}
-      </div>
+      )}
+
+      {/* 추천 일자리 (worker만 표시) */}
+      {!isEmployer && (
+        <div className="job-section">
+          <div className="job-section-header">
+            <span className="job-section-title">추천 일자리</span>
+            <a href="/jobs" className="job-section-more">전체보기</a>
+          </div>
+          {jobs.map((job, i) => (
+            <JobCard job={job} key={i} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
