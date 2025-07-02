@@ -18,8 +18,7 @@
   top: 0;
   z-index: 10;
 }
-.resume-back-btn,
-.resume-edit-btn {
+.resume-back-btn {
   background: none;
   border: none;
   color: #888;
@@ -29,9 +28,70 @@
   border-radius: 6px;
   transition: background 0.15s;
 }
-.resume-back-btn:hover,
-.resume-edit-btn:hover {
+.resume-back-btn:hover {
   background: #f0f1f3;
+}
+
+/* 헤더 버튼 그룹 */
+.resume-header-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* 버튼 스타일들 */
+.resume-edit-btn,
+.resume-new-btn,
+.resume-save-btn,
+.resume-cancel-btn {
+  background: none;
+  border: 1px solid #ddd;
+  color: #555;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+
+.resume-edit-btn:hover,
+.resume-new-btn:hover {
+  background: #f8f9fa;
+  border-color: #aaa;
+}
+
+.resume-save-btn {
+  background: #3A6FF8;
+  color: white;
+  border-color: #3A6FF8;
+}
+
+.resume-save-btn:hover {
+  background: #2557e0;
+  border-color: #2557e0;
+}
+
+.resume-cancel-btn {
+  background: #fff;
+  color: #666;
+  border-color: #ddd;
+}
+
+.resume-cancel-btn:hover {
+  background: #f5f5f5;
+  border-color: #bbb;
+}
+
+.resume-new-btn {
+  background: #10B981;
+  color: white;
+  border-color: #10B981;
+}
+
+.resume-new-btn:hover {
+  background: #059669;
+  border-color: #059669;
 }
 .resume-header-title {
   font-size: 1.25rem;

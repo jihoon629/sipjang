@@ -93,6 +93,7 @@ export const getBlockchainExperience = async (userId) => {
 // Resume.js에서 사용할 래퍼 객체 (API.md 사양에 맞춤)
 export const resumeAPI = {
   getResume: getResumeDetails,
+  createResume: createResume,
   saveResume: saveResume,
   updateResume: updateResume,
   deleteResume: deleteResume,
