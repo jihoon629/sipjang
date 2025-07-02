@@ -2,10 +2,6 @@
 import axios from 'axios';
 
 const API_URL = 'api/job-postings';
-// axios 인스턴스 생성 (인증 관련 설정 통일)
-const apiClient = axios.create({
-  withCredentials: true, // 쿠키 포함
-});
 // 전체 구인공고 조회
 export const getJobPostings = async () => {
   try {

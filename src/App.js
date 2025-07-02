@@ -19,7 +19,9 @@ import AIJobs from "./pages/AIJobs/AIJobs";
 import EmployerJobsPage from "./pages/Employer/EmployerJobsPage";
 import JobPostCreatePage from "./pages/Employer/JobPostCreatePage";
 import JobPostEditPage from "./pages/Employer/JobPostEditPage"; 
-import Support from "./pages/Support/Support";
+
+
+
 
 
 
@@ -45,8 +47,6 @@ function App() {
             <Route path="/Employerjobs" element={<EmployerJobsPage />} />
             <Route path="/job-create" element={<JobPostCreatePage />} />
             <Route path="/job-edit/:id" element={<JobPostEditPage />} />
-            <Route path="/support" element={<Support />} />
-
           </Routes>
         </div>
         <Footer />
