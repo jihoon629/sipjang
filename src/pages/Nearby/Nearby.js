@@ -14,12 +14,44 @@ function Nearby() {
     script.async = true;
     script.onload = () => {
       if (window.google && window.google.maps) {
-        const container = mapRef.current;
-        const options = {
-          center: { lat: 37.5665, lng: 126.9780 },
-          zoom: 13,
-        };
-        new window.google.maps.Map(container, options);
+        // 내 위치 가져오기
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const lat = position.coords.latitude;
+              const lng = position.coords.longitude;
+              const container = mapRef.current;
+              const options = {
+                center: { lat, lng },
+                zoom: 13,
+              };
+              const map = new window.google.maps.Map(container, options);
+              // 내 위치 마커 추가
+              new window.google.maps.Marker({
+                position: { lat, lng },
+                map,
+                title: '내 위치',
+              });
+            },
+            (error) => {
+              // 위치 권한 거부 등 fallback: 서울 시청
+              const container = mapRef.current;
+              const options = {
+                center: { lat: 37.5665, lng: 126.9780 },
+                zoom: 13,
+              };
+              new window.google.maps.Map(container, options);
+            }
+          );
+        } else {
+          // geolocation 미지원 fallback: 서울 시청
+          const container = mapRef.current;
+          const options = {
+            center: { lat: 37.5665, lng: 126.9780 },
+            zoom: 13,
+          };
+          new window.google.maps.Map(container, options);
+        }
       } else {
         alert('구글맵 스크립트 로드 실패! API 키를 확인하세요.');
       }

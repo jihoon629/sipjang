@@ -1,0 +1,181 @@
+.support-card.styled {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 1.5px 8px rgba(0,0,0,0.05);
+  padding: 10px 10px 8px 10px;
+  margin-bottom: 24px;
+  width: 100%;
+  max-width: 410px;
+  min-width: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.support-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.support-status-icon {
+  font-size: 1.3rem;
+}
+.support-status-label {
+  font-size: 1.1rem;
+}
+.support-meta-row {
+  display: flex;
+  gap: 12px;
+  color: #888;
+  font-size: 0.98rem;
+  margin-bottom: 2px;
+}
+.support-job-title.styled {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 2px;
+  word-break: keep-all;
+}
+.support-company.styled {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+.support-detail-box {
+  background: #f7f7f7;
+  border-radius: 12px;
+  padding: 7px 7px 6px 7px;
+  margin: 8px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.support-detail-date {
+  color: #888;
+  font-size: 0.97rem;
+  margin-bottom: 2px;
+}
+.support-detail-status-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.support-detail-status-icon {
+  font-size: 1.1rem;
+}
+.support-detail-status-label {
+  font-size: 1.05rem;
+}
+.support-detail-msg {
+  color: #888;
+  font-size: 0.98rem;
+  margin-top: 2px;
+}
+.support-another-btn {
+  margin-top: 14px;
+  background: #fff;
+  border: 1.5px solid #0066ff;
+  color: #0066ff;
+  border-radius: 8px;
+  padding: 8px 0;
+  width: 100%;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.support-another-btn:hover {
+  background: #0066ff;
+  color: #fff;
+}
+
+/* 지원내역 페이지 전체 레이아웃 */
+.support-page {
+  max-width: 1000px;
+  min-height: calc(100vh - 120px);
+  margin: 32px auto 0 auto;
+  padding-bottom: 80px;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.support-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 32px;
+  color: #222;
+  text-align: center;
+}
+
+.support-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.support-card {
+  background: #f8f9fa;
+  border-radius: 24px;
+  padding: 56px 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transition: box-shadow 0.2s;
+  min-height: 320px;
+  font-size: 1.2rem;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.support-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+
+.support-job-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 10px;
+  text-align: center;
+  letter-spacing: -1px;
+  width: 100%;
+  word-break: keep-all;
+}
+.support-company {
+  color: #666;
+  font-size: 1rem;
+}
+.support-date {
+  font-size: 0.95rem;
+  color: #888;
+}
+.support-status {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 6px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  display: inline-block;
+}
+.support-status.done {
+  background: #e6f7e6;
+  color: #219653;
+  border: 1px solid #b7e4c7;
+}
+.support-status.pending {
+  background: #fffbe6;
+  color: #b68900;
+  border: 1px solid #ffe066;
+}
