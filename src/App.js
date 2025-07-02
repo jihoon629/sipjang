@@ -16,6 +16,7 @@ import Calendar from "./pages/Calendar/Calendar";
 import Resume from "./pages/Resume/Resume";
 import Nearby from "./pages/Nearby/Nearby";
 import AIJobs from "./pages/AIJobs/AIJobs";
+import Support from "./pages/Support/Support";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="/resume" element={<Resume />} />
             <Route path="/nearby" element={<Nearby />} />
             <Route path="/aijobs" element={<AIJobs />} />
+            <Route path="/support" element={<Support />} />
           </Routes>
         </div>
         <Footer />

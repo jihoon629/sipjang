@@ -18,8 +18,8 @@
 }
 .mypage-page {
   background: #f7f8fa;
-  min-height: 100vh;
-  padding-bottom: 40px;
+  min-height: calc(100vh - 120px);
+  padding-bottom: 80px;
   font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
 }
 

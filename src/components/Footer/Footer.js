@@ -11,12 +11,20 @@ function Footer() {
         </svg>
         <div className="footer-label">홈</div>
       </Link>
+
       <Link to="/jobs" className={pathname.startsWith("/jobs") ? "active" : ""}>
         <svg className="footer-icon" width="26" height="26" viewBox="0 0 24 24" fill="none">
           <rect x="3" y="7" width="18" height="12" rx="2" stroke={pathname.startsWith("/jobs") ? "#4666e4" : "#444"} strokeWidth="1.7"/>
           <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke={pathname.startsWith("/jobs") ? "#4666e4" : "#444"} strokeWidth="1.7"/>
         </svg>
         <div className="footer-label">일자리</div>
+      </Link>
+
+      <Link to="/support" className={pathname.startsWith("/support") ? "active" : ""}>
+        <svg className="footer-icon" width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <path d="M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9Zm0-4v-4m0 0V7m0 4h4m-4 0H8" stroke={pathname.startsWith("/support") ? "#4666e4" : "#444"} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        <div className="footer-label">지원내역</div>
       </Link>
 
       <Link to="/mypage" className={pathname.startsWith("/mypage") ? "active" : ""}>
