@@ -1,5 +1,4 @@
-// App.js
-
+import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
@@ -20,9 +19,6 @@ import EmployerJobsPage from "./pages/Employer/EmployerJobsPage";
 import JobPostCreatePage from "./pages/Employer/JobPostCreatePage";
 import JobPostEditPage from "./pages/Employer/JobPostEditPage"; 
 import Support from "./pages/Support/Support";
-import JobApplicantsPage from "./pages/Employer/JobApplicantsPage";
-import ApplicantDetailPage from "./pages/Employer/ApplicantDetailPage";
-import PayrollPage from "./pages/Employer/PayrollPage";
 
 
 
@@ -34,7 +30,7 @@ function App() {
     <UserProvider>
       <Router>
         <Header />
-        <div className="app">
+        <div className="app-wrapper">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/main" element={<Main />} />
@@ -51,9 +47,6 @@ function App() {
             <Route path="/job-create" element={<JobPostCreatePage />} />
             <Route path="/job-edit/:id" element={<JobPostEditPage />} />
             <Route path="/support" element={<Support />} />
-            <Route path="/employer/job-applicants/:jobPostingId" element={<JobApplicantsPage />} />
-            <Route path="/employer/applicant-details/:resumeId/:userId" element={<ApplicantDetailPage />} />
-            <Route path="/employer/payroll" element={<PayrollPage />} />
           </Routes>
         </div>
         <Footer />
