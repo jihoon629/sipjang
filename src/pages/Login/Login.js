@@ -47,12 +47,13 @@ function Login() {
 
   return (
     <div className="login-page">
-      <header className="login-header">
-        <button className="login-back" type="button" aria-label="뒤로가기" onClick={() => navigate(-1)}>
+      <div className="login-topbar">
+        <button className="back-btn" type="button" aria-label="뒤로가기" onClick={() => navigate(-1)}>
           <FiChevronLeft size={24} /> 뒤로
         </button>
-        <span className="login-title" style={{fontWeight:700}}>로그인</span>
-      </header>
+        <div className="login-title-main">로그인</div>
+      </div>
+      <hr className="login-divider" />
       <div className="login-logo-box">
         <div className="login-logo-gradient"><span className="login-logo-text">내</span></div>
         <div className="login-logo-title">내일</div>
@@ -78,7 +79,7 @@ function Login() {
       </form>
 
       <Link to="#" className="login-forgot">비밀번호를 잊으셨나요?</Link>
-      <div className="login-divider"><span>또는</span></div>
+      <div className="login-divider-text"><span>또는</span></div>
       <button className="login-btn-social google">Google로 계속하기</button>
       <div className="login-bottom">
         계정이 없으신가요? <Link to="/signup" className="login-signup-link">회원가입</Link>
