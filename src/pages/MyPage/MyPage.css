@@ -23,6 +23,28 @@
   font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
 }
 
+.mypage-logout-msg {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(58,111,248,0.95);
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 24px;
+  font-size: 1.05rem;
+  z-index: 9999;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  animation: fadeInOut 1s;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 .mypage-header-bar {
   display: flex;
   align-items: center;

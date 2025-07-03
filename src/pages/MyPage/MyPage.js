@@ -1,11 +1,23 @@
 
 import { useNavigate } from "react-router-dom";
-// import Header from "../../components/Header/Header";
-// import Footer from "../../components/Footer/Footer";
 import "./MyPage.css";
+import { useState } from "react";
 
 function MyPage() {
   const navigate = useNavigate();
+  const [logoutMsg, setLogoutMsg] = useState(false);
+
+  // 로그아웃 핸들러
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setLogoutMsg(true);
+    setTimeout(() => {
+      setLogoutMsg(false);
+      navigate('/login');
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }, 1000);
+  };
+
   const user = {
     name: "김철수",
     desc: "철근공 · 15년 경력",
@@ -13,9 +25,15 @@ function MyPage() {
     done: 127,
     income: "2,450만",
   };
+
   return (
     <div className="mypage-page">
-      
+      {logoutMsg && (
+        <div className="mypage-logout-msg" aria-live="polite">
+          로그아웃되었습니다
+        </div>
+      )}
+      {/* ...existing code... */}
       <div className="mypage-header-bar">
         <button className="mypage-back-btn" onClick={() => navigate('/')} aria-label="뒤로가기">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -24,6 +42,7 @@ function MyPage() {
         </button>
         <span className="mypage-header-title">마이페이지</span>
       </div>
+      {/* ...existing code... */}
       <div className="mypage-profile-card">
         <div className="mypage-profile-row">
           <div className="mypage-profile-img">
@@ -45,6 +64,7 @@ function MyPage() {
           <button className="mypage-profile-edit">편집</button>
         </div>
       </div>
+      {/* ...existing code... */}
       <div className="mypage-stats-row">
         <div className="mypage-stat-box">
           <span className="mypage-stat-value blue">{user.done}</span>
@@ -55,8 +75,9 @@ function MyPage() {
           <span className="mypage-stat-label">총 수입</span>
         </div>
       </div>
+      {/* ...existing code... */}
       <div className="mypage-menu-list">
-        <div className="mypage-menu-item">
+        <div className="mypage-menu-item" onClick={() => navigate('/resume')} tabIndex={0} role="button" aria-label="내 이력서 바로가기">
           <span className="mypage-menu-icon" style={{ background: "#E6F0FF" }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" fill="#E6F0FF" />
@@ -69,7 +90,7 @@ function MyPage() {
           </div>
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
-        <div className="mypage-menu-item">
+        <div className="mypage-menu-item" onClick={() => navigate('/payroll')} tabIndex={0} role="button" aria-label="급여 관리 바로가기">
           <span className="mypage-menu-icon" style={{ background: "#E6FCEF" }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" fill="#E6FCEF" />
@@ -82,7 +103,7 @@ function MyPage() {
           </div>
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
-        <div className="mypage-menu-item">
+        <div className="mypage-menu-item" onClick={() => navigate('/resume?tab=certificate')} tabIndex={0} role="button" aria-label="신원 인증 바로가기">
           <span className="mypage-menu-icon" style={{ background: "#F3EEFF" }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" fill="#F3EEFF" />
@@ -96,7 +117,7 @@ function MyPage() {
           </div>
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
-        <div className="mypage-menu-item">
+        <div className="mypage-menu-item" onClick={() => navigate('/resume?tab=review')} tabIndex={0} role="button" aria-label="평가 관리 바로가기">
           <span className="mypage-menu-icon" style={{ background: "#FFF4E6" }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" fill="#FFF4E6" />
@@ -109,7 +130,7 @@ function MyPage() {
           </div>
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
-        <div className="mypage-menu-item">
+        <div className="mypage-menu-item" onClick={() => navigate('/resume?tab=alarm')} tabIndex={0} role="button" aria-label="알림 설정 바로가기">
           <span className="mypage-menu-icon" style={{ background: "#F7F7F7" }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" fill="#F7F7F7" />
@@ -122,7 +143,7 @@ function MyPage() {
           </div>
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
-        <div className="mypage-menu-item">
+        <div className="mypage-menu-item" onClick={() => navigate('/support')} tabIndex={0} role="button" aria-label="고객센터 바로가기">
           <span className="mypage-menu-icon" style={{ background: "#FFEAEA" }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" fill="#FFEAEA" />
@@ -136,8 +157,7 @@ function MyPage() {
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
       </div>
-      <button className="mypage-logout-btn">로그아웃</button>
-      
+      <button className="mypage-logout-btn" onClick={handleLogout}>로그아웃</button>
     </div>
   );
 }
