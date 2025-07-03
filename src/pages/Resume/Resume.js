@@ -17,6 +17,7 @@ function Resume() {
 
   // API 필드에 맞는 이력서 데이터 상태 - 빈 폼으로 시작
   const [resumeData, setResumeData] = useState({
+    name: "",
     jobType: "",
     region: "",
     selfIntroduction: "",
@@ -67,6 +68,7 @@ function Resume() {
           
           // 백엔드 데이터를 프론트엔드 형식으로 변환
           setResumeData({
+            name: latestResume.name || "",
             jobType: latestResume.jobType || "",
             region: latestResume.region || "",
             selfIntroduction: latestResume.selfIntroduction || "",
@@ -136,6 +138,10 @@ function Resume() {
   
   // 주소 팝업 상태
   const [showAddressPopup, setShowAddressPopup] = useState(false);
+  
+  // 이미지 모달 상태
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [modalImageUrl, setModalImageUrl] = useState('');
 
 
   const handleResumeChange = (e) => {
@@ -233,6 +239,18 @@ function Resume() {
     setShowAddressPopup(false);
   };
 
+  // 이미지 모달 열기
+  const handleImageClick = (imageUrl) => {
+    setModalImageUrl(imageUrl);
+    setShowImageModal(true);
+  };
+
+  // 이미지 모달 닫기
+  const handleImageModalClose = () => {
+    setShowImageModal(false);
+    setModalImageUrl('');
+  };
+
   // 기존 이력서 삭제
   const handleDeleteResume = async () => {
     if (!currentResume || !currentResume.id) {
@@ -252,6 +270,7 @@ function Resume() {
       setEditMode(true);
       setIsCreatingNew(true);
       setResumeData({
+        name: "",
         jobType: "",
         region: "",
         selfIntroduction: "",
@@ -297,6 +316,7 @@ function Resume() {
       
       const resumePayload = {
         userId: user.id,
+        name: resumeData.name,
         jobType: resumeData.jobType,
         region: resumeData.region,
         selfIntroduction: resumeData.selfIntroduction,
@@ -344,6 +364,7 @@ function Resume() {
       // 새로 작성 취소 시 기존 데이터로 복귀
       if (currentResume) {
         setResumeData({
+          name: currentResume.name || "",
           jobType: currentResume.jobType || "",
           region: currentResume.region || "",
           selfIntroduction: currentResume.selfIntroduction || "",
@@ -386,6 +407,14 @@ function Resume() {
         <span className="resume-header-title">
           {editMode ? (isCreatingNew ? '새 이력서 작성' : '이력서 편집') : '내 이력서'}
         </span>
+        <div className="resume-header-buttons">
+          {!editMode && hasExistingResume ? (
+            <>
+              <button className="resume-edit-btn" onClick={handleEditExisting}>편집</button>
+              <button className="resume-delete-btn" onClick={handleDeleteResume}>삭제</button>
+            </>
+          ) : null}
+        </div>
       </div>
 
       {/* 프로필 정보 */}
@@ -396,7 +425,18 @@ function Resume() {
         <div className="resume-form-grid">
           <div className="resume-form-item">
             <label className="resume-form-label">이름</label>
-            <div className="resume-form-value">{user?.username || ''}</div>
+            {editMode ? (
+              <input 
+                className="resume-form-input"
+                type="text"
+                name="name"
+                value={resumeData.name}
+                onChange={handleResumeChange}
+                placeholder="이름을 입력하세요"
+              />
+            ) : (
+              <div className="resume-form-value">{resumeData.name}</div>
+            )}
           </div>
           <div className="resume-form-item">
             <label className="resume-form-label">경력</label>
@@ -608,6 +648,8 @@ function Resume() {
                       src={imageUrl} 
                       alt={`자격증 ${index + 1}`}
                       className="resume-certificate-image"
+                      onClick={() => handleImageClick(imageUrl)}
+                      style={{ cursor: 'pointer' }}
                     />
                     <button
                       type="button"
@@ -631,6 +673,7 @@ function Resume() {
                       src={imageUrl} 
                       alt={`자격증 ${index + 1}`}
                       className="resume-certificate-image-display"
+                      onClick={() => handleImageClick(imageUrl)}
                     />
                   </div>
                 ))}
@@ -678,19 +721,12 @@ function Resume() {
       </div>
 
       {/* 하단 액션 버튼들 */}
-      <div className="resume-action-buttons">
-        {editMode ? (
-          <>
-            <button className="resume-cancel-btn" onClick={handleCancelEdit}>취소</button>
-            <button className="resume-save-btn" onClick={handleSaveResume}>저장</button>
-          </>
-        ) : hasExistingResume ? (
-          <>
-            <button className="resume-edit-btn" onClick={handleEditExisting}>편집</button>
-            <button className="resume-delete-btn" onClick={handleDeleteResume}>삭제</button>
-          </>
-        ) : null}
-      </div>
+      {editMode && (
+        <div className="resume-action-buttons">
+          <button className="resume-cancel-btn" onClick={handleCancelEdit}>취소</button>
+          <button className="resume-save-btn" onClick={handleSaveResume}>저장</button>
+        </div>
+      )}
       
       {/* 주소 팝업 */}
       {showAddressPopup && (
@@ -698,6 +734,26 @@ function Resume() {
           onAddressSelect={handleAddressSelect}
           onClose={handleAddressPopupClose}
         />
+      )}
+
+      {/* 이미지 모달 */}
+      {showImageModal && (
+        <div className="image-modal-overlay" onClick={handleImageModalClose}>
+          <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button 
+              type="button"
+              className="image-modal-close" 
+              onClick={handleImageModalClose}
+            >
+              ✕
+            </button>
+            <img 
+              src={modalImageUrl} 
+              alt="자격증 원본" 
+              className="image-modal-image"
+            />
+          </div>
+        </div>
       )}
     </div>
   );
