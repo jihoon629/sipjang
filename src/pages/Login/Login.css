@@ -5,30 +5,40 @@
   font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
   padding-bottom: 32px;
 }
-.login-header {
+
+/* 회원가입과 동일한 헤더 구조 */
+.login-topbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 0 0 12px;
-  height: 56px;
-  border-bottom: 1.5px solid #f2f2f2;
-  font-size: 1.18rem;
-  font-weight: 700;
+  height: 48px;
+  padding: 0 16px;
   background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  position: relative;
 }
-.login-back {
+.back-btn {
   background: none;
   border: none;
-  font-size: 1.1rem;
-  color: #444;
+  color: #222;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  padding: 0;
+  margin-right: 8px;
 }
-.login-title {
-  flex: 1;
+.login-title-main {
+  position: absolute;
+  left: 0;
+  right: 0;
   text-align: center;
-  font-size: 1.18rem;
+  font-size: 20px;
   font-weight: 700;
-  margin-right: 36px;
+  color: #222;
+  margin: 0 auto;
+  pointer-events: none;
 }
 .login-logo-box {
   display: flex;
@@ -139,7 +149,13 @@
   text-decoration: none;
   font-weight: 500;
 }
+/* 회원가입 선과 동일하게 */
 .login-divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 0;
+}
+.login-divider-text {
   display: flex;
   align-items: center;
   text-align: center;
@@ -147,7 +163,7 @@
   font-size: 1.05rem;
   margin: 32px 0 18px 0;
 }
-.login-divider span {
+.login-divider-text span {
   flex: 1;
   border-bottom: 1.5px solid #eee;
   margin: 0 12px;
