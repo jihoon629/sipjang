@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "../../contexts/UserContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // useNavigate 추가
 import "./EmployerJobsPage.css";
 
 function EmployerJobsPage() {
     const { user } = useUser();
+    const navigate = useNavigate(); // useNavigate 초기화
     const [postings, setPostings] = useState([]);
 
     useEffect(() => {
@@ -38,12 +40,15 @@ function EmployerJobsPage() {
                         <p className="job-company">{job.jobType}</p>
                         <div className="job-location">📍 {job.region}</div>
                         <div className="job-footer">
-                            <span className="job-duration">ID: {job.id}</span>
                             <button
                                 className="view-btn"
                                 onClick={() => window.location.href = `/job-edit/${job.id}`}
-                            >
-                                상세보기
+                            >공고 수정
+                            </button>
+                            <button
+                                className="view-btn"
+                                onClick={() => navigate(`/employer/job-applicants/${job.id}`)}
+                            >지원자 관리
                             </button>
                         </div>
                     </div>

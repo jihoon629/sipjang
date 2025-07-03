@@ -1,0 +1,107 @@
+.payment-date-selection {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.payment-date-selection label {
+  font-weight: bold;
+  color: #333;
+}
+
+.payment-date-selection input[type="date"] {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.payroll-page {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+}
+
+.payroll-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.payroll-header h2 {
+  margin: 0;
+  font-size: 1.8em;
+  color: #333;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.payroll-header .back-btn {
+  background: none;
+  border: none;
+  font-size: 1em;
+  color: #007bff;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.payroll-header .back-btn:hover {
+  background-color: #e9ecef;
+}
+
+.job-postings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.posting-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.posting-card h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  color: #0056b3;
+}
+
+.posting-card p {
+  margin: 0 0 3px 0;
+  font-size: 0.95em;
+  color: #555;
+}
+
+.posting-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.action-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.payroll-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.payroll-btn:hover {
+  background-color: #218838;
+}

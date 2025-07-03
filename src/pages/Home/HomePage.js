@@ -101,9 +101,9 @@ function HomePage() {
               <div className="shortcut-title">공고 등록</div>
               <div className="shortcut-desc">새로운 일자리 등록</div>
             </a>
-            <a className="shortcut-card" href="/calendar">
+            <a className="shortcut-card" href="/employer/payroll">
               <div className="shortcut-icon" style={{ background: "#e6f0ff" }}>📅</div>
-              <div className="shortcut-title">급여 달력</div>
+              <div className="shortcut-title">급여 관리</div>
               <div className="shortcut-desc">지급 일정 관리</div>
             </a>
           </>

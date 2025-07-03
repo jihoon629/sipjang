@@ -104,3 +104,14 @@ export const getJobApplicants = async (id) => {
     throw error;
   }
 };
+
+// 특정 공고의 모든 완료된 지원서에 급여 일괄 기록
+export const recordPaymentsForAll = async (jobPostingId, paymentDate) => {
+  try {
+    const response = await apiClient.post(`${API_URL}/${jobPostingId}/record-payments-for-all`, { paymentDate });
+    return response.data;
+  } catch (error) {
+    console.error(`Error recording payments for job posting ${jobPostingId}:`, error);
+    throw error;
+  }
+};
