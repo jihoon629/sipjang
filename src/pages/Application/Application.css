@@ -1,0 +1,388 @@
+.application-status-svg {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-bottom: 2px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.application-status-success {
+  background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="10" fill="%2322c55e"/><path d="M6 10.5l2.2 2.2 5-5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>');
+}
+.application-status-fail {
+  background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="10" fill="%23e74c3c"/><path d="M6.5 6.5l7 7M13.5 6.5l-7 7" stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>');
+}
+.application-status-success circle {
+  fill: #22c55e;
+}
+.application-status-success path {
+  stroke: #fff;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+.application-status-svg {
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom: 2px;
+}
+.application-status-success circle {
+  fill: #22c55e;
+}
+.application-status-success path {
+  stroke: #fff;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+.application-status-fail circle {
+  fill: #e74c3c;
+}
+.application-status-fail path {
+  stroke: #fff;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  fill: none;
+}
+.application-status-label {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 2px;
+}
+.application-detail-status-label {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 2px;
+}
+.application-empty-face {
+  display: block;
+  width: 135px;
+  height: 135px;
+  background: #d3d3d3;
+  border-radius: 50%;
+  position: relative;
+  box-shadow:
+    0 0 0 7px #e0e0e0,
+    0 0 0 18px #f7f9fb;
+}
+.application-empty-face::before, .application-empty-face::after {
+  content: '';
+  position: absolute;
+  top: 48px;
+  width: 15px;
+  height: 15px;
+  background: #b0b0b0;
+  border-radius: 50%;
+}
+.application-empty-face::before {
+  left: 34px;
+}
+.application-empty-face::after {
+  right: 34px;
+}
+.application-empty-face-mouth {
+  position: absolute;
+  left: 50%;
+  top: 84px;
+  width: 28px;
+  height: 28px;
+  background: #888;
+  border-radius: 50%;
+  transform: translate(-50%, 0);
+  box-shadow: none;
+  z-index: 2;
+}
+.application-status-icon {
+  color: var(--status-color, #888);
+}
+.application-status-label {
+  color: var(--status-color, #888);
+}
+.application-detail-status-icon {
+  color: var(--detail-status-color, #888);
+}
+.application-detail-status-label {
+  color: var(--detail-status-color, #888);
+}
+.application-toggle-btn {
+  margin-bottom: 24px;
+  padding: 7px 18px;
+  border-radius: 8px;
+  border: 1.5px solid #bbb;
+  background: #f8f9fa;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.15s, color 0.15s;
+}
+.application-toggle-btn:hover {
+  background: #e6eaf0;
+}
+.application-card.styled {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 1.5px 8px rgba(0,0,0,0.05);
+  padding: 10px 10px 8px 10px;
+  margin-bottom: 24px;
+  width: 100%;
+  max-width: 410px;
+  min-width: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.application-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+.application-status-icon svg {
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom: 2px;
+}
+.application-status-label {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 2px;
+}
+.application-status-icon {
+  font-size: 1.3rem;
+}
+.application-status-label {
+  font-size: 1.1rem;
+}
+.application-meta-row {
+  display: flex;
+  gap: 12px;
+  color: #888;
+  font-size: 0.98rem;
+  margin-bottom: 2px;
+}
+.application-job-title.styled {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 2px;
+  word-break: keep-all;
+}
+.application-company.styled {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+.application-detail-box {
+  background: #f7f7f7;
+  border-radius: 12px;
+  padding: 7px 7px 6px 7px;
+  margin: 8px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.application-detail-date {
+  color: #888;
+  font-size: 0.97rem;
+  margin-bottom: 2px;
+}
+.application-detail-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.application-detail-status-icon {
+  font-size: 1.3rem;
+}
+.application-detail-status-icon svg {
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom: 2px;
+}
+.application-detail-status-label {
+  font-size: 1.1rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 2px;
+}
+.application-detail-msg {
+  color: #888;
+  font-size: 0.98rem;
+  margin-top: 2px;
+}
+.application-another-btn {
+  margin-top: 14px;
+  background: #fff;
+  border: 1.5px solid #0066ff;
+  color: #0066ff;
+  border-radius: 8px;
+  padding: 8px 0;
+  width: 100%;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.application-another-btn:hover {
+  background: #0066ff;
+  color: #fff;
+}
+
+/* 지원내역 페이지 전체 레이아웃 */
+
+.application-page {
+  max-width: 1000px;
+  min-height: calc(100vh - 120px);
+  margin: 0 auto;
+  padding-bottom: 80px;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.application-empty-bg {
+  background: #f7f9fb;
+  min-height: 100vh;
+}
+
+.application-empty {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  max-width: 100vw;
+  margin: 0 auto;
+}
+
+.application-empty-icon-outer {
+  width: 135px;
+  height: 135px;
+  border-radius: 50%;
+  background: #ececec;
+  margin: 36px auto 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 12px #f2f4f7, 0 2px 8px #0001;
+  border: 3.5px solid #e5e5e5;
+}
+.application-empty-icon-inner {
+  width: 135px;
+  height: 135px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.application-empty-text {
+  color: #888;
+  font-size: 1.18rem;
+  text-align: center;
+  margin-bottom: 16px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.application-empty-btn-main {
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.18rem;
+  border: none;
+  border-radius: 12px;
+  padding: 20px 0;
+  width: 92%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: block;
+  box-shadow: 0 4px 16px #2563eb33, 0 2px 8px #4666e41a;
+  letter-spacing: -1px;
+  transition: background 0.15s;
+}
+.application-empty-btn-main:active {
+  background: #1746a2;
+}
+
+.application-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 32px;
+  color: #222;
+  text-align: center;
+}
+
+.application-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.application-card {
+  background: #f8f9fa;
+  border-radius: 24px;
+  padding: 56px 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transition: box-shadow 0.2s;
+  min-height: 320px;
+  font-size: 1.2rem;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.applicaiton-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+
+.application-job-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 10px;
+  text-align: center;
+  letter-spacing: -1px;
+  width: 100%;
+  word-break: keep-all;
+}
+.application-company {
+  color: #666;
+  font-size: 1rem;
+}
+.application-date {
+  font-size: 0.95rem;
+  color: #888;
+}
+.application-status {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 6px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  display: inline-block;
+}
+.application-status.done {
+  background: #e6f7e6;
+  color: #219653;
+  border: 1px solid #b7e4c7;
+}
+.application-status.pending {
+  background: #fffbe6;
+  color: #b68900;
+  border: 1px solid #ffe066;
+}

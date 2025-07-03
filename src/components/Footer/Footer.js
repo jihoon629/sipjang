@@ -20,9 +20,9 @@ function Footer() {
         <div className="footer-label">일자리</div>
       </Link>
 
-      <Link to="/support" className={pathname.startsWith("/support") ? "active" : ""}>
+      <Link to="/application" className={pathname.startsWith("/application") ? "active" : ""}>
         <svg className="footer-icon" width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9Zm0-4v-4m0 0V7m0 4h4m-4 0H8" stroke={pathname.startsWith("/support") ? "#4666e4" : "#444"} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9Zm0-4v-4m0 0V7m0 4h4m-4 0H8" stroke={pathname.startsWith("/application") ? "#4666e4" : "#444"} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
         <div className="footer-label">지원내역</div>
       </Link>

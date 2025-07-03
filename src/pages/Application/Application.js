@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getMyApplications } from "../../services/applicationsService";
 import { getJobPostingDetails } from "../../services/jobPostingsService";
 import { useUser } from "../../contexts/UserContext";
-import "./Support.css";
+import "./Application.css";
 
 // 지원 상태에 따른 스타일을 반환하는 헬퍼 함수
 const getStatusStyle = (status) => {
@@ -41,7 +41,7 @@ const getStatusStyle = (status) => {
   }
 };
 
-function Support() {
+function Application() {
   const navigate = useNavigate();
   const { user } = useUser();
   const [applications, setApplications] = useState([]);
@@ -94,69 +94,84 @@ function Support() {
   };
 
   if (loading) {
-    return <div className="support-page"><h2 className="support-title">지원내역</h2><p>로딩 중...</p></div>;
+    return <div className="application-page"><h2 className="application-title">지원내역</h2><p>로딩 중...</p></div>;
   }
 
   if (error) {
-    return <div className="support-page"><h2 className="support-title">지원내역</h2><p style={{ color: 'red' }}>{error}</p></div>;
+    return <div className="application-page"><h2 className="application-title">지원내역</h2><p style={{ color: 'red' }}>{error}</p></div>;
   }
 
   return (
-    <div className="support-page">
-      <h2 className="support-title">지원내역</h2>
-      <div className="support-list">
+    <div className="application-page">
+      <h2 className="application-title">지원내역</h2>
+      <div className="application-list">
         {applications.length > 0 ? (
           applications.map(app => {
             const statusStyle = getStatusStyle(app.status);
             return (
-              <div className="support-card styled" key={app.id}>
-                <div className="support-status-row">
-                  <span className="support-status-icon" style={{ color: statusStyle.color }}>{statusStyle.icon}</span>
-                  <span className="support-status-label" style={{ color: statusStyle.color }}>{statusStyle.text}</span>
+              <div className="application-card styled" key={app.id}>
+                <div className="application-status-row">
+                  <span className="application-status-icon" style={{ color: statusStyle.color }}>{statusStyle.icon}</span>
+                  <span className="application-status-label" style={{ color: statusStyle.color }}>{statusStyle.text}</span>
                 </div>
-                <div className="support-meta-row">
+                <div className="application-meta-row">
                   {/* API 응답에 jobPosting.jobType이 있다면 표시 */}
-                  {app.jobPosting?.jobType && <span className="support-meta">{app.jobPosting.jobType}</span>}
-                  <span className="support-meta">{formatDate(app.createdAt)}</span>
+                  {app.jobPosting?.jobType && <span className="application-meta">{app.jobPosting.jobType}</span>}
+                  <span className="application-meta">{formatDate(app.createdAt)}</span>
                 </div>
-                <div className="support-job-title styled">{app.jobPosting?.title || "공고 제목 없음"}</div>
-                <div className="support-company styled">{app.jobPosting?.user?.username || "회사 정보 없음"}</div>
+                <div className="application-job-title styled">{app.jobPosting?.title || "공고 제목 없음"}</div>
+                <div className="application-company styled">{app.jobPosting?.user?.username || "회사 정보 없음"}</div>
                 
                 {/* 급여 정보 표시 */}
                 {(app.status === 'approved' || app.status === 'completed') && app.paymentAmount && (
-                  <div className="support-payment-info">
+                  <div className="application-payment-info">
                     <span className="payment-label">지급된 급여:</span>
                     <span className="payment-amount">{app.paymentAmount.toLocaleString()}원</span>
                     <span className="payment-date">({formatDate(app.paymentDate, { year: 'numeric', month: 'long', day: 'numeric' })})</span>
                   </div>
                 )}
 
-                <div className="support-detail-box">
-                  <div className="support-detail-date">{formatDate(app.updatedAt)}</div>
-                  <div className="support-detail-status-row">
-                    <span className="support-detail-status-icon" style={{ color: statusStyle.color }}>{statusStyle.icon}</span>
-                    <span className="support-detail-status-label" style={{ color: statusStyle.color }}>{statusStyle.text}</span>
+                <div className="application-detail-box">
+                  <div className="application-detail-date">{formatDate(app.updatedAt)}</div>
+                  <div className="application-detail-status-row">
+                    <span className="application-detail-status-icon" style={{ color: statusStyle.color }}>{statusStyle.icon}</span>
+                    <span className="application-detail-status-label" style={{ color: statusStyle.color }}>{statusStyle.text}</span>
                   </div>
-                  <div className="support-detail-msg">{statusStyle.message.split('\n').map((line, i) => <div key={i}>{line}</div>)}</div>
+                  <div className="application-detail-msg">{statusStyle.message.split('\n').map((line, i) => <div key={i}>{line}</div>)}</div>
                 </div>
                 
                 {/* 버튼 영역 */}
                 {app.status === 'completed' ? (
-                  <button className="support-another-btn completed" onClick={() => navigate('/mypage')}>경력 확인하기</button>
+                  <button className="application-another-btn completed" onClick={() => navigate('/mypage')}>경력 확인하기</button>
                 ) : app.status === 'approved' ? (
-                  <button className="support-another-btn success" onClick={() => handleContactClick(app.jobPostingId)}>담당자와 연락하기</button>
+                  <button className="application-another-btn success" onClick={() => handleContactClick(app.jobPostingId)}>담당자와 연락하기</button>
                 ) : (
-                  <button className="support-another-btn" onClick={() => navigate('/jobs')}>다른 일자리 둘러보기</button>
+                  <button className="application-another-btn" onClick={() => navigate('/jobs')}>다른 일자리 둘러보기</button>
                 )}
               </div>
             );
           })
         ) : (
-          <p>지원 내역이 없습니다.</p>
+          <div className="application-empty-bg">
+            <div className="application-empty">
+              <div className="application-empty-icon-outer">
+                <div className="application-empty-icon-inner">
+                  <div className="application-empty-face">
+                    <div className="application-empty-face-mouth" />
+                  </div>
+                </div>
+              </div>
+              <div className="application-empty-text">
+                지원한 일자리가 없습니다.<br />
+                주변 일자리를 확인해 보세요.
+              </div>
+              <button className="application-empty-btn-main" onClick={() => navigate('/jobs')}>주변 일자리 확인하기</button>
+            </div>
+          </div>
         )}
       </div>
     </div>
   );
 }
 
-export default Support;
+export default Application;
