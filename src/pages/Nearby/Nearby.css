@@ -3,6 +3,7 @@
   background: #f7f8fa;
   min-height: 100vh;
   font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
+  padding-bottom: 70px; /* 하단 네비/버튼 영역 안짤리게 여유 공간 추가 */
 }
 .nearby-header-bar {
   display: flex;
