@@ -1,19 +1,35 @@
-// src/pages/Employer/JobPostEditPage.js
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { useUser } from "../../contexts/UserContext";
 import "./JobPostCreatePage.css";
 
 function JobPostEditPage() {
-    const { id } = useParams();
     const navigate = useNavigate();
-    const [form, setForm] = useState(null);
+    const { user } = useUser();
+    const { id } = useParams();
+    const [form, setForm] = useState({
+        title: "",
+        jobType: "",
+        region: "",
+        siteDescription: "",
+        dailyWage: "",
+        requiredSkills: "",
+        workStartDate: "",
+        workEndDate: "",
+        workStartHour: "09:00",
+        workEndHour: "18:00",
+        contactInfo: "",
+    });
+
+    const hours = Array.from({ length: 24 }, (_, i) => `${i.toString().padStart(2, '0')}:00`);
 
     useEffect(() => {
-        const fetchPost = async () => {
+        const fetchJobPosting = async () => {
             try {
-                const res = await axios.get(`/api/job-postings/${id}`);
-                const data = res.data.data;
+                const response = await axios.get(`/api/job-postings/${id}`);
+                const data = response.data.data; // ✅ 수정된 부분
+                const [startHour, endHour] = data.workHours?.split("-") || ["09:00", "18:00"];
                 setForm({
                     title: data.title,
                     jobType: data.jobType,
@@ -23,48 +39,111 @@ function JobPostEditPage() {
                     requiredSkills: data.requiredSkills,
                     workStartDate: data.workStartDate,
                     workEndDate: data.workEndDate,
-                    workHours: data.workHours,
+                    workStartHour: startHour,
+                    workEndHour: endHour,
                     contactInfo: data.contactInfo,
                 });
             } catch (err) {
-                console.error("공고 상세 불러오기 실패:", err);
+                console.error("공고 불러오기 실패:", err);
             }
         };
-        fetchPost();
+
+        fetchJobPosting();
     }, [id]);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleUpdate = async () => {
+    const handleSubmit = async () => {
         try {
-            await axios.put(`/api/job-postings/${id}`, form);
-            alert("수정 완료!");
+            if (!user || !user.id) {
+                alert("로그인이 필요합니다.");
+                return;
+            }
+
+            const payload = {
+                userId: user.id,
+                title: form.title,
+                jobType: form.jobType,
+                region: form.region,
+                dailyWage: form.dailyWage,
+                workStartDate: form.workStartDate,
+                workEndDate: form.workEndDate,
+                workHours: `${form.workStartHour}-${form.workEndHour}`,
+                contactInfo: form.contactInfo,
+                requiredSkills: form.requiredSkills,
+                siteDescription: form.siteDescription,
+            };
+
+            await axios.put(`/api/job-postings/${id}`, payload);
+            alert("공고 수정 완료!");
             navigate("/employerjobs");
         } catch (err) {
-            alert("수정 실패");
+            console.error("수정 실패:", err.response?.data || err.message);
+            alert("수정 실패: 입력값을 확인해주세요.");
         }
     };
-
-    if (!form) return <div>로딩 중...</div>;
 
     return (
         <div className="job-post-create-wrapper">
             <h2 className="form-title">공고 수정</h2>
             <div className="form-grid">
-                <input name="title" value={form.title} onChange={handleChange} placeholder="제목" />
-                <input name="jobType" value={form.jobType} onChange={handleChange} placeholder="직종" />
-                <input name="region" value={form.region} onChange={handleChange} placeholder="지역" />
-                <input name="siteDescription" value={form.siteDescription} onChange={handleChange} placeholder="현장 설명" />
-                <input name="dailyWage" value={form.dailyWage} onChange={handleChange} placeholder="일급" />
-                <input name="requiredSkills" value={form.requiredSkills} onChange={handleChange} placeholder="필요 기술" />
-                <input name="workStartDate" value={form.workStartDate} onChange={handleChange} placeholder="시작일" />
-                <input name="workEndDate" value={form.workEndDate} onChange={handleChange} placeholder="종료일" />
-                <input name="workHours" value={form.workHours} onChange={handleChange} placeholder="근무 시간" />
-                <input name="contactInfo" value={form.contactInfo} onChange={handleChange} placeholder="연락처" />
+                <div className="form-field">
+                    <label>제목</label>
+                    <input name="title" value={form.title} onChange={handleChange} />
+                </div>
+                <div className="form-field">
+                    <label>직종</label>
+                    <input name="jobType" value={form.jobType} onChange={handleChange} />
+                </div>
+                <div className="form-field">
+                    <label>지역</label>
+                    <input name="region" value={form.region} onChange={handleChange} />
+                </div>
+                <div className="form-field">
+                    <label>연락처</label>
+                    <input name="contactInfo" value={form.contactInfo} onChange={handleChange} />
+                </div>
+                <div className="form-field-inline">
+                    <div className="form-field">
+                        <label>시작일</label>
+                        <input type="date" name="workStartDate" value={form.workStartDate} onChange={handleChange} />
+                    </div>
+                    <div className="form-field">
+                        <label>종료일</label>
+                        <input type="date" name="workEndDate" value={form.workEndDate} onChange={handleChange} />
+                    </div>
+                </div>
+                <div className="form-field">
+                    <label>일급</label>
+                    <input name="dailyWage" value={form.dailyWage} onChange={handleChange} />
+                </div>
+                <div className="form-field">
+                    <label>근무 시간</label>
+                    <div className="time-select-inline">
+                        <select name="workStartHour" value={form.workStartHour} onChange={handleChange}>
+                            {hours.map((hour) => (
+                                <option key={hour} value={hour}>{hour}</option>
+                            ))}
+                        </select>
+                        <select name="workEndHour" value={form.workEndHour} onChange={handleChange}>
+                            {hours.map((hour) => (
+                                <option key={hour} value={hour}>{hour}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+                <div className="form-field form-field-required-skills">
+                    <label>요구 역량</label>
+                    <textarea name="requiredSkills" value={form.requiredSkills} onChange={handleChange} rows="2" />
+                </div>
+                <div className="form-field form-field-site-description">
+                    <label>현장 설명</label>
+                    <textarea name="siteDescription" value={form.siteDescription} onChange={handleChange} rows="4" />
+                </div>
             </div>
-            <button className="submit-btn" onClick={handleUpdate}>수정 완료</button>
+            <button className="submit-btn" onClick={handleSubmit}>수정 완료</button>
         </div>
     );
 }

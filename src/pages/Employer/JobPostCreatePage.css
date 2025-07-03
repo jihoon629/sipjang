@@ -1,41 +1,91 @@
 .job-post-create-wrapper {
-    max-width: 600px;
+    width: 100%;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 30px 20px;
-    background: linear-gradient(135deg, #f5f8ff, #e9efff);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 40px 24px 140px;
+    box-sizing: border-box;
 }
 
 .form-title {
     text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    padding-bottom: 20px;
+    margin: 0;
     color: #333;
 }
 
 .form-grid {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 24px;
 }
 
-.form-grid input {
-    padding: 12px;
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.form-field-inline {
+    display: flex;
+    gap: 20px;
+    flex-wrap: nowrap;
+}
+
+.form-field-inline .form-field {
+    flex: 1;
+}
+
+.form-field label {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+    margin-left: 2px;
+    text-align: left;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+    padding: 14px;
     border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 15px;
+    border-radius: 10px;
+    font-size: 17px;
+    background-color: #fff;
+    resize: none;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.form-field input[type="date"] {
+    font-family: inherit;
+}
+
+.time-select-inline {
+    display: flex;
+    gap: 12px;
+    flex-direction: row;
+}
+
+.time-select-inline select {
+    flex: 1;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
     background-color: #fff;
 }
 
 .submit-btn {
-    margin-top: 24px;
-    padding: 12px;
+    margin-top: 40px;
+    padding: 16px;
     width: 100%;
     border: none;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: bold;
-    border-radius: 10px;
+    border-radius: 12px;
     background: linear-gradient(to right, #4666e4, #e47a3f);
     color: white;
     cursor: pointer;
@@ -44,4 +94,13 @@
 
 .submit-btn:hover {
     opacity: 0.95;
+}
+
+/* 높이 개별 설정 */
+.form-field-required-skills textarea {
+    height: 80px;
+}
+
+.form-field-site-description textarea {
+    min-height: 140px;
 }
