@@ -1,3 +1,31 @@
+.support-payment-info {
+  background-color: #f0f7ff;
+  border: 1px solid #cce0ff;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.95rem;
+}
+
+.payment-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.payment-amount {
+  font-weight: 700;
+  color: #0056b3;
+  font-size: 1.1rem;
+}
+
+.payment-date {
+  font-size: 0.9rem;
+  color: #555;
+}
+
 .support-card.styled {
   background: #fff;
   border-radius: 20px;
@@ -90,6 +118,16 @@
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
 }
+.support-another-btn.completed {
+  background: #2f80ed;
+  color: #fff;
+  border-color: #2f80ed;
+}
+
+.support-another-btn.completed:hover {
+  background: #1a6fde;
+}
+
 .support-another-btn:hover {
   background: #0066ff;
   color: #fff;

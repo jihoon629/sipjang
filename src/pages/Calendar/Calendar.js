@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
-import "./Calendar.css";
 import { useNavigate } from "react-router-dom";
+import { getMySalaries } from "../../services/applicationsService"; // 서비스 함수 임포트
+import "./Calendar.css";
 
 // 급여 상태에 따른 색상 정의
 const payStatusColor = {
@@ -50,30 +51,17 @@ function Calendar() {
   // --- 데이터 로딩 --- //
   useEffect(() => {
     const fetchSalaries = async () => {
-      console.log("급여 데이터 로딩 시작...");
       setLoading(true);
       try {
-        const response = await fetch('/api/salaries/my');
-        console.log("API 응답 수신:", response);
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          console.error("API 오류 응답:", errorData);
-          throw new Error(errorData.message || '급여 정보를 불러오는데 실패했습니다.');
-        }
-
-        const result = await response.json();
-        console.log("API 성공 응답 (파싱 후):", result);
-
-        const fetchedSalaries = result.data.applications || [];
-        console.log("상태에 저장될 급여 데이터:", fetchedSalaries);
+        const response = await getMySalaries();
+        // API 응답 구조에 따라 data.applications 또는 data로 접근
+        const fetchedSalaries = response.data?.applications || response.data || [];
         setSalaries(fetchedSalaries);
-
+        setError(null);
       } catch (err) {
+        setError(err.message || "급여 정보를 불러오는데 실패했습니다.");
         console.error("급여 데이터 로딩 중 예외 발생:", err);
-        setError(err.message);
       } finally {
-        console.log("급여 데이터 로딩 종료.");
         setLoading(false);
       }
     };

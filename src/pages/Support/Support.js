@@ -1,78 +1,159 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getMyApplications } from "../../services/applicationsService";
+import { getJobPostingDetails } from "../../services/jobPostingsService";
+import { useUser } from "../../contexts/UserContext";
 import "./Support.css";
 
+// 지원 상태에 따른 스타일을 반환하는 헬퍼 함수
+const getStatusStyle = (status) => {
+  switch (status) {
+    case 'completed':
+      return {
+        text: '업무 완료',
+        color: '#2f80ed',
+        icon: '🏅',
+        message: '업무가 성공적으로 완료되어 블록체인에 경력이 기록되었습니다.'
+      };
+    case 'approved':
+      return {
+        text: '지원 성공',
+        color: '#219653',
+        icon: '✔️',
+        message: '해당 일자리에 배정되었습니다.\n현장 담당자와 연락을 기다려주세요.'
+      };
 
-import { useNavigate } from "react-router-dom";
-
-
+    case 'rejected':
+      return {
+        text: '지원 탈락',
+        color: '#e74c3c',
+        icon: '❌',
+        message: '해당 일자리에 배정되지 않았습니다.\n근처 다른 일자리에 지원해 보세요.'
+      };
+    case 'pending':
+    default:
+      return {
+        text: '검토 중',
+        color: '#f2994a',
+        icon: '⏳',
+        message: '지원서가 검토 중입니다.\n결과가 곧 업데이트될 예정입니다.'
+      };
+  }
+};
 
 function Support() {
   const navigate = useNavigate();
-  // 예시 데이터 (실제 데이터 연동 시 구조에 맞게 수정)
-  const applications = [
-    {
-      id: 1,
-      status: '지원 성공',
-      statusColor: '#219653',
-      statusIcon: '✔️',
-      jobTitle: '경기도 수원시 영통구 영통동 A-2BL 아파트 건설공사 2공구(삼성)',
-      company: '삼성건설',
-      people: 4,
-      date: '오늘 오전 8:30',
-      detailDate: '25.7.2 (수) 오전 8:30',
-      detailStatus: '지원 성공',
-      detailStatusColor: '#219653',
-      detailStatusIcon: '✔️',
-      detailMsg: '해당 일자리에 배정되었습니다.\n현장 담당자와 연락을 기다려주세요.'
-    },
-    {
-      id: 2,
-      status: '지원 탈락',
-      statusColor: '#e74c3c',
-      statusIcon: '❌',
-      jobTitle: '경기도 의왕시 의왕월암 A-1BL 아파트 건설공사 1공구(우리)',
-      company: '우리건설',
-      people: 6,
-      date: '어제 오전 6:55',
-      detailDate: '25.3.3 (월) 오후 4:37',
-      detailStatus: '지원 탈락',
-      detailStatusColor: '#e74c3c',
-      detailStatusIcon: '⭑',
-      detailMsg: '해당 일자리에 배정되지 않았습니다.\n근처 다른 일자리에 지원해 보세요.'
+  const { user } = useUser();
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      const fetchApplications = async () => {
+        try {
+          setLoading(true);
+          const response = await getMyApplications();
+          // API 응답 구조에 따라 data.applications 또는 data로 접근
+          const apps = response.data?.applications || response.data || [];
+          setApplications(apps);
+          setError(null);
+        } catch (err) {
+          setError("지원 내역을 불러오는 데 실패했습니다.");
+          console.error(err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchApplications();
     }
-  ];
+  }, [user]);
+
+  // 날짜 포맷팅 함수
+  const formatDate = (dateString, options) => {
+    if (!dateString) return "날짜 정보 없음";
+    const defaultOptions = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return new Date(dateString).toLocaleDateString('ko-KR', options || defaultOptions);
+  };
+
+  const handleContactClick = async (jobPostingId) => {
+    try {
+      const response = await getJobPostingDetails(jobPostingId);
+      const jobData = response.data || response; // 데이터 구조에 유연하게 대응
+      const contactInfo = jobData.contactInfo;
+
+      if (contactInfo) {
+        window.location.href = `tel:${contactInfo}`;
+      } else {
+        alert("담당자 연락처 정보가 없습니다.");
+      }
+    } catch (error) {
+      console.error("연락처 정보 조회 실패:", error);
+      alert("연락처 정보를 불러오는 데 실패했습니다.");
+    }
+  };
+
+  if (loading) {
+    return <div className="support-page"><h2 className="support-title">지원내역</h2><p>로딩 중...</p></div>;
+  }
+
+  if (error) {
+    return <div className="support-page"><h2 className="support-title">지원내역</h2><p style={{ color: 'red' }}>{error}</p></div>;
+  }
 
   return (
     <div className="support-page">
       <h2 className="support-title">지원내역</h2>
       <div className="support-list">
-        {applications.map(app => (
-          <div className="support-card styled" key={app.id}>
-            <div className="support-status-row">
-              <span className="support-status-icon" style={{color: app.statusColor}}>{app.statusIcon}</span>
-              <span className="support-status-label" style={{color: app.statusColor}}>{app.status}</span>
-            </div>
-            <div className="support-meta-row">
-              <span className="support-meta">보통인부 {app.people}명</span>
-              <span className="support-meta">{app.date}</span>
-            </div>
-            <div className="support-job-title styled">{app.jobTitle}</div>
-            <div className="support-company styled">{app.company}</div>
-            <div className="support-detail-box">
-              <div className="support-detail-date">{app.detailDate}</div>
-              <div className="support-detail-status-row">
-                <span className="support-detail-status-icon" style={{color: app.detailStatusColor}}>{app.detailStatusIcon}</span>
-                <span className="support-detail-status-label" style={{color: app.detailStatusColor}}>{app.detailStatus}</span>
+        {applications.length > 0 ? (
+          applications.map(app => {
+            const statusStyle = getStatusStyle(app.status);
+            return (
+              <div className="support-card styled" key={app.id}>
+                <div className="support-status-row">
+                  <span className="support-status-icon" style={{ color: statusStyle.color }}>{statusStyle.icon}</span>
+                  <span className="support-status-label" style={{ color: statusStyle.color }}>{statusStyle.text}</span>
+                </div>
+                <div className="support-meta-row">
+                  {/* API 응답에 jobPosting.jobType이 있다면 표시 */}
+                  {app.jobPosting?.jobType && <span className="support-meta">{app.jobPosting.jobType}</span>}
+                  <span className="support-meta">{formatDate(app.createdAt)}</span>
+                </div>
+                <div className="support-job-title styled">{app.jobPosting?.title || "공고 제목 없음"}</div>
+                <div className="support-company styled">{app.jobPosting?.user?.username || "회사 정보 없음"}</div>
+                
+                {/* 급여 정보 표시 */}
+                {(app.status === 'approved' || app.status === 'completed') && app.paymentAmount && (
+                  <div className="support-payment-info">
+                    <span className="payment-label">지급된 급여:</span>
+                    <span className="payment-amount">{app.paymentAmount.toLocaleString()}원</span>
+                    <span className="payment-date">({formatDate(app.paymentDate, { year: 'numeric', month: 'long', day: 'numeric' })})</span>
+                  </div>
+                )}
+
+                <div className="support-detail-box">
+                  <div className="support-detail-date">{formatDate(app.updatedAt)}</div>
+                  <div className="support-detail-status-row">
+                    <span className="support-detail-status-icon" style={{ color: statusStyle.color }}>{statusStyle.icon}</span>
+                    <span className="support-detail-status-label" style={{ color: statusStyle.color }}>{statusStyle.text}</span>
+                  </div>
+                  <div className="support-detail-msg">{statusStyle.message.split('\n').map((line, i) => <div key={i}>{line}</div>)}</div>
+                </div>
+                
+                {/* 버튼 영역 */}
+                {app.status === 'completed' ? (
+                  <button className="support-another-btn completed" onClick={() => navigate('/mypage')}>경력 확인하기</button>
+                ) : app.status === 'approved' ? (
+                  <button className="support-another-btn success" onClick={() => handleContactClick(app.jobPostingId)}>담당자와 연락하기</button>
+                ) : (
+                  <button className="support-another-btn" onClick={() => navigate('/jobs')}>다른 일자리 둘러보기</button>
+                )}
               </div>
-              <div className="support-detail-msg">{app.detailMsg.split('\n').map((line, i) => <div key={i}>{line}</div>)}</div>
-            </div>
-            {app.status === '지원 성공' ? (
-              <button className="support-another-btn success" onClick={() => alert('담당자와 연락 기능은 추후 제공됩니다.')}>담당자와 연락하기</button>
-            ) : (
-              <button className="support-another-btn" onClick={() => navigate('/jobs')}>다른 일자리 둘러보기</button>
-            )}
-          </div>
-        ))}
+            );
+          })
+        ) : (
+          <p>지원 내역이 없습니다.</p>
+        )}
       </div>
     </div>
   );
