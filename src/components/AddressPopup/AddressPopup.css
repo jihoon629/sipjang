@@ -1,0 +1,160 @@
+.address-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.address-popup-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow: hidden;
+}
+
+.address-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f8f9fa;
+}
+
+.address-popup-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.address-popup-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.address-popup-close:hover {
+  background: #e5e7eb;
+}
+
+.address-popup-body {
+  padding: 24px;
+  text-align: center;
+}
+
+.address-popup-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.address-manual-btn,
+.address-api-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-width: 140px;
+}
+
+.address-manual-btn:hover,
+.address-api-btn:hover {
+  background: #2563eb;
+}
+
+.address-manual-btn {
+  background: #10b981;
+}
+
+.address-manual-btn:hover {
+  background: #059669;
+}
+
+.address-popup-divider {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  padding: 8px 0;
+  position: relative;
+}
+
+.address-popup-divider::before,
+.address-popup-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 60px;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.address-popup-divider::before {
+  left: -80px;
+}
+
+.address-popup-divider::after {
+  right: -80px;
+}
+
+.address-popup-notice {
+  text-align: center;
+}
+
+.address-popup-notice p {
+  color: #6b7280;
+  margin: 4px 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* iframe 스타일 */
+.address-iframe-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.address-iframe {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.address-iframe-close {
+  background: #6b7280;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.address-iframe-close:hover {
+  background: #4b5563;
+}

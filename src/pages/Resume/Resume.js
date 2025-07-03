@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { resumeAPI } from "../../services/resumesService";
 import { useUser } from "../../contexts/UserContext";
+import AddressPopup from "../../components/AddressPopup/AddressPopup";
 
 function Resume() {
   const navigate = useNavigate();
@@ -21,14 +22,11 @@ function Resume() {
     selfIntroduction: "",
     desiredDailyWage: "",
     skills: [],
-    experience: "",
-    phone: ""
+    history: "",
+    phone: "",
+    certificateImages: []
   });
 
-  // 간단한 프로필 정보 (이름만) - 사용자 정보에서 가져올 예정
-  const [profile, setProfile] = useState({
-    name: ""
-  });
 
   // 기술 선택 옵션들
   const skillOptions = [
@@ -74,31 +72,22 @@ function Resume() {
             selfIntroduction: latestResume.selfIntroduction || "",
             desiredDailyWage: latestResume.desiredDailyWage || "",
             skills: latestResume.skills ? (typeof latestResume.skills === 'string' ? JSON.parse(latestResume.skills) : latestResume.skills) : [],
-            experience: latestResume.experience || "",
-            phone: latestResume.phone || ""
+            history: latestResume.history ? latestResume.history.toString() : "",
+            phone: latestResume.phone || "",
+            certificateImages: latestResume.certificateImages ? (typeof latestResume.certificateImages === 'string' ? JSON.parse(latestResume.certificateImages) : latestResume.certificateImages) : []
           });
           
-          // 사용자 정보 설정
-          if (latestResume.user) {
-            setProfile({
-              name: latestResume.user.username || user.name || ""
-            });
-          } else {
-            setProfile({
-              name: user.name || ""
-            });
-          }
           
           console.log('[Resume] 기존 이력서 로드 완료:', latestResume);
+          
+          // 블록체인 경력 조회
+          loadBlockchainExperience();
         } else {
           // 이력서가 없으면 편집 모드로 시작
           setHasExistingResume(false);
           setEditMode(true);
           setIsCreatingNew(true);
           setCurrentResume(null);
-          setProfile({
-            name: user.name || ""
-          });
           console.log('[Resume] 기존 이력서 없음, 새로 작성 모드');
           console.log('[Resume] userResumes 상세:', JSON.stringify(userResumes, null, 2));
         }
@@ -109,9 +98,6 @@ function Resume() {
         setEditMode(true);
         setIsCreatingNew(true);
         setCurrentResume(null);
-        setProfile({
-          name: user.name || ""
-        });
       } finally {
         setLoading(false);
       }
@@ -120,31 +106,37 @@ function Resume() {
     loadExistingResume();
   }, [user]);
 
-  // 블록체인 경력 데이터 (API에서 가져올 데이터 시뮬레이션)
-  const [blockchainExperience] = useState([
-    {
-      docType: "experience",
-      jobPostingId: "1",
-      jobTitle: "서울 강남 현장 인력 급구",
-      workerId: "1",
-      employerId: "2",
-      workPeriod: "2024-01-01 ~ 2024-06-30",
-      timestamp: "2024-07-01T10:00:00.000Z"
-    },
-    {
-      docType: "experience",
-      jobPostingId: "2",
-      jobTitle: "부산 해운대 아파트 신축",
-      workerId: "1",
-      employerId: "3",
-      workPeriod: "2023-06-01 ~ 2023-12-31",
-      timestamp: "2024-01-01T10:00:00.000Z"
+  // 블록체인 경력 조회
+  const loadBlockchainExperience = async () => {
+    if (!user || !user.id) return;
+    
+    try {
+      setBlockchainLoading(true);
+      const experience = await resumeAPI.getBlockchainExperience(user.id);
+      console.log('[Resume] 블록체인 경력 조회 결과:', experience);
+      
+      // API 응답 구조에 따른 처리
+      let experienceData = experience;
+      if (experience && experience.data) {
+        experienceData = experience.data;
+      }
+      
+      setBlockchainExperience(Array.isArray(experienceData) ? experienceData : []);
+    } catch (error) {
+      console.error('[Resume] 블록체인 경력 조회 실패:', error);
+      setBlockchainExperience([]);
+    } finally {
+      setBlockchainLoading(false);
     }
-  ]);
-
-  const handleProfileChange = (e) => {
-    setProfile({ ...profile, [e.target.name]: e.target.value });
   };
+
+  // 블록체인 경력 데이터
+  const [blockchainExperience, setBlockchainExperience] = useState([]);
+  const [blockchainLoading, setBlockchainLoading] = useState(false);
+  
+  // 주소 팝업 상태
+  const [showAddressPopup, setShowAddressPopup] = useState(false);
+
 
   const handleResumeChange = (e) => {
     const { name, value } = e.target;
@@ -167,21 +159,114 @@ function Resume() {
     }
   };
 
-  // 새 이력서 작성 시작
-  const handleCreateNew = () => {
-    setIsCreatingNew(true);
-    setCurrentResume(null);
-    setEditMode(true);
-    // 빈 폼으로 초기화
-    setResumeData({
-      jobType: "",
-      region: "",
-      selfIntroduction: "",
-      desiredDailyWage: "",
-      skills: [],
-      experience: "",
-      phone: ""
-    });
+  // 자격증 이미지 첨부 핸들러
+  const handleCertificateImageUpload = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    try {
+      //모든 파일을 한 번에 FormData에 추가
+      const formData = new FormData();
+      files.forEach(file => {
+        formData.append('certificateImages', file);
+      });
+        
+      //api/upload/certificate-images 엔드포인트로 POST 요청
+      const response = await fetch('/api/upload/certificate-images', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData
+      });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || '이미지 업로드 실패');
+        }
+        
+      const result = await response.json();
+      console.log('업로드 응답', result); // 디버깅
+
+      const uploadedUrls = result.data?.imageUrls || [];
+
+      if (uploadedUrls.length === 0) {
+        throw new Error('업로드된 이미지 URL가 없습니다.');
+      }
+      
+      setResumeData(prev => ({
+        ...prev,
+        certificateImages: [...(prev.certificateImages || []), ...uploadedUrls]
+      }));
+      
+      alert(`${uploadedUrls.length}개 이미지가 업로드되었습니다.`);
+    } catch (error) {
+      console.error('자격증 이미지 업로드 실패:', error);
+      alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  // 자격증 이미지 삭제 핸들러
+  const handleCertificateImageRemove = (indexToRemove) => {
+    setResumeData(prev => ({
+      ...prev,
+      certificateImages: prev.certificateImages.filter((_, index) => index !== indexToRemove)
+    }));
+  };
+
+  // 주소 팝업 열기
+  const handleAddressPopupOpen = () => {
+    setShowAddressPopup(true);
+  };
+
+  // 주소 선택 핸들러
+  const handleAddressSelect = (addressData) => {
+    // 도로명주소 + 시군구 정보를 조합하여 희망 지역에 설정
+    const regionText = `${addressData.siNm} ${addressData.sggNm} ${addressData.emdNm}`;
+    setResumeData(prev => ({
+      ...prev,
+      region: regionText.trim()
+    }));
+    setShowAddressPopup(false);
+  };
+
+  // 주소 팝업 닫기
+  const handleAddressPopupClose = () => {
+    setShowAddressPopup(false);
+  };
+
+  // 기존 이력서 삭제
+  const handleDeleteResume = async () => {
+    if (!currentResume || !currentResume.id) {
+      alert('삭제할 이력서가 없습니다.');
+      return;
+    }
+    
+    const confirmDelete = window.confirm('정말로 이력서를 삭제하시겠습니까?\n삭제된 이력서는 복구할 수 없습니다.');
+    if (!confirmDelete) return;
+    
+    try {
+      await resumeAPI.deleteResume(currentResume.id);
+      
+      // 상태 초기화
+      setHasExistingResume(false);
+      setCurrentResume(null);
+      setEditMode(true);
+      setIsCreatingNew(true);
+      setResumeData({
+        jobType: "",
+        region: "",
+        selfIntroduction: "",
+        desiredDailyWage: "",
+        skills: [],
+        history: "",
+        phone: "",
+        certificateImages: []
+      });
+      
+      alert('이력서가 성공적으로 삭제되었습니다.');
+    } catch (error) {
+      console.error('이력서 삭제 실패:', error);
+      alert('이력서 삭제에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   // 기존 이력서 편집 시작
@@ -207,6 +292,9 @@ function Resume() {
       }
 
       // 백엔드 모델에 맞는 데이터 구조로 변환
+      const historyValue = resumeData.history && resumeData.history !== "" ? parseInt(resumeData.history, 10) || 0 : 0;
+      console.log('[Resume] history 변환:', resumeData.history, '->', historyValue, typeof historyValue);
+      
       const resumePayload = {
         userId: user.id,
         jobType: resumeData.jobType,
@@ -214,9 +302,9 @@ function Resume() {
         selfIntroduction: resumeData.selfIntroduction,
         desiredDailyWage: resumeData.desiredDailyWage,
         skills: resumeData.skills,
-        experience: resumeData.experience,
+        history: historyValue,
         phone: resumeData.phone,
-        certificateImages: null
+        certificateImages: resumeData.certificateImages
       };
 
       if (isCreatingNew || !currentResume) {
@@ -261,8 +349,9 @@ function Resume() {
           selfIntroduction: currentResume.selfIntroduction || "",
           desiredDailyWage: currentResume.desiredDailyWage || "",
           skills: currentResume.skills ? (typeof currentResume.skills === 'string' ? JSON.parse(currentResume.skills) : currentResume.skills) : [],
-          experience: currentResume.experience || "",
-          phone: currentResume.phone || ""
+          history: currentResume.history ? currentResume.history.toString() : "",
+          phone: currentResume.phone || "",
+          certificateImages: currentResume.certificateImages ? (typeof currentResume.certificateImages === 'string' ? JSON.parse(currentResume.certificateImages) : currentResume.certificateImages) : []
         });
       }
       setIsCreatingNew(false);
@@ -297,19 +386,6 @@ function Resume() {
         <span className="resume-header-title">
           {editMode ? (isCreatingNew ? '새 이력서 작성' : '이력서 편집') : '내 이력서'}
         </span>
-        <div className="resume-header-buttons">
-          {editMode ? (
-            <>
-              <button className="resume-cancel-btn" onClick={handleCancelEdit}>취소</button>
-              <button className="resume-save-btn" onClick={handleSaveResume}>저장</button>
-            </>
-          ) : hasExistingResume ? (
-            <>
-              <button className="resume-edit-btn" onClick={handleEditExisting}>편집</button>
-              <button className="resume-new-btn" onClick={handleCreateNew}>새로 작성</button>
-            </>
-          ) : null}
-        </div>
       </div>
 
       {/* 프로필 정보 */}
@@ -320,18 +396,7 @@ function Resume() {
         <div className="resume-form-grid">
           <div className="resume-form-item">
             <label className="resume-form-label">이름</label>
-            {editMode ? (
-              <input 
-                className="resume-form-input"
-                type="text"
-                name="name"
-                value={profile.name}
-                onChange={handleProfileChange}
-                placeholder="이름을 입력하세요"
-              />
-            ) : (
-              <div className="resume-form-value">{profile.name}</div>
-            )}
+            <div className="resume-form-value">{user?.username || ''}</div>
           </div>
           <div className="resume-form-item">
             <label className="resume-form-label">경력</label>
@@ -339,13 +404,13 @@ function Resume() {
               <input 
                 className="resume-form-input"
                 type="number"
-                name="experience"
-                value={resumeData.experience}
+                name="history"
+                value={resumeData.history}
                 onChange={handleResumeChange}
                 placeholder="경력 (년)"
               />
             ) : (
-              <div className="resume-form-value">{resumeData.experience}년</div>
+              <div className="resume-form-value">{resumeData.history}년</div>
             )}
           </div>
         </div>
@@ -379,14 +444,24 @@ function Resume() {
           <div className="resume-form-item">
             <label className="resume-form-label">희망 지역</label>
             {editMode ? (
-              <input 
-                className="resume-form-input"
-                type="text"
-                name="region"
-                value={resumeData.region}
-                onChange={handleResumeChange}
-                placeholder="희망 근무 지역"
-              />
+              <div className="resume-address-input-group">
+                <input 
+                  className="resume-form-input"
+                  type="text"
+                  name="region"
+                  value={resumeData.region}
+                  onChange={handleResumeChange}
+                  placeholder="희망 근무 지역"
+                  readOnly
+                />
+                <button
+                  type="button"
+                  className="resume-address-search-btn"
+                  onClick={handleAddressPopupOpen}
+                >
+                  주소 검색
+                </button>
+              </div>
             ) : (
               <div className="resume-form-value">{resumeData.region}</div>
             )}
@@ -465,23 +540,37 @@ function Resume() {
         <div className="resume-section-title">
           <span role="img" aria-label="경력">🔗</span> 블록체인 인증 경력
         </div>
-        {blockchainExperience.length > 0 ? (
+        {blockchainLoading ? (
+          <div className="resume-loading-experience">
+            블록체인 경력을 불러오는 중...
+          </div>
+        ) : blockchainExperience.length > 0 ? (
           <div className="resume-career-list">
             {blockchainExperience.map((exp, index) => (
               <div key={index} className="resume-career-item blockchain">
-                <div className="resume-career-title">{exp.jobTitle}</div>
+                <div className="resume-career-title">{exp.jobTitle || '작업 완료'}</div>
                 <div className="resume-career-meta">
-                  {exp.workPeriod} · 블록체인 인증
+                  {exp.workPeriod || `${exp.startDate} ~ ${exp.endDate}`} · 블록체인 인증
                 </div>
                 <div className="resume-career-timestamp">
-                  인증일: {new Date(exp.timestamp).toLocaleDateString('ko-KR')}
+                  인증일: {new Date(exp.timestamp || exp.createdAt).toLocaleDateString('ko-KR')}
                 </div>
+                {exp.employerName && (
+                  <div className="resume-career-employer">
+                    고용주: {exp.employerName}
+                  </div>
+                )}
               </div>
             ))}
           </div>
         ) : (
           <div className="resume-no-experience">
-            아직 블록체인에 기록된 경력이 없습니다.
+            <div className="resume-no-experience-icon">🔗</div>
+            <div className="resume-no-experience-title">블록체인 인증 경력이 없습니다</div>
+            <div className="resume-no-experience-desc">
+              일자리를 통해 근무를 완료하면<br />
+              블록체인에 자동으로 경력이 기록됩니다.
+            </div>
           </div>
         )}
       </div>
@@ -491,24 +580,73 @@ function Resume() {
         <div className="resume-section-title">
           <span role="img" aria-label="자격증">📝</span> 자격증 & 교육
         </div>
-        <div className="resume-cert-list">
-          <div className="resume-cert-item">
-            <span className="resume-cert-name">철근공 기능사</span>
-            <span className="resume-cert-date">2008.05</span>
+        {editMode ? (
+          <div className="resume-certificate-upload">
+            <div className="resume-certificate-upload-area">
+              <input
+                type="file"
+                id="certificate-upload"
+                multiple
+                accept="image/*"
+                onChange={handleCertificateImageUpload}
+                className="resume-certificate-input"
+              />
+              <label htmlFor="certificate-upload" className="resume-certificate-label">
+                <div className="resume-certificate-icon">📷</div>
+                <div className="resume-certificate-text">
+                  자격증 이미지를 첨부하세요
+                  <br />
+                  <small>여러 파일 선택 가능 (JPG, PNG)</small>
+                </div>
+              </label>
+            </div>
+            {resumeData.certificateImages.length > 0 && (
+              <div className="resume-certificate-list">
+                {resumeData.certificateImages.map((imageUrl, index) => (
+                  <div key={index} className="resume-certificate-item">
+                    <img 
+                      src={imageUrl} 
+                      alt={`자격증 ${index + 1}`}
+                      className="resume-certificate-image"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleCertificateImageRemove(index)}
+                      className="resume-certificate-remove"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-          <div className="resume-cert-item">
-            <span className="resume-cert-name">건설안전기사</span>
-            <span className="resume-cert-date">2012.11</span>
+        ) : (
+          <div className="resume-certificate-display">
+            {resumeData.certificateImages.length > 0 ? (
+              <div className="resume-certificate-gallery">
+                {resumeData.certificateImages.map((imageUrl, index) => (
+                  <div key={index} className="resume-certificate-item-display">
+                    <img 
+                      src={imageUrl} 
+                      alt={`자격증 ${index + 1}`}
+                      className="resume-certificate-image-display"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="resume-no-certificates">
+                <div className="resume-no-certificates-icon">📝</div>
+                <div className="resume-no-certificates-text">
+                  등록된 자격증이 없습니다
+                  <br />
+                  <small>편집 모드에서 자격증 이미지를 추가할 수 있습니다</small>
+                </div>
+              </div>
+            )}
           </div>
-          <div className="resume-cert-item">
-            <span className="resume-cert-name">크레인 운전기능사</span>
-            <span className="resume-cert-date">2015.03</span>
-          </div>
-          <div className="resume-cert-item">
-            <span className="resume-cert-name">산업안전보건교육 (40시간)</span>
-            <span className="resume-cert-date">2024.01</span>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* 연락처 */}
@@ -538,6 +676,29 @@ function Resume() {
           </div>
         </div>
       </div>
+
+      {/* 하단 액션 버튼들 */}
+      <div className="resume-action-buttons">
+        {editMode ? (
+          <>
+            <button className="resume-cancel-btn" onClick={handleCancelEdit}>취소</button>
+            <button className="resume-save-btn" onClick={handleSaveResume}>저장</button>
+          </>
+        ) : hasExistingResume ? (
+          <>
+            <button className="resume-edit-btn" onClick={handleEditExisting}>편집</button>
+            <button className="resume-delete-btn" onClick={handleDeleteResume}>삭제</button>
+          </>
+        ) : null}
+      </div>
+      
+      {/* 주소 팝업 */}
+      {showAddressPopup && (
+        <AddressPopup
+          onAddressSelect={handleAddressSelect}
+          onClose={handleAddressPopupClose}
+        />
+      )}
     </div>
   );
 }
