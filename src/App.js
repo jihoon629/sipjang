@@ -20,7 +20,6 @@ import JobPostCreatePage from "./pages/Employer/JobPostCreatePage";
 import JobPostEditPage from "./pages/Employer/JobPostEditPage"; 
 import Application from "./pages/Application/Application";
 
-import Support from "./pages/Support/Support";
 import JobApplicantsPage from "./pages/Employer/JobApplicantsPage";
 import ApplicantDetailPage from "./pages/Employer/ApplicantDetailPage";
 import PayrollPage from "./pages/Employer/PayrollPage";
@@ -52,8 +51,6 @@ function App() {
             <Route path="/job-create" element={<JobPostCreatePage />} />
             <Route path="/job-edit/:id" element={<JobPostEditPage />} />
             <Route path="/Application" element={<Application />} />
-
-            <Route path="/support" element={<Support />} />
             <Route path="/employer/job-applicants/:jobPostingId" element={<JobApplicantsPage />} />
             <Route path="/employer/applicant-details/:resumeId/:userId" element={<ApplicantDetailPage />} />
             <Route path="/employer/payroll" element={<PayrollPage />} />

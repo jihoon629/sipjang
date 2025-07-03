@@ -1,21 +1,22 @@
 
 import { useNavigate } from "react-router-dom";
 import "./MyPage.css";
-import { useState } from "react";
+import { useUser } from "../../contexts/UserContext"; // useUser 훅 임포트
 
 function MyPage() {
   const navigate = useNavigate();
-  const [logoutMsg, setLogoutMsg] = useState(false);
+  const { logoutUser } = useUser(); // logoutUser 함수 가져오기
 
   // 로그아웃 핸들러
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setLogoutMsg(true);
-    setTimeout(() => {
-      setLogoutMsg(false);
-      navigate('/login');
-      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-    }, 1000);
+  const handleLogout = async () => {
+    try {
+      await logoutUser(); // UserContext의 logoutUser 호출
+      alert("로그아웃되었습니다.");
+      // navigate('/login'); // 로그인 페이지로 이동
+    } catch (error) {
+      console.error("로그아웃 실패:", error);
+      alert("로그아웃 중 오류가 발생했습니다.");
+    }
   };
 
   const user = {
@@ -28,11 +29,6 @@ function MyPage() {
 
   return (
     <div className="mypage-page">
-      {logoutMsg && (
-        <div className="mypage-logout-msg" aria-live="polite">
-          로그아웃되었습니다
-        </div>
-      )}
       {/* ...existing code... */}
       <div className="mypage-header-bar">
         <button className="mypage-back-btn" onClick={() => navigate('/')} aria-label="뒤로가기">
