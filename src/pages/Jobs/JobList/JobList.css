@@ -114,7 +114,8 @@
   background: #fff;
   min-height: 100vh;
   font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
-  padding-bottom: 24px;
+  padding-bottom: 80px; /* 하단 네비/버튼 영역만큼 여백 확보 */
+  box-sizing: border-box;
 }
 
 .joblist-header {

@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 
-const API_URL = 'api/job-postings';
+const API_URL = '/api/job-postings';
 const apiClient = axios.create({
   withCredentials: true, // 쿠키 포함
 });
