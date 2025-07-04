@@ -4,7 +4,7 @@ import { apiClient } from './authService';
 // 내 지원 내역 조회
 export const getMyApplications = async () => {
   try {
-    const response = await apiClient.get('/ /my');
+    const response = await apiClient.get('/applications/my');
     return response.data;
   } catch (error) {
     console.error('Error fetching my applications:', error);
