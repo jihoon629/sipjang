@@ -115,3 +115,14 @@ export const recordPaymentsForAll = async (jobPostingId, paymentDate) => {
     throw error;
   }
 };
+
+// 거리 기반 구인공고 검색
+export const searchJobPostingsByDistance = async (lat, lon, dist) => {
+  try {
+    const response = await apiClient.get(`${API_URL}/search/distance?lat=${lat}&lon=${lon}&dist=${dist}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error searching job postings by distance:`, error);
+    throw error;
+  }
+};
