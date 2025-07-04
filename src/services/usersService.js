@@ -11,3 +11,14 @@ export const getUserExperience = async (id) => {
     throw error;
   }
 };
+
+// 사용자 정보 업데이트
+export const updateUser = async (id, userData) => {
+  try {
+    const response = await apiClient.put(`/users/${id}`, userData);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating user ${id}:`, error);
+    throw error;
+  }
+};

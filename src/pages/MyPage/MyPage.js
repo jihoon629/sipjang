@@ -2,10 +2,15 @@
 import { useNavigate } from "react-router-dom";
 import "./MyPage.css";
 import { useUser } from "../../contexts/UserContext"; // useUser 훅 임포트
+import { useState, useEffect } from "react";
+import { resumeAPI } from "../../services/resumesService";
+import { getMyApplications } from "../../services/applicationsService";
 
 function MyPage() {
   const navigate = useNavigate();
-  const { logoutUser } = useUser(); // logoutUser 함수 가져오기
+  const { user, logoutUser } = useUser(); // user 정보도 가져오기
+  const [userResume, setUserResume] = useState(null);
+  const [completedApplicationsCount, setCompletedApplicationsCount] = useState(0);
 
   // 로그아웃 핸들러
   const handleLogout = async () => {
@@ -19,13 +24,97 @@ function MyPage() {
     }
   };
 
-  const user = {
-    name: "김철수",
-    desc: "철근공 · 15년 경력",
-    rating: 4.8,
-    done: 127,
-    income: "2,450만",
+  // 사용자 이력서 정보 가져오기
+  useEffect(() => {
+    const fetchUserResume = async () => {
+      if (!user || !user.id) {
+        return;
+      }
+
+      try {
+        const userResumes = await resumeAPI.getUserResumes(user.id);
+        let resumes = userResumes;
+        
+        // 응답 구조에 따른 처리
+        if (userResumes && userResumes.data && userResumes.data.resumes) {
+          resumes = userResumes.data.resumes;
+        } else if (userResumes && userResumes.data) {
+          resumes = userResumes.data;
+        }
+        
+        if (resumes && resumes.length > 0) {
+          setUserResume(resumes[0]); // 가장 최근 이력서 사용
+        }
+      } catch (error) {
+        console.error('이력서 정보 가져오기 실패:', error);
+      }
+    };
+
+    fetchUserResume();
+  }, [user]);
+
+  // 완료된 지원 내역 카운트 가져오기
+  useEffect(() => {
+    const fetchCompletedApplications = async () => {
+      if (!user || !user.id) {
+        return;
+      }
+
+      try {
+        const applications = await getMyApplications();
+        
+        let applicationsData = [];
+        
+        // 다양한 응답 구조에 대한 처리
+        if (Array.isArray(applications)) {
+          applicationsData = applications;
+        } else if (applications && Array.isArray(applications.data)) {
+          applicationsData = applications.data;
+        } else if (applications && applications.data && Array.isArray(applications.data.applications)) {
+          applicationsData = applications.data.applications;
+        } else if (applications && Array.isArray(applications.applications)) {
+          applicationsData = applications.applications;
+        }
+        
+        // applicationsData가 배열인지 확인
+        if (!Array.isArray(applicationsData)) {
+          setCompletedApplicationsCount(0);
+          return;
+        }
+        
+        // 해당 유저의 지원 내역 중 status가 'completed'인 항목만 카운트
+        const completedCount = applicationsData.filter(app => 
+          app.applicantId === user.id && app.status === 'completed'
+        ).length;
+        
+        setCompletedApplicationsCount(completedCount);
+      } catch (error) {
+        console.error('완료된 지원 내역 가져오기 실패:', error);
+        setCompletedApplicationsCount(0);
+      }
+    };
+
+    fetchCompletedApplications();
+  }, [user]);
+
+  // 기본 사용자 정보 (이력서가 없을 때)
+  const defaultUser = {
+    name: "사용자",
+    desc: "이력서를 작성해주세요",
+    rating: 0,
+    done: 0,
+    income: "0",
   };
+
+  // 실제 사용자 정보 생성
+  const displayUser = userResume ? {
+    name: user?.username || userResume.name || "사용자",
+    desc: `${userResume.jobType || "직종 미입력"} · ${userResume.history || 0}년 경력`,
+    rating: 4.8, // 기본값
+    done: completedApplicationsCount, // 실제 완료된 작업 수
+    income: "2,450만", // 기본값 (추후 실제 데이터로 교체)
+  } : defaultUser;
+
 
   return (
     <div className="mypage-page">
@@ -45,14 +134,14 @@ function MyPage() {
             <img src={require("../../assets/123.jpg")} alt="프로필" />
           </div>
           <div className="mypage-profile-info">
-            <div className="mypage-profile-name">{user.name}</div>
-            <div className="mypage-profile-desc">{user.desc}</div>
+            <div className="mypage-profile-name">{displayUser.name}</div>
+            <div className="mypage-profile-desc">{displayUser.desc}</div>
             <div className="mypage-profile-rating-row">
               <span className="mypage-profile-rating">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight:2}}>
                   <path d="M8 1.5l2.09 4.26 4.66.68-3.38 3.29.8 4.65L8 12.77l-4.17 2.19.8-4.65L1.25 6.44l4.66-.68L8 1.5z" fill="#FFD600" stroke="#FFD600" strokeWidth="1"/>
                 </svg>
-                <span className="mypage-profile-score">{user.rating}</span>
+                <span className="mypage-profile-score">{displayUser.rating}</span>
               </span>
               <span className="mypage-profile-badge">인증 완료</span>
             </div>
@@ -63,11 +152,11 @@ function MyPage() {
       {/* ...existing code... */}
       <div className="mypage-stats-row">
         <div className="mypage-stat-box">
-          <span className="mypage-stat-value blue">{user.done}</span>
+          <span className="mypage-stat-value blue">{displayUser.done}</span>
           <span className="mypage-stat-label">완료한 작업</span>
         </div>
         <div className="mypage-stat-box">
-          <span className="mypage-stat-value green">₩{user.income}</span>
+          <span className="mypage-stat-value green">₩{displayUser.income}</span>
           <span className="mypage-stat-label">총 수입</span>
         </div>
       </div>
