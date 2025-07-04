@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { resumeAPI } from "../../services/resumesService";
 import { useUser } from "../../contexts/UserContext";
+import { updateUser } from "../../services/usersService";
 import AddressPopup from "../../components/AddressPopup/AddressPopup";
 
 function Resume() {
   const navigate = useNavigate();
-  const { user } = useUser();
+  const { user, fetchUser } = useUser();
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
   const [hasExistingResume, setHasExistingResume] = useState(false);
@@ -27,6 +28,19 @@ function Resume() {
     phone: "",
     certificateImages: []
   });
+
+  // 사용자 정보가 로드되면 이름 초기화 (최초 한 번만)
+  const [nameInitialized, setNameInitialized] = useState(false);
+  
+  useEffect(() => {
+    if (user && user.username && resumeData.name === "" && !nameInitialized) {
+      setResumeData(prev => ({
+        ...prev,
+        name: user.username
+      }));
+      setNameInitialized(true);
+    }
+  }, [user, resumeData.name, nameInitialized]);
 
 
   // 기술 선택 옵션들
@@ -68,7 +82,7 @@ function Resume() {
           
           // 백엔드 데이터를 프론트엔드 형식으로 변환
           setResumeData({
-            name: latestResume.name || "",
+            name: latestResume.name || user?.username || "",
             jobType: latestResume.jobType || "",
             region: latestResume.region || "",
             selfIntroduction: latestResume.selfIntroduction || "",
@@ -78,6 +92,7 @@ function Resume() {
             phone: latestResume.phone || "",
             certificateImages: latestResume.certificateImages ? (typeof latestResume.certificateImages === 'string' ? JSON.parse(latestResume.certificateImages) : latestResume.certificateImages) : []
           });
+          setNameInitialized(true); // 이력서 로드 시에도 초기화 완료로 표시
           
           
           console.log('[Resume] 기존 이력서 로드 완료:', latestResume);
@@ -90,6 +105,7 @@ function Resume() {
           setEditMode(true);
           setIsCreatingNew(true);
           setCurrentResume(null);
+          setNameInitialized(false); // 새로 작성 시에는 이름 초기화 허용
           console.log('[Resume] 기존 이력서 없음, 새로 작성 모드');
           console.log('[Resume] userResumes 상세:', JSON.stringify(userResumes, null, 2));
         }
@@ -100,6 +116,7 @@ function Resume() {
         setEditMode(true);
         setIsCreatingNew(true);
         setCurrentResume(null);
+        setNameInitialized(false); // 에러 시에도 이름 초기화 허용
       } finally {
         setLoading(false);
       }
@@ -326,6 +343,34 @@ function Resume() {
         phone: resumeData.phone,
         certificateImages: resumeData.certificateImages
       };
+
+      // 이름이 변경된 경우 사용자 정보도 업데이트
+      console.log('[Resume] 이름 변경 확인:', { 
+        resumeName: resumeData.name, 
+        userUsername: user.username, 
+        isChanged: resumeData.name !== user.username 
+      });
+      
+      if (resumeData.name !== user.username) {
+        try {
+          console.log('[Resume] 사용자 이름 업데이트 시도:', { 
+            userId: user.id, 
+            oldUsername: user.username, 
+            newUsername: resumeData.name 
+          });
+          
+          const updateResult = await updateUser(user.id, { username: resumeData.name });
+          console.log('[Resume] 사용자 이름 업데이트 API 응답:', updateResult);
+          
+          // 사용자 정보 새로고침
+          await fetchUser();
+          console.log('[Resume] 사용자 이름 업데이트 완료:', resumeData.name);
+        } catch (error) {
+          console.error('사용자 이름 업데이트 실패:', error);
+          console.error('에러 상세:', error.response?.data || error.message);
+          // 사용자 정보 업데이트 실패해도 이력서 저장은 계속 진행
+        }
+      }
 
       if (isCreatingNew || !currentResume) {
         // 새 이력서 생성
