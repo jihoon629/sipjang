@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MyPage.css";
-import { useUser } from "../../contexts/UserContext"; // useUser 훅 임포트
-import { useState, useEffect } from "react";
-import { resumeAPI } from "../../services/resumesService";
+import { useUser } from "../../contexts/UserContext";
+import { getUserResumes } from "../../services/resumesService"; // 올바른 함수명으로 import
 import { getMyApplications } from "../../services/applicationsService";
 
 function MyPage() {
   const navigate = useNavigate();
-  const { user, logoutUser } = useUser(); // user 정보도 가져오기
+  const { user, logoutUser } = useUser();
   const [userResume, setUserResume] = useState(null);
   const [completedApplicationsCount, setCompletedApplicationsCount] = useState(0);
 
@@ -16,31 +15,23 @@ function MyPage() {
     try {
       await logoutUser();
       alert("로그아웃되었습니다.");
+      navigate("/"); // 로그아웃 후 홈으로 이동
     } catch (error) {
       console.error("로그아웃 실패:", error);
       alert("로그아웃 중 오류가 발생했습니다.");
     }
   };
 
-  // 사용자 이력서 정보 가져오기
   useEffect(() => {
-    const fetchUserResume = async () => {
-      if (!user || !user.id) {
-        return;
-      }
+    if (!user || !user.id) return;
 
+    // 사용자 이력서 정보 가져오기
+    const fetchUserResume = async () => {
       try {
-        const userResumes = await resumeAPI.getUserResumes(user.id);
-        let resumes = userResumes;
-        
-        // 응답 구조에 따른 처리
-        if (userResumes && userResumes.data && userResumes.data.resumes) {
-          resumes = userResumes.data.resumes;
-        } else if (userResumes && userResumes.data) {
-          resumes = userResumes.data;
-        }
-        
-        if (resumes && resumes.length > 0) {
+        const response = await getUserResumes(user.id);
+        // API 응답 구조를 response.data.resumes��� 가정하고 안전하게 접근
+        const resumes = response?.data?.resumes || [];
+        if (resumes.length > 0) {
           setUserResume(resumes[0]); // 가장 최근 이력서 사용
         }
       } catch (error) {
@@ -48,42 +39,15 @@ function MyPage() {
       }
     };
 
-    fetchUserResume();
-  }, [user]);
-
-  // 완료된 지원 내역 카운트 가져오기
-  useEffect(() => {
+    // 완료된 지원 내역 카운트 가져오기
     const fetchCompletedApplications = async () => {
-      if (!user || !user.id) {
-        return;
-      }
-
       try {
-        const applications = await getMyApplications();
+        const response = await getMyApplications();
+        // API 응답 구조를 response.data.applications로 가정하고 안전하게 접근
+        const applications = response?.data?.applications || [];
         
-        let applicationsData = [];
-        
-        // 다양한 응답 구조에 대한 처리
-        if (Array.isArray(applications)) {
-          applicationsData = applications;
-        } else if (applications && Array.isArray(applications.data)) {
-          applicationsData = applications.data;
-        } else if (applications && applications.data && Array.isArray(applications.data.applications)) {
-          applicationsData = applications.data.applications;
-        } else if (applications && Array.isArray(applications.applications)) {
-          applicationsData = applications.applications;
-        }
-        
-        // applicationsData가 배열인지 확인
-        if (!Array.isArray(applicationsData)) {
-          setCompletedApplicationsCount(0);
-          return;
-        }
-        
-        // 해당 유저의 지원 내역 중 status가 'completed'인 항목만 카운트
-        const completedCount = applicationsData.filter(app => 
-          app.applicantId === user.id && app.status === 'completed'
-        ).length;
+        // status가 'completed'인 항목만 카운트 (사용자 ID 필터링은 불필요)
+        const completedCount = applications.filter(app => app.status === 'completed').length;
         
         setCompletedApplicationsCount(completedCount);
       } catch (error) {
@@ -92,12 +56,13 @@ function MyPage() {
       }
     };
 
+    fetchUserResume();
     fetchCompletedApplications();
   }, [user]);
 
   // 기본 사용자 정보 (이력서가 없을 때)
   const defaultUser = {
-    name: "사용자",
+    name: user?.username || "사용자",
     desc: "이력서를 작성해주세요",
     rating: 0,
     done: 0,
@@ -120,7 +85,7 @@ function MyPage() {
       <div className="mypage-profile-card">
         <div className="mypage-profile-row">
           <div className="mypage-profile-img">
-            <div className="mypage-avatar-fallback">🙂</div>
+            <div className="mypage-avatar-fallback"></div>
           </div>
           <div className="mypage-profile-info">
             <div className="mypage-profile-name">{displayUser.name}</div>
