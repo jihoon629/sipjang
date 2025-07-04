@@ -1,0 +1,122 @@
+.service-icons-section {
+  margin-bottom: 32px;
+}
+.service-icons-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.service-icons-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px 0;
+  justify-items: center;
+  margin-bottom: 16px;
+}
+.service-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.service-icon-circle {
+  width: 60px;
+  height: 60px;
+  background: #fff;
+  border: 1.5px solid #eee;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  box-shadow: 0 2px 8px #e74c3c11;
+}
+.service-icon-label {
+  font-size: 0.98rem;
+  color: #222;
+}
+.service-notice-section {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 18px 0 10px 0;
+  margin-bottom: 18px;
+}
+.service-notice-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.service-notice-content {
+  color: #666;
+  font-size: 0.98rem;
+}
+.service-contact-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.service-contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.05rem;
+  padding: 8px 0;
+}
+.service-contact-label {
+  color: #222;
+  font-weight: 500;
+}
+.service-contact-phone {
+  color: #e74c3c;
+  font-weight: 600;
+  font-size: 1.08rem;
+}
+
+.service-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 32px 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px #2563eb22;
+}
+.service-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #5a7cff 0%, #e18a3a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+.service-section {
+  margin-bottom: 32px;
+}
+.service-section h2 {
+  font-size: 1.2rem;
+  color: #2563eb;
+  margin-bottom: 12px;
+}
+.service-faq-list, .service-notice-list {
+  list-style: disc inside;
+  padding-left: 12px;
+  color: #333;
+  margin-bottom: 0;
+}
+.service-contact {
+  background: #f4f8ff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 8px;
+  color: #222;
+  font-size: 1rem;
+}
+.service-contact div {
+  margin-bottom: 4px;
+}
