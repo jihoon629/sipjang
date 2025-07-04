@@ -41,9 +41,11 @@ function JobList() {
     }
   };
 
-  // 필터 버튼 목록
+  // 필터/즐겨찾기 버튼 목록
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const filters = [
     { key: "filter", label: "필터", icon: <FilterIcon style={{marginRight:6}} size={20}/> },
+    { key: "favorite", label: "즐겨찾기", icon: <span style={{color: showFavoritesOnly ? '#2563eb' : '#ccc', fontSize: 20, marginRight: 6}}>{showFavoritesOnly ? '★' : '☆'}</span> }
   ];
 
   useEffect(() => {
@@ -62,6 +64,9 @@ function JobList() {
 
   // 클라이언트 사이드 필터링 로직
   let filteredJobs = jobs;
+  if (showFavoritesOnly) {
+    filteredJobs = filteredJobs.filter((job) => isFavorited(job.id));
+  }
   if (filterValues["직종"] && filterValues["직종"].length > 0) {
     // "기타"가 선택된 경우: 일반인부, 기능공에 속하지 않는 직종만 필터링
     if (filterValues["직종"].includes("기타")) {
@@ -130,12 +135,15 @@ function JobList() {
   }
   if (search.trim() !== "") {
     const q = search.trim().toLowerCase();
-    filteredJobs = filteredJobs.filter(
-      (job) =>
+    filteredJobs = filteredJobs.filter((job) => {
+      return (
         job.title?.toLowerCase().includes(q) ||
+        job.description?.toLowerCase().includes(q) ||
+        job.jobType?.toLowerCase().includes(q) ||
         job.region?.toLowerCase().includes(q) ||
         job.user?.username?.toLowerCase().includes(q)
-    );
+      );
+    });
   }
 
   // 즐겨찾기 우선 정렬
@@ -169,17 +177,21 @@ function JobList() {
         />
       </div>
       <div className="joblist-filters">
-        {filters.map((f) => (
-          <button
-            key={f.key || f.label}
-            className={`joblist-filter`}
-            onClick={() => setFilterModalOpen(true)}
-            style={{fontWeight:700, boxShadow:'0 2px 8px #4666e41a', border:'1.5px solid #e5e7eb', background:'#fff'}}
-          >
-            {f.icon}
-            {f.label}
-          </button>
-        ))}
+        <button
+          className="joblist-filter"
+          onClick={() => setFilterModalOpen(true)}
+          style={{fontWeight:700, boxShadow:'0 2px 8px #4666e41a', border:'1.5px solid #e5e7eb', background:'#fff'}}
+        >
+          <FilterIcon style={{marginRight:6}} size={20}/>
+          필터
+        </button>
+        <button
+          className="joblist-filter"
+          onClick={() => setShowFavoritesOnly((prev) => !prev)}
+          style={{fontWeight:700, boxShadow:'0 2px 8px #4666e41a', border:'1.5px solid #e5e7eb', background:'#fff', marginLeft:8, color: showFavoritesOnly ? '#2563eb' : '#222'}}
+        >
+          즐겨찾기
+        </button>
       </div>
       <FilterModal
         open={filterModalOpen}
