@@ -4,11 +4,13 @@ import JobCard from "../../components/JobCard/JobCard";
 import "./HomePage.css";
 import { useUser } from "../../contexts/UserContext";
 import { getJobPostings } from "../../services/jobPostingsService";
+import { getMyApplications } from "../../services/applicationsService";
 
 function HomePage() {
   const navigate = useNavigate();
   const { user, fetchUser } = useUser();
   const [jobs, setJobs] = useState([]);
+  const [completedApplicationsCount, setCompletedApplicationsCount] = useState(0);
 
   useEffect(() => {
     if (!user) fetchUser();
@@ -26,8 +28,37 @@ function HomePage() {
     fetchJobs();
   }, [user, fetchUser]);
 
+  // 완료된 지원 내역 카운트 가져오기
+  useEffect(() => {
+    const fetchCompletedApplications = async () => {
+      if (!user || !user.id) {
+        return;
+      }
+
+      try {
+        const response = await getMyApplications();
+        // API 응답 구조를 response.data.applications로 가정하고 안전하게 접근
+        const applications = response?.data?.applications || [];
+        
+        // status가 'completed'인 항목만 카운트 (사용자 ID 필터링은 불필요)
+        const completedCount = applications.filter(app => app.status === 'completed').length;
+        
+        setCompletedApplicationsCount(completedCount);
+      } catch (error) {
+        console.error('완료된 지원 내역 가져오기 실패:', error);
+        setCompletedApplicationsCount(0);
+      }
+    };
+
+    fetchCompletedApplications();
+  }, [user]);
+
   const isEmployer = user?.role === "employer";
-  const stats = { done: 12, rating: 4.8, trust: 98 };
+  const stats = { 
+    done: completedApplicationsCount, // 실제 완료된 작업 수
+    rating: 4.8, 
+    trust: 98 
+  };
 
   return (
     <div className="home-page">
