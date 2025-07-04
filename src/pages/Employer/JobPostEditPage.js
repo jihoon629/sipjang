@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useUser } from "../../contexts/UserContext";
+import AddressPopup from "../../components/AddressPopup/AddressPopup";
 import "./JobPostCreatePage.css";
 
 function JobPostEditPage() {
@@ -21,6 +22,7 @@ function JobPostEditPage() {
         workEndHour: "18:00",
         contactInfo: "",
     });
+    const [showAddressPopup, setShowAddressPopup] = useState(false);
 
     const hours = Array.from({ length: 24 }, (_, i) => `${i.toString().padStart(2, '0')}:00`);
 
@@ -28,7 +30,7 @@ function JobPostEditPage() {
         const fetchJobPosting = async () => {
             try {
                 const response = await axios.get(`/api/job-postings/${id}`);
-                const data = response.data.data; // ✅ 수정된 부분
+                const data = response.data.data;
                 const [startHour, endHour] = data.workHours?.split("-") || ["09:00", "18:00"];
                 setForm({
                     title: data.title,
@@ -53,6 +55,15 @@ function JobPostEditPage() {
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const handleAddressSelect = (addressData) => {
+        const regionText = addressData.roadFullAddr || addressData.jibunAddr;
+        setForm(prev => ({
+            ...prev,
+            region: regionText.trim()
+        }));
+        setShowAddressPopup(false);
     };
 
     const handleSubmit = async () => {
@@ -99,7 +110,22 @@ function JobPostEditPage() {
                 </div>
                 <div className="form-field">
                     <label>지역</label>
-                    <input name="region" value={form.region} onChange={handleChange} />
+                    <div className="resume-address-input-group">
+                        <input
+                            name="region"
+                            value={form.region}
+                            onChange={handleChange}
+                            readOnly
+                            placeholder="주소 검색 버튼을 클릭하세요"
+                        />
+                        <button
+                            type="button"
+                            className="resume-address-search-btn"
+                            onClick={() => setShowAddressPopup(true)}
+                        >
+                            주소 검색
+                        </button>
+                    </div>
                 </div>
                 <div className="form-field">
                     <label>연락처</label>
@@ -144,6 +170,12 @@ function JobPostEditPage() {
                 </div>
             </div>
             <button className="submit-btn" onClick={handleSubmit}>수정 완료</button>
+            {showAddressPopup && (
+                <AddressPopup
+                    onAddressSelect={handleAddressSelect}
+                    onClose={() => setShowAddressPopup(false)}
+                />
+            )}
         </div>
     );
 }

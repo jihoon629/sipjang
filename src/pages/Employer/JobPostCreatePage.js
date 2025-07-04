@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUser } from "../../contexts/UserContext";
+import AddressPopup from "../../components/AddressPopup/AddressPopup";
 import "./JobPostCreatePage.css";
 
 function JobPostCreatePage() {
@@ -20,11 +21,21 @@ function JobPostCreatePage() {
         workEndHour: "18:00",
         contactInfo: "",
     });
+    const [showAddressPopup, setShowAddressPopup] = useState(false);
 
     const hours = Array.from({ length: 24 }, (_, i) => `${i.toString().padStart(2, '0')}:00`);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const handleAddressSelect = (addressData) => {
+        const regionText = addressData.roadFullAddr || addressData.jibunAddr;
+        setForm(prev => ({
+            ...prev,
+            region: regionText.trim()
+        }));
+        setShowAddressPopup(false);
     };
 
     const handleSubmit = async () => {
@@ -71,7 +82,22 @@ function JobPostCreatePage() {
                 </div>
                 <div className="form-field">
                     <label>지역</label>
-                    <input name="region" value={form.region} onChange={handleChange} />
+                    <div className="resume-address-input-group">
+                        <input
+                            name="region"
+                            value={form.region}
+                            onChange={handleChange}
+                            readOnly
+                            placeholder="주소 검색 버튼을 클릭하세요"
+                        />
+                        <button
+                            type="button"
+                            className="resume-address-search-btn"
+                            onClick={() => setShowAddressPopup(true)}
+                        >
+                            주소 검색
+                        </button>
+                    </div>
                 </div>
                 <div className="form-field">
                     <label>연락처</label>
@@ -116,6 +142,12 @@ function JobPostCreatePage() {
                 </div>
             </div>
             <button className="submit-btn" onClick={handleSubmit}>등록 완료</button>
+            {showAddressPopup && (
+                <AddressPopup
+                    onAddressSelect={handleAddressSelect}
+                    onClose={() => setShowAddressPopup(false)}
+                />
+            )}
         </div>
     );
 }
