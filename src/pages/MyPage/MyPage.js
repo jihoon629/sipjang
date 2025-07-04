@@ -1,58 +1,80 @@
-
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MyPage.css";
-import { useUser } from "../../contexts/UserContext"; // useUser 훅 임포트
+import { useUser } from "../../contexts/UserContext";
+import { getMyApplications, getMySalaries } from "../../services/applicationsService";
 
 function MyPage() {
   const navigate = useNavigate();
-  const { logoutUser } = useUser(); // logoutUser 함수 가져오기
+  const { user, logoutUser } = useUser();  // ✅ context에서 user 사용
+  const [doneCount, setDoneCount] = useState(0);
+  const [totalIncome, setTotalIncome] = useState(0);
 
-  // 로그아웃 핸들러
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const [applications, salaries] = await Promise.all([
+          getMyApplications(),
+          getMySalaries(),
+        ]);
+
+        const apps = Array.isArray(applications)
+          ? applications
+          : Array.isArray(applications.data)
+            ? applications.data
+            : Array.isArray(applications.data?.applications)
+              ? applications.data.applications
+              : [];
+
+        const pays = Array.isArray(salaries?.data?.applications)
+          ? salaries.data.applications
+          : [];
+
+        const completed = apps.filter((a) => a.status === "completed").length;
+        const total = pays.reduce((acc, cur) => {
+          const amount = parseInt(cur.paymentAmount?.toString().replace(/[^\d]/g, ""), 10) || 0;
+          return acc + amount;
+        }, 0);
+
+        setDoneCount(completed);
+        setTotalIncome(total);
+      } catch (e) {
+        console.error("마이페이지 통계 로딩 실패", e);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
   const handleLogout = async () => {
     try {
-      await logoutUser(); // UserContext의 logoutUser 호출
+      await logoutUser();
       alert("로그아웃되었습니다.");
-      // navigate('/login'); // 로그인 페이지로 이동
     } catch (error) {
       console.error("로그아웃 실패:", error);
       alert("로그아웃 중 오류가 발생했습니다.");
     }
   };
 
-  const user = {
-    name: "김철수",
-    desc: "철근공 · 15년 경력",
-    rating: 4.8,
-    done: 127,
-    income: "2,450만",
-  };
-
   return (
     <div className="mypage-page">
-      {/* ...existing code... */}
-      <div className="mypage-header-bar">
-        <button className="mypage-back-btn" onClick={() => navigate('/')} aria-label="뒤로가기">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M15 19l-7-7 7-7" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        <span className="mypage-header-title">마이페이지</span>
-      </div>
-      {/* ...existing code... */}
+      {/* 프로필 카드 */}
       <div className="mypage-profile-card">
         <div className="mypage-profile-row">
           <div className="mypage-profile-img">
-            <img src={require("../../assets/123.jpg")} alt="프로필" />
+            <div className="mypage-avatar-fallback">🙂</div>
           </div>
           <div className="mypage-profile-info">
-            <div className="mypage-profile-name">{user.name}</div>
-            <div className="mypage-profile-desc">{user.desc}</div>
+            <div className="mypage-profile-name">{user?.username || "이름 없음"}</div>
+            <div className="mypage-profile-desc">
+              {user?.job || "직종 미등록"} · {user?.experience_years ?? 0}년 경력
+            </div>
             <div className="mypage-profile-rating-row">
               <span className="mypage-profile-rating">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight:2}}>
-                  <path d="M8 1.5l2.09 4.26 4.66.68-3.38 3.29.8 4.65L8 12.77l-4.17 2.19.8-4.65L1.25 6.44l4.66-.68L8 1.5z" fill="#FFD600" stroke="#FFD600" strokeWidth="1"/>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ marginRight: 2 }}>
+                  <path d="M8 1.5l2.09 4.26 4.66.68-3.38 3.29.8 4.65L8 12.77l-4.17 2.19.8-4.65L1.25 6.44l4.66-.68L8 1.5z" fill="#FFD600" stroke="#FFD600" strokeWidth="1" />
                 </svg>
-                <span className="mypage-profile-score">{user.rating}</span>
+                <span className="mypage-profile-score">{user?.rating?.toFixed(1) ?? "N/A"}</span>
               </span>
               <span className="mypage-profile-badge">인증 완료</span>
             </div>
@@ -60,20 +82,20 @@ function MyPage() {
           <button className="mypage-profile-edit">편집</button>
         </div>
       </div>
-      {/* ...existing code... */}
+
       <div className="mypage-stats-row">
         <div className="mypage-stat-box">
-          <span className="mypage-stat-value blue">{user.done}</span>
+          <span className="mypage-stat-value blue">{doneCount}</span>
           <span className="mypage-stat-label">완료한 작업</span>
         </div>
         <div className="mypage-stat-box">
-          <span className="mypage-stat-value green">₩{user.income}</span>
+          <span className="mypage-stat-value green">₩{totalIncome.toLocaleString()}</span>
           <span className="mypage-stat-label">총 수입</span>
         </div>
       </div>
-      {/* ...existing code... */}
+
       <div className="mypage-menu-list">
-        <div className="mypage-menu-item" onClick={() => navigate('/resume')} tabIndex={0} role="button" aria-label="내 이력서 바로가기">
+        <div className="mypage-menu-item" onClick={() => navigate('/resume')} tabIndex={0} role="button">
           <span className="mypage-menu-icon" style={{ background: "#E6F0FF" }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" fill="#E6F0FF" />
@@ -86,7 +108,8 @@ function MyPage() {
           </div>
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
-        <div className="mypage-menu-item" onClick={() => navigate('/payroll')} tabIndex={0} role="button" aria-label="급여 관리 바로가기">
+
+        <div className="mypage-menu-item" onClick={() => navigate('/payroll')}>
           <span className="mypage-menu-icon" style={{ background: "#E6FCEF" }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" fill="#E6FCEF" />
@@ -99,7 +122,8 @@ function MyPage() {
           </div>
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
-        <div className="mypage-menu-item" onClick={() => navigate('/resume?tab=certificate')} tabIndex={0} role="button" aria-label="신원 인증 바로가기">
+
+        <div className="mypage-menu-item" onClick={() => navigate('/resume?tab=certificate')}>
           <span className="mypage-menu-icon" style={{ background: "#F3EEFF" }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" fill="#F3EEFF" />
@@ -113,7 +137,8 @@ function MyPage() {
           </div>
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
-        <div className="mypage-menu-item" onClick={() => navigate('/resume?tab=review')} tabIndex={0} role="button" aria-label="평가 관리 바로가기">
+
+        <div className="mypage-menu-item" onClick={() => navigate('/resume?tab=review')}>
           <span className="mypage-menu-icon" style={{ background: "#FFF4E6" }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" fill="#FFF4E6" />
@@ -126,7 +151,8 @@ function MyPage() {
           </div>
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
-        <div className="mypage-menu-item" onClick={() => navigate('/resume?tab=alarm')} tabIndex={0} role="button" aria-label="알림 설정 바로가기">
+
+        <div className="mypage-menu-item" onClick={() => navigate('/resume?tab=alarm')}>
           <span className="mypage-menu-icon" style={{ background: "#F7F7F7" }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" fill="#F7F7F7" />
@@ -139,7 +165,8 @@ function MyPage() {
           </div>
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
-        <div className="mypage-menu-item" onClick={() => navigate('/support')} tabIndex={0} role="button" aria-label="고객센터 바로가기">
+
+        <div className="mypage-menu-item" onClick={() => navigate('/support')}>
           <span className="mypage-menu-icon" style={{ background: "#FFEAEA" }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" fill="#FFEAEA" />
@@ -153,6 +180,7 @@ function MyPage() {
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
       </div>
+
       <button className="mypage-logout-btn" onClick={handleLogout}>로그아웃</button>
     </div>
   );
