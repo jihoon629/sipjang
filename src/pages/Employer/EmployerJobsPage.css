@@ -86,8 +86,17 @@
 
 .job-footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-end;
+    /* 오른쪽 정렬 */
+    padding-top: 8px;
+}
+
+.job-footer-button-group {
+    display: flex;
+    flex-direction: row;
+    /* 버튼을 가로로 눕힘 */
+    gap: 10px;
+    /* 버튼 사이 간격 */
 }
 
 .job-duration {
