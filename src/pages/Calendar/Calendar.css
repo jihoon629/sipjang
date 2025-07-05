@@ -233,6 +233,19 @@
   background: #f8f5d6;
   color: #bfae2a;
 }
+
+.calendar-monthly-income {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 16px 0 8px;
+  text-align: right;
+}
+
+.calendar-income-amount {
+  color: #4666e4;
+}
+
+
 @media (max-width: 480px) {
   .calendar-content {
     padding: 0 0 32px 0;
