@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./JobCard.css";
 
-function JobCard({ job }) {
+function JobCard({ job, recommendation }) {
   const navigate = useNavigate();
   const calculateDays = (startDate, endDate) => {
     const start = new Date(startDate);
@@ -20,10 +20,15 @@ function JobCard({ job }) {
           {job.dailyWage?.toLocaleString()}원
         </span>
         <span className="jobcard-period">{calculateDays(job.workStartDate, job.workEndDate)}일</span>
+        
       </div>
-
-      <div className="jobcard-company">{job.user?.username || "알 수 없음"}</div>
-
+     
+      {recommendation && (
+        <div className="jobcard-recommendation-info">
+          <span className="jobcard-matchrate">{recommendation.matchScore} 점</span>
+          <div className="jobcard-reason"><b>매칭 이유:</b> {recommendation.reason.replace(/점\)/g, '점)\n')}</div>
+        </div>
+      )}
       <div className="jobcard-location">
         <span className="jobcard-location-icon">📍</span>
         {job.region || "지역 미정"}

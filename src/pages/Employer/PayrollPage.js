@@ -37,13 +37,13 @@ function PayrollPage() {
     }
   };
 
-  const handleRecordPayments = async (jobPostingId, completedApplicantCount) => {
+  const handleRecordPayments = async (jobPostingId, approvedApplicantCount) => {
     if (!paymentDate) {
       alert("급여 지급일을 입력해주세요.");
       return;
     }
 
-    if (window.confirm(`총 ${completedApplicantCount}명의 완료된 지원자에게 선택된 날짜(${paymentDate})로 급여를 일괄 기록하시겠습니까? 이 작업은 되돌릴 수 없습니다.`)) {
+    if (window.confirm(`총 ${approvedApplicantCount}명의 승인된 지원자에게 선택된 날짜(${paymentDate})로 급여를 일괄 기록하시겠습니까? 이 작업은 되돌릴 수 없습니다.`)) {
       setPaymentLoading(prev => ({ ...prev, [jobPostingId]: true }));
       try {
         const result = await recordPaymentsForAll(jobPostingId, paymentDate);
@@ -89,27 +89,24 @@ function PayrollPage() {
         <p>등록된 공고가 없습니다.</p>
       ) : (
         <div className="job-postings-list">
-          {jobPostings.map((posting) => {
-            console.log(`Posting ID: ${posting.id}, completedApplicantCount: ${posting.completedApplicantCount}, type: ${typeof posting.completedApplicantCount}`);
-            return (
+          {jobPostings.map((posting) => (
             <div className="posting-card" key={posting.id}>
               <h3>{posting.title}</h3>
               <p><strong>근무 기간:</strong> {posting.workStartDate} ~ {posting.workEndDate}</p>
               <p><strong>직종:</strong> {posting.jobType}</p>
               <p><strong>지역:</strong> {posting.region}</p>
-              <p><strong>완료 인원:</strong> {posting.completedApplicantCount}명 완료 / 총 {posting.applicantCount}명</p>
+              <p><strong>승인 인원:</strong> 총 {posting.applicantCount}명</p>
               <div className="posting-actions">
                 <button
                   className="action-btn payroll-btn"
-                  onClick={() => handleRecordPayments(posting.id, posting.completedApplicantCount)}
-                  disabled={posting.completedApplicantCount === 0 || paymentLoading[posting.id] || posting.isPayrollCompleted}
+                  onClick={() => handleRecordPayments(posting.id, posting.approvedApplicantCount)}
+                  disabled={posting.approvedApplicantCount === 0 || paymentLoading[posting.id]}
                 >
-                  {paymentLoading[posting.id] ? '처리 중...' : (posting.completedApplicantCount === 0 ? '지급 대상 없음' : (posting.isPayrollCompleted ? '지급 완료' : '일괄 급여 기록'))}}}
+                  {paymentLoading[posting.id] ? '처리 중...' : (posting.approvedApplicantCount === 0 ? '지급 대상 없음' : '일괄 급여 기록')}
                 </button>
               </div>
             </div>
-            );
-          })}
+          ))}
         </div>
       )}
     </div>

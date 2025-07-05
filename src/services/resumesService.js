@@ -90,6 +90,16 @@ export const getBlockchainExperience = async (userId) => {
   }
 };
 
+export const getJobRecommendations = async (resumeId) => {
+  try {
+    const response = await apiClient.get(`${API_BASE_URL}/resumes/${resumeId}/recommendations`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching AI job recommendations for resume ${resumeId}:`, error);
+    throw error;
+  }
+};
+
 // Resume.js에서 사용할 래퍼 객체 (API.md 사양에 맞춤)
 export const resumeAPI = {
   getResume: getResumeDetails,
@@ -99,18 +109,7 @@ export const resumeAPI = {
   deleteResume: deleteResume,
   getUserResumes: getUserResumes,
   getBlockchainExperience: getBlockchainExperience,
-  searchResumes: searchResumes
-};
-
-
-// 이력서 목록 조회
-export const getResumes = async () => {
-  try {
-    const response = await apiClient.get(`${API_BASE_URL}/resumes`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching resumes:', error);
-    throw error;
-  }
+  searchResumes: searchResumes,
+  getJobRecommendations: getJobRecommendations // 새로 추가
 };
 
