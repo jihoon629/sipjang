@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useUser } from "../../contexts/UserContext";
+import { deleteJobPosting } from "../../services/jobPostingsService";
 import AddressPopup from "../../components/AddressPopup/AddressPopup";
 import "./JobPostCreatePage.css";
 
@@ -64,6 +65,19 @@ function JobPostEditPage() {
             region: regionText.trim()
         }));
         setShowAddressPopup(false);
+    };
+
+    const handleDelete = async () => {
+        if (!window.confirm("정말로 이 공고를 삭제하시겠습니까?")) return;
+
+        try {
+            await deleteJobPosting(id);
+            alert("공고가 삭제되었습니다.");
+            navigate("/employerjobs");
+        } catch (err) {
+            console.error("공고 삭제 실패:", err.response?.data || err.message);
+            alert("삭제 중 오류가 발생했습니다.");
+        }
     };
 
     const handleSubmit = async () => {
@@ -169,6 +183,19 @@ function JobPostEditPage() {
                     <textarea name="siteDescription" value={form.siteDescription} onChange={handleChange} rows="4" />
                 </div>
             </div>
+            <button
+                className="submit-btn"
+                onClick={handleDelete}
+            >
+                공고 삭제
+            </button>
+
+            <button
+                className="submit-btn"
+                onClick={() => alert("공고 마감 기능은 추후 구현 예정입니다.")}
+            >
+                공고 마감
+            </button>
             <button className="submit-btn" onClick={handleSubmit}>수정 완료</button>
             {showAddressPopup && (
                 <AddressPopup
