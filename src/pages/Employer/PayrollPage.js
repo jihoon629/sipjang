@@ -9,9 +9,10 @@ function PayrollPage() {
   const { user } = useUser();
   const [jobPostings, setJobPostings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [paymentLoading, setPaymentLoading] = useState({}); // 개별 공고의 지급 처리 로딩 상태
   const [error, setError] = useState(null);
 
-  const [paymentDate, setPaymentDate] = useState(new Date().toISOString().split('T')[0]); // 오늘 날짜로 초기화
+  const [paymentDate, setPaymentDate] = useState(new Date().toISOString().split('T')[0]);
 
   useEffect(() => {
     if (user?.id) {
@@ -24,6 +25,7 @@ function PayrollPage() {
       setLoading(true);
       const response = await getUserJobPostings(userId);
       const postings = response.data?.postings || response.data || [];
+      console.log("Fetched Job Postings:", postings);
       setJobPostings(postings);
       setError(null);
     } catch (err) {
@@ -34,23 +36,25 @@ function PayrollPage() {
     }
   };
 
-  const handleRecordPayments = async (jobPostingId) => {
+  const handleRecordPayments = async (jobPostingId, approvedApplicantCount) => {
     if (!paymentDate) {
       alert("급여 지급일을 입력해주세요.");
       return;
     }
 
-    if (window.confirm(`선택된 날짜(${paymentDate})로 이 공고의 모든 승인된 지원자들에게 급여를 일괄 기록하시겠습니까? 이 작업은 되돌릴 수 없습니다.`)) {
+    if (window.confirm(`총 ${approvedApplicantCount}명의 승인된 지원자에게 선택된 날짜(${paymentDate})로 급여를 일괄 기록하시겠습니까? 이 작업은 되돌릴 수 없습니다.`)) {
+      setPaymentLoading(prev => ({ ...prev, [jobPostingId]: true }));
       try {
-        const result = await recordPaymentsForAll(jobPostingId, paymentDate); // paymentDate 전달
-        alert(`급여 기록 완료! 성공: ${result.data.successCount}건, 실패: ${result.data.failCount}건`);
-        // 급여 기록 후 공고 목록을 새로고침하여 최신 상태 반영
+        const result = await recordPaymentsForAll(jobPostingId, paymentDate);
+        alert(`급여 기록 완료!`);
         if (user?.id) {
           fetchJobPostings(user.id);
         }
       } catch (err) {
         console.error("Error recording payments:", err);
         alert("급여 기록에 실패했습니다.");
+      } finally {
+        setPaymentLoading(prev => ({ ...prev, [jobPostingId]: false }));
       }
     }
   };
@@ -87,14 +91,17 @@ function PayrollPage() {
           {jobPostings.map((posting) => (
             <div className="posting-card" key={posting.id}>
               <h3>{posting.title}</h3>
-              <p>직종: {posting.jobType}</p>
-              <p>지역: {posting.region}</p>
+              <p><strong>근무 기간:</strong> {posting.workStartDate} ~ {posting.workEndDate}</p>
+              <p><strong>직종:</strong> {posting.jobType}</p>
+              <p><strong>지역:</strong> {posting.region}</p>
+              <p><strong>승인 인원:</strong> 총 {posting.applicantCount}명</p>
               <div className="posting-actions">
                 <button
                   className="action-btn payroll-btn"
-                  onClick={() => handleRecordPayments(posting.id)}
+                  onClick={() => handleRecordPayments(posting.id, posting.approvedApplicantCount)}
+                  disabled={posting.approvedApplicantCount === 0 || paymentLoading[posting.id]}
                 >
-                  일괄 급여 기록
+                  {paymentLoading[posting.id] ? '처리 중...' : (posting.approvedApplicantCount === 0 ? '지급 대상 없음' : '일괄 급여 기록')}
                 </button>
               </div>
             </div>
