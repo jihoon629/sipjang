@@ -50,31 +50,36 @@ function EmployerJobsPage() {
                 {postings.map((job) => {
                     console.log(`Job ID: ${job.id}, Status: ${job.status}`);
                     return (
-                    <div className="job-card gradient-bg" key={job.id}>
-                        <div className="job-card-header">
-                            <h3 className="job-title">{job.title}</h3>
-                            <span className={`job-status ${job.status === 'closed' ? 'closed' : ''}`}>
-                                {job.status === 'closed' ? '마감' : '모집중'}
-                            </span>
-                            <span className="job-pay">
-                                {job.dailyWage?.toLocaleString()}원
-                            </span>
+                        <div className="job-card gradient-bg" key={job.id}>
+                            <div className="job-card-header">
+                                <h3 className="job-title">{job.title}</h3>
+                                <span className={`job-status ${job.status === 'closed' ? 'closed' : ''}`}>
+                                    {job.status === 'closed' ? '마감' : '모집중'}
+                                </span>
+                                <span className="job-pay">
+                                    {job.dailyWage?.toLocaleString()}원
+                                </span>
+                            </div>
+                            <p className="job-company">{job.jobType}</p>
+                            <div className="job-location">📍 {job.region}</div>
+                            <div className="job-footer">
+                                <div className="job-footer-button-group">
+                                    <button
+                                        className="view-btn" onClick={() => window.location.href = `/job-edit/${job.id}`}
+                                    >공고 수정</button>
+
+                                    <button
+                                        className="view-btn"
+                                        onClick={() => alert("공고 마감 기능은 추후 구현 예정입니다.")}
+                                    >공고 마감</button>
+
+                                    <button
+                                        className="view-btn"
+                                        onClick={() => navigate(`/employer/job-applicants/${job.id}`)}
+                                    >지원자 관리</button>
+                                </div>
+                            </div>
                         </div>
-                        <p className="job-company">{job.jobType}</p>
-                        <div className="job-location">📍 {job.region}</div>
-                        <div className="job-footer">
-                            <button
-                                className="view-btn"
-                                onClick={() => window.location.href = `/job-edit/${job.id}`}
-                            >공고 수정
-                            </button>
-                            <button
-                                className="view-btn"
-                                onClick={() => navigate(`/employer/job-applicants/${job.id}`)}
-                            >지원자 관리
-                            </button>
-                        </div>
-                    </div>
                     );
                 })}
             </div>
