@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 const API_URL = '/api/job-postings';
@@ -123,6 +122,17 @@ export const searchJobPostingsByDistance = async (lat, lon, dist) => {
     return response.data;
   } catch (error) {
     console.error(`Error searching job postings by distance:`, error);
+    throw error;
+  }
+};
+
+// 구인공고 상태 수정
+export const updateJobPostingStatus = async (id, status) => {
+  try {
+    const response = await apiClient.put(`${API_URL}/${id}/status`, { status });
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating job posting status ${id}:`, error);
     throw error;
   }
 };

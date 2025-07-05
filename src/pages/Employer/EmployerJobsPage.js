@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "../../contexts/UserContext";
-import axios from "axios";
-import { useNavigate } from "react-router-dom"; // useNavigate 추가
+import { getUserJobPostings, updateJobPostingStatus } from "../../services/jobPostingsService";
+import { useNavigate } from "react-router-dom";
 import "./EmployerJobsPage.css";
 
 function EmployerJobsPage() {
     const { user } = useUser();
-    const navigate = useNavigate(); // useNavigate 초기화
+    const navigate = useNavigate();
     const [postings, setPostings] = useState([]);
 
     useEffect(() => {
@@ -17,10 +17,28 @@ function EmployerJobsPage() {
 
     const fetchMyPostings = async (userId) => {
         try {
-            const res = await axios.get(`/api/job-postings/user/${userId}`);
-            setPostings(res.data.data.postings);
+            const res = await getUserJobPostings(userId);
+            setPostings(res.data.postings);
         } catch (err) {
             console.error("공고 불러오기 실패:", err);
+        }
+    };
+
+    const handleStatusChange = async (jobId, newStatus) => {
+        if (window.confirm(`정말로 공고를 ${newStatus === 'closed' ? '마감' : '모집중'}으로 변경하시겠습니까?`)) {
+            try {
+                const res = await updateJobPostingStatus(jobId, newStatus);
+                const updatedJobPosting = res.data; // API 응답에서 업데이트된 공고 정보 추출
+
+                setPostings(prevPostings =>
+                    prevPostings.map(job =>
+                        job.id === jobId ? { ...job, status: updatedJobPosting.status } : job
+                    )
+                );
+            } catch (err) {
+                console.error("공고 상태 변경 실패:", err);
+                alert("공고 상태 변경에 실패했습니다.");
+            }
         }
     };
 
@@ -29,10 +47,15 @@ function EmployerJobsPage() {
             <h2 className="page-title">내 공고 목록</h2>
 
             <div className="job-card-list">
-                {postings.map((job) => (
+                {postings.map((job) => {
+                    console.log(`Job ID: ${job.id}, Status: ${job.status}`);
+                    return (
                     <div className="job-card gradient-bg" key={job.id}>
                         <div className="job-card-header">
                             <h3 className="job-title">{job.title}</h3>
+                            <span className={`job-status ${job.status === 'closed' ? 'closed' : ''}`}>
+                                {job.status === 'closed' ? '마감' : '모집중'}
+                            </span>
                             <span className="job-pay">
                                 {job.dailyWage?.toLocaleString()}원
                             </span>
@@ -40,25 +63,20 @@ function EmployerJobsPage() {
                         <p className="job-company">{job.jobType}</p>
                         <div className="job-location">📍 {job.region}</div>
                         <div className="job-footer">
-                            <div className="job-footer-button-group">
-                                <button
-                                    className="view-btn"
-                                    onClick={() => window.location.href = `/job-edit/${job.id}`}
-                                >공고 수정</button>
-
-                                <button
-                                    className="view-btn"
-                                    onClick={() => alert("공고 마감 기능은 추후 구현 예정입니다.")}
-                                >공고 마감</button>
-
-                                <button
-                                    className="view-btn"
-                                    onClick={() => navigate(`/employer/job-applicants/${job.id}`)}
-                                >지원자 관리</button>
-                            </div>
+                            <button
+                                className="view-btn"
+                                onClick={() => window.location.href = `/job-edit/${job.id}`}
+                            >공고 수정
+                            </button>
+                            <button
+                                className="view-btn"
+                                onClick={() => navigate(`/employer/job-applicants/${job.id}`)}
+                            >지원자 관리
+                            </button>
                         </div>
                     </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );
