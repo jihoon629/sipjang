@@ -69,7 +69,7 @@ function ApplicantDetailPage() {
         <p><strong>희망 직종:</strong> {resume.jobType}</p>
         <p><strong>희망 지역:</strong> {resume.region}</p>
         <p><strong>희망 일급:</strong> {resume.desiredDailyWage?.toLocaleString()}원</p>
-        <p><strong>경력:</strong> {resume.experience}년</p>
+        <p><strong>경력:</strong> {resume.history}년</p>
         <p><strong>기술:</strong> {resume.skills?.join(', ') || '없음'}</p>
         <p><strong>자기소개:</strong> {resume.selfIntroduction || '없음'}</p>
         <p><strong>연락처:</strong> {resume.phone || '없음'}</p>

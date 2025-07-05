@@ -9,12 +9,12 @@ export const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // 중요: 다른 출처(cross-origin)간 요청에 쿠키를 포함시키기 위해 필요
+  withCredentials: true, // 중요: 다른 출처(cross-origin)간 요청에 쿠키를 포함시키기 위해 필요  
 });
 
 // 백엔드에서 httpOnly 쿠키를 사용하므로, 프론트엔드에서 직접 헤더에 토큰을 추가할 필요가 없습니다.
-// 따라서 요청 인터셉터는 필요하지 않습니다.
-
+// 따라서 요청 인터셉터는 필요하지 않습니다. 
+ 
 export const signup = async (userData) => {
   try {
     console.log('Data passed to authService.signup:', userData);

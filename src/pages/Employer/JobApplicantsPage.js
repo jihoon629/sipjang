@@ -83,7 +83,7 @@ function JobApplicantsPage() {
       ) : (
         <div className="applicants-list">
           {applicants.map((applicant) => (
-            <div className="applicant-card" key={applicant.id} onClick={() => navigate(`/employer/applicant-details/${applicant.resumeId}/${applicant.applicantId}`)}>
+            <div className="applicant-card" key={applicant.id}>
               <div className="applicant-info">
                 <h3>{applicant.applicant?.username || "이름 없음"}</h3>
                 <p>이메일: {applicant.applicant?.email || "정보 없음"}</p>
@@ -98,6 +98,12 @@ function JobApplicantsPage() {
                 )}
               </div>
               <div className="applicant-actions">
+                <button 
+                  className="action-btn view-details-btn" 
+                  onClick={() => navigate(`/employer/applicant-details/${applicant.resumeId}/${applicant.applicantId}`)}
+                >
+                  이력서 보기
+                </button>
                 {applicant.status === "pending" && (
                   <>
                     <button className="action-btn approve-btn" onClick={() => handleStatusChange(applicant.id, "approved")}>승인</button>
