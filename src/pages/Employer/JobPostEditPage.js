@@ -189,13 +189,6 @@ function JobPostEditPage() {
             >
                 공고 삭제
             </button>
-
-            <button
-                className="submit-btn"
-                onClick={() => alert("공고 마감 기능은 추후 구현 예정입니다.")}
-            >
-                공고 마감
-            </button>
             <button className="submit-btn" onClick={handleSubmit}>수정 완료</button>
             {showAddressPopup && (
                 <AddressPopup
@@ -206,5 +199,4 @@ function JobPostEditPage() {
         </div>
     );
 }
-
 export default JobPostEditPage;
