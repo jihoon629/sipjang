@@ -10,6 +10,7 @@ function MyPage() {
   const { user, logoutUser } = useUser();
   const [userResume, setUserResume] = useState(null);
   const [completedApplicationsCount, setCompletedApplicationsCount] = useState(0);
+  const [totalApplicationsCount, setTotalApplicationsCount] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
 
   const handleLogout = async () => {
@@ -45,13 +46,16 @@ function MyPage() {
 
         const completed = applications.filter(app => app.status === 'completed');
         const completedCount = completed.length;
+        const totalCount = applications.length;
         const incomeSum = completed.reduce((acc, app) => acc + (app.paymentAmount || 0), 0);
 
         setCompletedApplicationsCount(completedCount);
+        setTotalApplicationsCount(totalCount);
         setTotalIncome(incomeSum);
       } catch (error) {
         console.error('완료된 지원 내역 가져오기 실패:', error);
         setCompletedApplicationsCount(0);
+        setTotalApplicationsCount(0);
         setTotalIncome(0);
       }
     };
@@ -60,10 +64,29 @@ function MyPage() {
     fetchCompletedApplications();
   }, [user]);
 
+  // 평점 계산: 신뢰도 기반으로 5.0 만점으로 계산
+  const rating = totalApplicationsCount > 0 
+    ? Math.round((completedApplicationsCount / totalApplicationsCount) * 5.0 * 10) / 10
+    : 0;
+
+  // 평점에 따른 뱃지 설정
+  const getBadgeInfo = (rating) => {
+    if (rating >= 4.5) {
+      return { text: '근면성실', style: { background: 'linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff)', color: 'white' } };
+    } else if (rating >= 4.0) {
+      return { text: '성실한', style: { background: '#4CAF50', color: 'white' } };
+    } else if (rating >= 3.0) {
+      return { text: '시작점', style: { background: '#FFC107', color: 'black' } };
+    }
+    return { text: '인증 완료', style: { background: '#E0E0E0', color: 'black' } };
+  };
+
+  const badgeInfo = getBadgeInfo(rating);
+
   const defaultUser = {
     name: user?.username || "사용자",
     desc: "이력서를 작성해주세요",
-    rating: 0,
+    rating: rating,
     done: 0,
     income: 0,
   };
@@ -71,7 +94,7 @@ function MyPage() {
   const displayUser = userResume ? {
     name: user?.username || userResume.name || "사용자",
     desc: `${userResume.jobType || "직종 미입력"} · ${userResume.history || 0}년 경력`,
-    rating: 4.8,
+    rating: rating,
     done: completedApplicationsCount,
     income: totalIncome,
   } : defaultUser;
@@ -93,7 +116,7 @@ function MyPage() {
                 </svg>
                 <span className="mypage-profile-score">{displayUser.rating}</span>
               </span>
-              <span className="mypage-profile-badge">인증 완료</span>
+              <span className="mypage-profile-badge" style={badgeInfo.style}>{badgeInfo.text}</span>
             </div>
           </div>
         </div>
