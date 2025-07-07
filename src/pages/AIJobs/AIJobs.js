@@ -1,58 +1,14 @@
 
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./AIJobs.css";
 import { useNavigate } from "react-router-dom";
-import { getJobRecommendations } from "../../services/resumesService";
-import { getUserResumes } from "../../services/resumesService";
-import { useUser } from "../../contexts/UserContext";
-import JobCard from "../../components/JobCard/JobCard"; // JobCard 컴포넌트 임포트
+import { useAIJobs } from "../../contexts/AIJobsContext";
+import AIJobCard from "../../components/AIJobCard/AIJobCard";
 
 function AIJobs() {
   const navigate = useNavigate();
-  const { user } = useUser();
-  const [recommendations, setRecommendations] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchRecommendations = async () => {
-      if (!user || !user.id) {
-        setError("로그인이 필요합니다.");
-        setLoading(false);
-        return;
-      }
-
-      try {
-        setLoading(true);
-        // 1. 사용자의 이력서 ID 가져오기
-        const userResumesResponse = await getUserResumes(user.id);
-        const userResumes = userResumesResponse.data?.resumes || userResumesResponse.data || [];
-
-        if (userResumes.length === 0) {
-          setError("등록된 이력서가 없습니다. 이력서를 먼저 작성해주세요.");
-          setLoading(false);
-          return;
-        }
-
-        const resumeId = userResumes[0].id; // 첫 번째 이력서 사용
-
-        // 2. AI 추천 공고 가져오기
-        const response = await getJobRecommendations(resumeId);
-        const fetchedRecommendations = response.data?.postings || [];
-        console.log("Fetched AI Job Recommendations:", fetchedRecommendations);
-        setRecommendations(fetchedRecommendations);
-        setError(null);
-      } catch (err) {
-        console.error("Error fetching AI job recommendations:", err);
-        setError(err.message || "AI 추천 공고를 불러오는 데 실패했습니다.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRecommendations();
-  }, [user]);
+  const { recommendations, loading, error, refetch } = useAIJobs();
 
   if (loading) {
     return (
@@ -107,7 +63,7 @@ function AIJobs() {
       <div className="aijobs-list">
         {recommendations.length > 0 ? (
           recommendations.map((job) => (
-            <JobCard job={job} recommendation={job.recommendation} key={job.id} />
+            <AIJobCard job={job} key={job.id} />
           ))
         ) : (
           <div className="aijobs-allchecked">

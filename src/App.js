@@ -2,6 +2,7 @@ import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
+import { AIJobsProvider } from "./contexts/AIJobsContext";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import JobList from "./pages/Jobs/JobList/JobList";
@@ -32,6 +33,7 @@ import Service from "./pages/Service/Service";
 function App() {
   return (
     <UserProvider>
+      <AIJobsProvider>
       <Router>
         <Header />
         <div className="app-wrapper">
@@ -60,6 +62,7 @@ function App() {
         <Footer />
       </Router>
 
+    </AIJobsProvider>
     </UserProvider>
   );
 }
