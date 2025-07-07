@@ -58,6 +58,7 @@ function HomePage() {
   }, [user]);
 
   const isEmployer = user?.role === "employer";
+  const isWorker = user?.role === "worker";
   
   // 신뢰도 계산: 완료된 지원 / 전체 지원 * 100 (최대 100%)
   const trustPercentage = totalApplicationsCount > 0 
@@ -90,7 +91,7 @@ function HomePage() {
               </div>
             </div>
 
-            {user ? (
+            {isWorker ? (
               <div className="main-stats-card-numbers">
                 <div>
                   <span className="main-stats-card-number">{stats.done}</span>
@@ -105,6 +106,8 @@ function HomePage() {
                   <div className="main-stats-card-label">신뢰도</div>
                 </div>
               </div>
+            ) : isEmployer ? (       
+                  <div className="main-stats-card-title">오늘은 어떤 공고를 작성하실건가요?</div>
             ) : (
               <div className="main-stats-card-buttons">
                 <button className="btn-primary" onClick={() => navigate("/signup")}>
