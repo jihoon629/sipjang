@@ -11,6 +11,7 @@ function HomePage() {
   const { user, fetchUser } = useUser();
   const [jobs, setJobs] = useState([]);
   const [completedApplicationsCount, setCompletedApplicationsCount] = useState(0);
+  const [totalApplicationsCount, setTotalApplicationsCount] = useState(0);
 
   useEffect(() => {
     if (!user) fetchUser();
@@ -42,11 +43,14 @@ function HomePage() {
         
         // status가 'completed'인 항목만 카운트 (사용자 ID 필터링은 불필요)
         const completedCount = applications.filter(app => app.status === 'completed').length;
+        const totalCount = applications.length;
         
         setCompletedApplicationsCount(completedCount);
+        setTotalApplicationsCount(totalCount);
       } catch (error) {
         console.error('완료된 지원 내역 가져오기 실패:', error);
         setCompletedApplicationsCount(0);
+        setTotalApplicationsCount(0);
       }
     };
 
@@ -54,10 +58,22 @@ function HomePage() {
   }, [user]);
 
   const isEmployer = user?.role === "employer";
+  const isWorker = user?.role === "worker";
+  
+  // 신뢰도 계산: 완료된 지원 / 전체 지원 * 100 (최대 100%)
+  const trustPercentage = totalApplicationsCount > 0 
+    ? Math.round((completedApplicationsCount / totalApplicationsCount) * 100)
+    : 0;
+    
+  // 평점 계산: 신뢰도 기반으로 5.0 만점으로 계산
+  const rating = totalApplicationsCount > 0 
+    ? Math.round((trustPercentage / 100) * 5.0 * 10) / 10  // 소수점 한 자리
+    : 0;
+    
   const stats = { 
     done: completedApplicationsCount, // 실제 완료된 작업 수
-    rating: 4.8, 
-    trust: 98 
+    rating: rating, 
+    trust: trustPercentage 
   };
 
   return (
@@ -75,7 +91,7 @@ function HomePage() {
               </div>
             </div>
 
-            {user ? (
+            {isWorker ? (
               <div className="main-stats-card-numbers">
                 <div>
                   <span className="main-stats-card-number">{stats.done}</span>
@@ -90,6 +106,8 @@ function HomePage() {
                   <div className="main-stats-card-label">신뢰도</div>
                 </div>
               </div>
+            ) : isEmployer ? (       
+                  <div className="main-stats-card-title">오늘은 어떤 공고를 작성하실건가요?</div>
             ) : (
               <div className="main-stats-card-buttons">
                 <button className="btn-primary" onClick={() => navigate("/signup")}>

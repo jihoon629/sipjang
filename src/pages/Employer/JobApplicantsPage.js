@@ -75,7 +75,7 @@ function JobApplicantsPage() {
   return (
     <div className="job-applicants-page">
       <div className="job-applicants-header">
-        <button className="back-btn" onClick={() => navigate(-1)}>← 뒤로</button>
+        <button className="back-btn" onClick={() => navigate(-1)}>←</button>
         <h2>지원자 관리</h2>
       </div>
       {applicants.length === 0 ? (

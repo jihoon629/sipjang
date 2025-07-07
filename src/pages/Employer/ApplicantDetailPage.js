@@ -60,7 +60,7 @@ function ApplicantDetailPage() {
   return (
     <div className="applicant-detail-page">
       <div className="applicant-detail-header">
-        <button className="back-btn" onClick={() => navigate(-1)}>← 뒤로</button>
+        <button className="back-btn" onClick={() => navigate(-1)}>←</button>
         <h2>{resume.user?.username || "지원자"} 상세 정보</h2>
       </div>
 
