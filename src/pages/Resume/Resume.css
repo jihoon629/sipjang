@@ -1,281 +1,174 @@
-
-/* Resume.css - 이력서 페이지 스타일 */
 .resume-page {
-  background: #f7f8fa;
+  padding: 0;
+  background-color: #f8f8f8;
   min-height: 100vh;
-  padding-bottom: 40px;
-  font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 .resume-header-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  position: relative;
-  background: #fff;
-  padding: 18px 20px 12px 20px;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 15px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100;
 }
+
 .resume-back-btn {
   background: none;
   border: none;
-  color: #888;
-  font-size: 1.1rem;
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: background 0.15s;
-}
-.resume-back-btn:hover {
-  background: #f0f1f3;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
 }
 
-/* 헤더 버튼 그룹 */
+.resume-header-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  flex-grow: 1;
+  text-align: center;
+  transform: translateX(-20px); /* 뒤로가기 버튼 공간 확보 */
+}
+
 .resume-header-buttons {
   display: flex;
-  gap: 8px;
-  align-items: center;
+  gap: 10px;
 }
 
-/* 버튼 스타일들 */
 .resume-edit-btn,
-.resume-new-btn,
-.resume-save-btn,
-.resume-cancel-btn,
 .resume-delete-btn {
-  background: none;
-  border: 1px solid #ddd;
-  color: #555;
-  font-size: 0.95rem;
-  cursor: pointer;
   padding: 8px 12px;
-  border-radius: 8px;
-  transition: all 0.15s;
-  font-weight: 500;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-.resume-edit-btn:hover,
-.resume-new-btn:hover {
-  background: #f8f9fa;
-  border-color: #aaa;
-}
-
-.resume-save-btn {
-  background: #3A6FF8;
+.resume-edit-btn {
+  background-color: #007bff;
   color: white;
-  border-color: #3A6FF8;
+  border: none;
 }
 
-.resume-save-btn:hover {
-  background: #2557e0;
-  border-color: #2557e0;
-}
-
-.resume-cancel-btn {
-  background: #fff;
-  color: #666;
-  border-color: #ddd;
-}
-
-.resume-cancel-btn:hover {
-  background: #f5f5f5;
-  border-color: #bbb;
-}
-
-.resume-new-btn {
-  background: #10B981;
-  color: white;
-  border-color: #10B981;
-}
-
-.resume-new-btn:hover {
-  background: #059669;
-  border-color: #059669;
+.resume-edit-btn:hover {
+  background-color: #0056b3;
 }
 
 .resume-delete-btn {
-  background: #EF4444;
+  background-color: #dc3545;
   color: white;
-  border-color: #EF4444;
+  border: none;
 }
 
 .resume-delete-btn:hover {
-  background: #DC2626;
-  border-color: #DC2626;
+  background-color: #c82333;
 }
-.resume-header-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #222;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* 기존 프로필 카드 스타일 제거 - 일반 섹션으로 대체됨 */
 
 .resume-section {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-  margin: 0 16px 18px 16px;
-  padding: 20px 18px 14px 18px;
-}
-.resume-section-title {
-  font-size: 1.08rem;
-  font-weight: 600;
-  color: #2563eb;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.resume-skill-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.resume-skill {
-  background: #f1f5f9;
-  color: #2563eb;
-  font-weight: 500;
+  background-color: #fff;
+  margin: 15px;
+  padding: 20px;
   border-radius: 8px;
-  padding: 6px 14px;
-  font-size: 0.98rem;
-}
-.resume-career-list {
-  margin-top: 6px;
-}
-.resume-career-item {
-  margin-bottom: 12px;
-}
-.resume-career-title {
-  font-weight: 600;
-  color: #222;
-  font-size: 1.05rem;
-}
-.resume-career-meta {
-  color: #888;
-  font-size: 0.97rem;
-  margin-bottom: 2px;
-}
-.resume-career-desc {
-  color: #444;
-  font-size: 0.98rem;
-}
-.resume-cert-list {
-  margin-top: 6px;
-}
-.resume-cert-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 7px;
-}
-.resume-cert-name {
-  color: #222;
-  font-weight: 500;
-}
-.resume-cert-date {
-  color: #888;
-  font-size: 0.97rem;
-}
-.resume-contact-list {
-  margin-top: 6px;
-}
-.resume-contact-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #444;
-  font-size: 1rem;
-  margin-bottom: 7px;
-}
-.resume-contact-icon {
-  font-size: 1.1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-/* 폼 스타일 */
+.resume-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .resume-form-grid {
   display: grid;
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
 }
 
 .resume-form-item {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .resume-form-label {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 4px;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+  font-weight: 500;
 }
 
 .resume-form-input,
 .resume-form-select,
 .resume-form-textarea {
   width: 100%;
-  padding: 12px 16px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  font-size: 1rem;
-  background: #fafbfc;
-  transition: border-color 0.2s, background 0.2s;
-  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
 }
 
 .resume-form-input:focus,
 .resume-form-select:focus,
 .resume-form-textarea:focus {
   outline: none;
-  border-color: #4666e4;
-  background: #fff;
-}
-
-.resume-form-textarea {
-  resize: vertical;
-  min-height: 80px;
-  font-family: inherit;
-  line-height: 1.5;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
 .resume-form-value {
-  padding: 12px 16px;
-  background: #f8fafc;
-  border-radius: 10px;
-  font-size: 1rem;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  background-color: #f9f9f9;
   color: #333;
-  border: 1px solid #e5e7eb;
-}
-
-.resume-intro-text {
-  padding: 16px;
-  background: #f8fafc;
-  border-radius: 10px;
-  font-size: 1rem;
-  color: #444;
-  line-height: 1.6;
-  border: 1px solid #e5e7eb;
-}
-
-/* 기술 선택기 스타일 */
-.resume-skill-selector {
+  min-height: 40px; /* input과 높이 맞추기 */
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  align-items: center;
+}
+
+.resume-address-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.resume-address-input-group input {
+  flex: 1;
+}
+
+.resume-address-search-btn {
+  padding: 0 15px;
+  background-color: #4b5563;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.resume-address-search-btn:hover {
+  background-color: #374151;
+}
+
+.resume-skill-selector {
+  margin-top: 10px;
 }
 
 .resume-skill-selector-label {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 8px;
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 10px;
 }
 
 .resume-skill-options {
@@ -285,117 +178,130 @@
 }
 
 .resume-skill-option {
-  padding: 8px 16px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 0.95rem;
-  color: #666;
+  padding: 8px 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: #f0f0f0;
   cursor: pointer;
+  font-size: 14px;
   transition: all 0.2s;
-  font-weight: 500;
 }
 
 .resume-skill-option:hover {
-  border-color: #4666e4;
-  color: #4666e4;
+  background-color: #e0e0e0;
 }
 
 .resume-skill-option.selected {
-  background: #4666e4;
-  border-color: #4666e4;
-  color: #fff;
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
 }
 
-/* 블록체인 경력 스타일 */
-.resume-career-item.blockchain {
-  background: linear-gradient(135deg, #f0f7ff 0%, #e8f5e8 100%);
-  border: 1px solid #dbeafe;
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 12px;
+.resume-skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 0;
 }
 
-.resume-career-item.blockchain .resume-career-title {
-  color: #1e40af;
-  font-weight: 600;
-}
-
-.resume-career-item.blockchain .resume-career-meta {
-  color: #059669;
+.resume-skill {
+  padding: 6px 12px;
+  background-color: #e9f5ff;
+  color: #007bff;
+  border-radius: 15px;
+  font-size: 14px;
   font-weight: 500;
 }
 
-.resume-career-timestamp {
-  color: #6b7280;
-  font-size: 0.9rem;
-  margin-top: 4px;
-  font-style: italic;
+.resume-intro-text {
+  white-space: pre-wrap; /* 줄바꿈 유지 */
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #333;
+  min-height: 80px;
 }
 
-.resume-no-experience {
-  padding: 32px 20px;
-  text-align: center;
-  background: #f9fafb;
-  border-radius: 12px;
-  border: 1px dashed #d1d5db;
+.resume-career-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.resume-no-experience-icon {
-  font-size: 3rem;
-  margin-bottom: 12px;
-  opacity: 0.4;
+.resume-career-item {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 15px;
+  position: relative;
 }
 
-.resume-no-experience-title {
-  font-size: 1.1rem;
+.resume-career-item.blockchain {
+  border-left: 5px solid #28a745; /* 블록체인 인증 강조 */
+}
+
+.resume-career-title {
+  font-size: 16px;
   font-weight: 600;
-  color: #374151;
-  margin-bottom: 8px;
+  color: #333;
+  margin-bottom: 5px;
 }
 
-.resume-no-experience-desc {
-  color: #6b7280;
-  font-size: 0.95rem;
-  line-height: 1.5;
+.resume-career-meta {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
 }
 
-.resume-loading-experience {
-  padding: 20px;
-  text-align: center;
-  color: #6b7280;
-  background: #f9fafb;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
-  font-style: italic;
+.resume-career-timestamp {
+  font-size: 12px;
+  color: #999;
 }
 
 .resume-career-employer {
-  color: #6b7280;
-  font-size: 0.9rem;
-  margin-top: 4px;
+  font-size: 13px;
+  color: #555;
+  margin-top: 5px;
 }
 
-/* 자격증 이미지 업로드 스타일 */
+.resume-no-experience {
+  text-align: center;
+  padding: 30px 0;
+  color: #777;
+}
+
+.resume-no-experience-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.resume-no-experience-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.resume-no-experience-desc {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .resume-certificate-upload {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  margin-top: 10px;
 }
 
 .resume-certificate-upload-area {
-  border: 2px dashed #d1d5db;
-  border-radius: 12px;
-  padding: 24px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 20px;
   text-align: center;
-  background: #f9fafb;
-  transition: all 0.2s;
   cursor: pointer;
+  transition: border-color 0.2s;
 }
 
 .resume-certificate-upload-area:hover {
-  border-color: #3b82f6;
-  background: #eff6ff;
+  border-color: #007bff;
 }
 
 .resume-certificate-input {
@@ -403,361 +309,289 @@
 }
 
 .resume-certificate-label {
+  display: block;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
 }
 
 .resume-certificate-icon {
-  font-size: 2rem;
-  opacity: 0.6;
+  font-size: 48px;
+  color: #999;
+  margin-bottom: 10px;
 }
 
 .resume-certificate-text {
-  color: #6b7280;
-  font-size: 0.95rem;
-  line-height: 1.4;
+  font-size: 15px;
+  color: #555;
 }
 
 .resume-certificate-text small {
-  color: #9ca3af;
-  font-size: 0.85rem;
+  display: block;
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
 }
 
-/* 업로드된 이미지 목록 */
 .resume-certificate-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 .resume-certificate-item {
   position: relative;
-  border-radius: 8px;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
   overflow: hidden;
-  border: 1px solid #e5e7eb;
-  background: #fff;
 }
 
 .resume-certificate-image {
   width: 100%;
-  height: 120px;
+  height: 100%;
   object-fit: cover;
-  display: block;
 }
 
 .resume-certificate-remove {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  background: rgba(239, 68, 68, 0.9);
+  top: 5px;
+  right: 5px;
+  background-color: rgba(0, 0, 0, 0.6);
   color: white;
   border: none;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  font-size: 0.8rem;
-  cursor: pointer;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  font-size: 14px;
+  cursor: pointer;
 }
 
-.resume-certificate-remove:hover {
-  background: rgba(220, 38, 38, 1);
-}
-
-/* 보기 모드 스타일 */
 .resume-certificate-display {
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .resume-certificate-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .resume-certificate-item-display {
-  border-radius: 8px;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #eee;
+  border-radius: 5px;
   overflow: hidden;
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .resume-certificate-image-display {
   width: 100%;
-  height: 150px;
+  height: 100%;
   object-fit: cover;
-  display: block;
   cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.resume-certificate-image-display:hover {
-  transform: scale(1.05);
 }
 
 .resume-no-certificates {
-  padding: 32px 20px;
   text-align: center;
-  background: #f9fafb;
-  border-radius: 12px;
-  border: 1px dashed #d1d5db;
+  padding: 20px 0;
+  color: #777;
 }
 
 .resume-no-certificates-icon {
-  font-size: 2.5rem;
-  margin-bottom: 12px;
-  opacity: 0.4;
+  font-size: 36px;
+  margin-bottom: 5px;
 }
 
 .resume-no-certificates-text {
-  color: #6b7280;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 14px;
 }
 
 .resume-no-certificates-text small {
-  color: #9ca3af;
-  font-size: 0.85rem;
+  display: block;
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
 }
 
-/* 주소 입력 그룹 스타일 */
-.resume-address-input-group {
-  display: flex;
-  gap: 8px;
-  align-items: stretch;
-}
-
-.resume-address-input-group .resume-form-input {
-  flex: 1;
-}
-
-.resume-address-search-btn {
-  background: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 16px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-  white-space: nowrap;
-  min-width: 80px;
-}
-
-.resume-address-search-btn:hover {
-  background: #2563eb;
-}
-
-.resume-address-search-btn:active {
-  background: #1d4ed8;
-}
-
-/* 하단 액션 버튼 컨테이너 */
 .resume-action-buttons {
-  margin: 24px 16px 20px 16px;
   display: flex;
-  gap: 12px;
   justify-content: center;
-  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.03);
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
 }
 
-/* 하단 버튼들 - 입력 폼과 동일한 크기로 조정 */
-.resume-action-buttons .resume-edit-btn,
-.resume-action-buttons .resume-save-btn,
-.resume-action-buttons .resume-cancel-btn,
-.resume-action-buttons .resume-delete-btn {
+.resume-cancel-btn,
+.resume-save-btn {
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
   flex: 1;
   max-width: 200px;
-  min-width: 120px;
-  padding: 14px 20px;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 10px;
-  border: 1.5px solid;
-  transition: all 0.2s;
 }
 
-/* 하단 편집 버튼 */
-.resume-action-buttons .resume-edit-btn {
-  background: #3b82f6;
+.resume-cancel-btn {
+  background-color: #6c757d;
   color: white;
-  border-color: #3b82f6;
+  border: none;
 }
 
-.resume-action-buttons .resume-edit-btn:hover {
-  background: #2563eb;
-  border-color: #2563eb;
+.resume-cancel-btn:hover {
+  background-color: #5a6268;
 }
 
-/* 하단 저장 버튼 */
-.resume-action-buttons .resume-save-btn {
-  background: #10b981;
+.resume-save-btn {
+  background-color: #28a745;
   color: white;
-  border-color: #10b981;
+  border: none;
 }
 
-.resume-action-buttons .resume-save-btn:hover {
-  background: #059669;
-  border-color: #059669;
+.resume-save-btn:hover {
+  background-color: #218838;
 }
 
-/* 하단 취소 버튼 */
-.resume-action-buttons .resume-cancel-btn {
-  background: #f3f4f6;
-  color: #374151;
-  border-color: #d1d5db;
-}
-
-.resume-action-buttons .resume-cancel-btn:hover {
-  background: #e5e7eb;
-  border-color: #9ca3af;
-}
-
-/* 하단 삭제 버튼 */
-.resume-action-buttons .resume-delete-btn {
-  background: #ef4444;
-  color: white;
-  border-color: #ef4444;
-}
-
-.resume-action-buttons .resume-delete-btn:hover {
-  background: #dc2626;
-  border-color: #dc2626;
-}
-
-/* 이미지 모달 스타일 */
+/* 이미지 모달 */
 .image-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
-  padding: 20px;
 }
 
 .image-modal-content {
   position: relative;
-  max-width: 90vw;
-  max-height: 90vh;
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
 }
 
 .image-modal-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
+  top: 10px;
+  right: 10px;
+  background: none;
   border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  font-size: 1.2rem;
+  font-size: 24px;
+  color: #333;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  transition: background 0.2s;
-}
-
-.image-modal-close:hover {
-  background: rgba(0, 0, 0, 0.8);
+  z-index: 1001;
 }
 
 .image-modal-image {
-  display: block;
   max-width: 100%;
-  max-height: 90vh;
-  width: auto;
-  height: auto;
-  object-fit: contain;
+  max-height: 80vh;
+  display: block;
+  margin: 0 auto;
 }
 
-@media (max-width: 600px) {
-  .resume-certificate-list,
-  .resume-certificate-gallery {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 8px;
-  }
-  
-  .resume-certificate-image {
-    height: 100px;
-  }
-  
-  .resume-certificate-image-display {
-    height: 120px;
+/* 로딩 스피너 */
+.resume-loading-experience {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+/* 직종 드롭다운 관련 스타일 */
+.custom-select-container {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-container input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.custom-select-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 0 0 4px 4px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 직종 카테고리 레이아웃 */
+.job-type-categories {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+@media (max-width: 640px) {
+  .job-type-categories {
+    grid-template-columns: 1fr 1fr; /* 모바일에서도 가로 2열 유지 */
   }
 }
 
-@media (max-width: 600px) {
-  .resume-header-bar, .resume-section {
-    margin-left: 4px;
-    margin-right: 4px;
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-  
-  .resume-form-input,
-  .resume-form-select,
-  .resume-form-textarea {
-    font-size: 16px; /* iOS zoom 방지 */
-  }
-  
-  .resume-skill-options {
-    gap: 6px;
-  }
-  
-  .resume-skill-option {
-    padding: 6px 12px;
-    font-size: 0.9rem;
-  }
-  
-  .resume-action-buttons {
-    margin: 20px 4px 16px 4px;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .resume-action-buttons .resume-edit-btn,
-  .resume-action-buttons .resume-save-btn,
-  .resume-action-buttons .resume-cancel-btn,
-  .resume-action-buttons .resume-delete-btn {
-    max-width: none;
-    min-width: auto;
-    width: 100%;
-  }
-  
-  .image-modal-overlay {
-    padding: 10px;
-  }
-  
-  .image-modal-content {
-    max-width: 95vw;
-    max-height: 85vh;
-  }
-  
-  .image-modal-close {
-    top: 8px;
-    right: 8px;
-    width: 32px;
-    height: 32px;
-    font-size: 1rem;
-  }
+.job-type-category {
+  padding: 5px;
+}
+
+.category-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  margin: 5px 0;
+  padding: 0 10px;
+  border-left: 3px solid #3b82f6;
+}
+
+.job-type-list {
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 5px;
+}
+
+.job-type-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.job-type-option:hover {
+  background-color: #f3f4f6;
+}
+
+.job-type-other {
+  padding: 8px;
+  border-top: 1px solid #eee;
+}
+
+.job-type-option.other {
+  font-weight: 600;
+  color: #6b7280;
 }
