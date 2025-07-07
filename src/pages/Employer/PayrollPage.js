@@ -71,9 +71,10 @@ function PayrollPage() {
   return (
     <div className="payroll-page">
       <div className="payroll-header">
-        <button className="back-btn" onClick={() => navigate(-1)}>← 뒤로</button>
+        <button className="back-btn" onClick={() => navigate(-1)}>←</button>
         <h2>급여 관리</h2>
       </div>
+
 
       <div className="payment-date-selection">
         <label htmlFor="paymentDate">지급일 선택:</label>
