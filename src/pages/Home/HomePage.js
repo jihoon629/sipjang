@@ -160,21 +160,13 @@ function HomePage() {
             </a>
           </>
         )}
-        <a className="shortcut-card" href="/mypage">
-          <div className="shortcut-icon" style={{ background: "#fff4e6" }}>⚙️</div>
-          <div className="shortcut-title">마이페이지</div>
-          <div className="shortcut-desc">설정 관리</div>
+        <a className="shortcut-card" href="/aijobs">
+          <div className="shortcut-icon" style={{ background: "#fff4e6" }}>🤖</div>
+          <div className="shortcut-title">AI 매칭</div>
+          <div className="shortcut-desc">일자리 자동 매칭</div>
         </a>
       </div>
 
-      {/* 매칭 알림 */}
-      {!isEmployer && (
-        <div className="matching-alert" onClick={() => navigate("/aijobs")}>
-          <span className="matching-dot" />
-          <span className="matching-text">새로운 매칭! 2개의 일자리가 매칭되었습니다</span>
-          <span className="matching-arrow">&gt;</span>
-        </div>
-      )}
 
       {/* 추천 일자리 */}
       {!isEmployer && jobs.length > 0 && (
