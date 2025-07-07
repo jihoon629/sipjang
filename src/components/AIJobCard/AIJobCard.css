@@ -1,0 +1,159 @@
+
+.ai-job-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e4e6e8;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.ai-job-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-main-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.job-details {
+  flex: 1;
+}
+
+.job-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+  cursor: pointer;
+}
+
+.job-title:hover {
+  color: #007bff;
+}
+
+.job-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.job-wage {
+  font-weight: 500;
+  color: #444;
+}
+
+.match-score-visual {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.progress-bg {
+  fill: none;
+  stroke: #f0f2f5;
+  stroke-width: 10;
+}
+
+.progress-bar {
+  fill: none;
+  stroke: #007bff;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 0.5s ease-in-out;
+}
+
+.match-score-text {
+  font-size: 1.4rem;
+  font-weight: bold;
+  fill: #007bff;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid #f0f2f5;
+  padding-top: 16px;
+}
+
+.details-toggle-btn, .apply-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.details-toggle-btn {
+  background-color: #f8f9fa;
+  color: #333;
+  border-color: #dee2e6;
+}
+
+.details-toggle-btn:hover {
+  background-color: #e9ecef;
+}
+
+.apply-btn {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.apply-btn:hover {
+  background-color: #0056b3;
+}
+
+.recommendation-details {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f2f5;
+}
+
+.details-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.detail-item {
+  margin-bottom: 12px;
+}
+
+.detail-label-score {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.detail-label {
+  font-weight: 500;
+  color: #555;
+}
+
+.detail-score {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.detail-description {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 0;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
