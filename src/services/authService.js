@@ -19,6 +19,7 @@ apiClient.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    config.headers['ngrok-skip-browser-warning'] = 'true'; // ngrok 경고 페이지 우회 헤더 추가
     return config;
   },
   (error) => {
