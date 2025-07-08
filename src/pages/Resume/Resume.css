@@ -9,6 +9,7 @@
 .resume-header-bar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 15px 20px;
   background-color: #fff;
   border-bottom: 1px solid #eee;
@@ -16,6 +17,15 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  position: relative;
+}
+
+
+.resume-header-left,
+.resume-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .resume-back-btn {
@@ -29,13 +39,14 @@
   margin-right: 10px;
 }
 
+
 .resume-header-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 18px;
   font-weight: 600;
   color: #333;
-  flex-grow: 1;
-  text-align: center;
-  transform: translateX(-20px); /* 뒤로가기 버튼 공간 확보 */
 }
 
 .resume-header-buttons {

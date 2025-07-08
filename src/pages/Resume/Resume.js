@@ -31,7 +31,7 @@ function Resume() {
 
   // 사용자 정보가 로드되면 이름 초기화 (최초 한 번만)
   const [nameInitialized, setNameInitialized] = useState(false);
-  
+
   useEffect(() => {
     if (user && user.username && resumeData.name === "" && !nameInitialized) {
       setResumeData(prev => ({
@@ -44,31 +44,31 @@ function Resume() {
 
 
   // 직종 목록 분리
-const GENERAL_WORKERS = [
-  // 일반 직종
-  "보통인부", "자재정리", "신호수", "준공청소", "해체정리", "작업팀장", "세대청소", 
-  "곰방", "양중", "안전관리", "안전시설", "화재감시자", "안전감시단", "농촌", 
-  "경계석공", "토류판공", "보양공", "전기공", "알폼", "경비원", "할석공", 
-  "직영-건축반장", "직영-안전반장", "미화", "고정 신호수",
-];
+  const GENERAL_WORKERS = [
+    // 일반 직종
+    "보통인부", "자재정리", "신호수", "준공청소", "해체정리", "작업팀장", "세대청소",
+    "곰방", "양중", "안전관리", "안전시설", "화재감시자", "안전감시단", "농촌",
+    "경계석공", "토류판공", "보양공", "전기공", "알폼", "경비원", "할석공",
+    "직영-건축반장", "직영-안전반장", "미화", "고정 신호수",
+  ];
 
-const SKILLED_WORKERS = [
-  // 기능공 직종
-  "건축배관", "형틀목공", "강구조", "건축목공", "철근", "비계", "조경", "석공", 
-  "도장", "미장", "토공", "조적", "타일", "일반용접", "콘크리트", "수장", "방수", 
-  "덕트", "창호", "도배", "건축기계설비", "철거", "건출", "일반기계설비", 
-  "패널조립", "보온", "유리", "플랜트기계설비", "제관", "플랜트계측설비", 
-  "코킹", "포장", "벌목", "궤도", "상하수도배관", "보링", "발파", "지붕", 
-  "플랜트배관", "잠수", "플랜트제관", "플랜트용접", "준설", "플랜트전기설비", 
-  "플랜트보온", "보일러", "일반특수용접", "플랜트덕트", "플랜트특수용접",
-];
+  const SKILLED_WORKERS = [
+    // 기능공 직종
+    "건축배관", "형틀목공", "강구조", "건축목공", "철근", "비계", "조경", "석공",
+    "도장", "미장", "토공", "조적", "타일", "일반용접", "콘크리트", "수장", "방수",
+    "덕트", "창호", "도배", "건축기계설비", "철거", "건출", "일반기계설비",
+    "패널조립", "보온", "유리", "플랜트기계설비", "제관", "플랜트계측설비",
+    "코킹", "포장", "벌목", "궤도", "상하수도배관", "보링", "발파", "지붕",
+    "플랜트배관", "잠수", "플랜트제관", "플랜트용접", "준설", "플랜트전기설비",
+    "플랜트보온", "보일러", "일반특수용접", "플랜트덕트", "플랜트특수용접",
+  ];
 
-// 기타 추가
-const OTHER_JOB_TYPES = ["기타"];
+  // 기타 추가
+  const OTHER_JOB_TYPES = ["기타"];
 
   // 기술 선택 옵션들
   const skillOptions = [
-    "용접", "미장", "타일", "도장", "철근", "목공", "전기", "배관", 
+    "용접", "미장", "타일", "도장", "철근", "목공", "전기", "배관",
     "석공", "조적", "방수", "단열", "유리", "지붕", "토목", "조경"
   ];
 
@@ -86,7 +86,7 @@ const OTHER_JOB_TYPES = ["기타"];
         console.log('[Resume] API 응답 결과:', userResumes);
         console.log('[Resume] 응답 타입:', typeof userResumes);
         console.log('[Resume] 배열인가?', Array.isArray(userResumes));
-        
+
         // 응답 구조에 따른 처리
         let resumes = userResumes;
         if (userResumes && userResumes.data && userResumes.data.resumes) {
@@ -94,15 +94,15 @@ const OTHER_JOB_TYPES = ["기타"];
         } else if (userResumes && userResumes.data) {
           resumes = userResumes.data; // API가 { data: [...] } 형태로 응답하는 경우
         }
-        
+
         console.log('[Resume] 처리된 resumes:', resumes);
-        
+
         if (resumes && resumes.length > 0) {
           // 가장 최근 이력서 로드
           const latestResume = resumes[0];
           setHasExistingResume(true);
           setCurrentResume(latestResume); // 현재 이력서 설정
-          
+
           // 백엔드 데이터를 프론트엔드 형식으로 변환
           setResumeData({
             name: latestResume.name || user?.username || "",
@@ -116,10 +116,10 @@ const OTHER_JOB_TYPES = ["기타"];
             certificateImages: latestResume.certificateImages ? (typeof latestResume.certificateImages === 'string' ? JSON.parse(latestResume.certificateImages) : latestResume.certificateImages) : []
           });
           setNameInitialized(true); // 이력서 로드 시에도 초기화 완료로 표시
-          
-          
+
+
           console.log('[Resume] 기존 이력서 로드 완료:', latestResume);
-          
+
           // 블록체인 경력 조회
           loadBlockchainExperience();
         } else {
@@ -151,18 +151,18 @@ const OTHER_JOB_TYPES = ["기타"];
   // 블록체인 경력 조회
   const loadBlockchainExperience = async () => {
     if (!user || !user.id) return;
-    
+
     try {
       setBlockchainLoading(true);
       const experience = await resumeAPI.getBlockchainExperience(user.id);
       console.log('[Resume] 블록체인 경력 조회 결과:', experience);
-      
+
       // API 응답 구조에 따른 처리
       let experienceData = experience;
       if (experience && experience.data) {
         experienceData = experience.data;
       }
-      
+
       setBlockchainExperience(Array.isArray(experienceData) ? experienceData : []);
     } catch (error) {
       console.error('[Resume] 블록체인 경력 조회 실패:', error);
@@ -175,11 +175,11 @@ const OTHER_JOB_TYPES = ["기타"];
   // 블록체인 경력 데이터
   const [blockchainExperience, setBlockchainExperience] = useState([]);
   const [blockchainLoading, setBlockchainLoading] = useState(false);
-  
+
   // 주소 팝업 상태
   const [showAddressPopup, setShowAddressPopup] = useState(false);
   const [showJobTypeDropdown, setShowJobTypeDropdown] = useState(false);
-  
+
   // 이미지 모달 상태
   const [showImageModal, setShowImageModal] = useState(false);
   const [modalImageUrl, setModalImageUrl] = useState('');
@@ -192,8 +192,8 @@ const OTHER_JOB_TYPES = ["기타"];
 
   const handleJobTypeSelect = (jobType) => {
     setResumeData(prev => ({
-        ...prev,
-        jobType: jobType
+      ...prev,
+      jobType: jobType
     }));
     setShowJobTypeDropdown(false);
   };
@@ -202,13 +202,13 @@ const OTHER_JOB_TYPES = ["기타"];
   const handleSkillToggle = (skill) => {
     const currentSkills = resumeData.skills;
     if (currentSkills.includes(skill)) {
-      setResumeData({ 
-        ...resumeData, 
+      setResumeData({
+        ...resumeData,
         skills: currentSkills.filter(s => s !== skill)
       });
     } else {
-      setResumeData({ 
-        ...resumeData, 
+      setResumeData({
+        ...resumeData,
         skills: [...currentSkills, skill]
       });
     }
@@ -225,19 +225,19 @@ const OTHER_JOB_TYPES = ["기타"];
       files.forEach(file => {
         formData.append('certificateImages', file);
       });
-        
+
       //api/upload/certificate-images 엔드포인트로 POST 요청
       const response = await fetch('/api/upload/certificate-images', {
         method: 'POST',
         credentials: 'include',
         body: formData
       });
-        
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || '이미지 업로드 실패');
-        }
-        
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || '이미지 업로드 실패');
+      }
+
       const result = await response.json();
       console.log('업로드 응답', result); // 디버깅
 
@@ -246,12 +246,12 @@ const OTHER_JOB_TYPES = ["기타"];
       if (uploadedUrls.length === 0) {
         throw new Error('업로드된 이미지 URL가 없습니다.');
       }
-      
+
       setResumeData(prev => ({
         ...prev,
         certificateImages: [...(prev.certificateImages || []), ...uploadedUrls]
       }));
-      
+
       alert(`${uploadedUrls.length}개 이미지가 업로드되었습니다.`);
     } catch (error) {
       console.error('자격증 이미지 업로드 실패:', error);
@@ -306,13 +306,13 @@ const OTHER_JOB_TYPES = ["기타"];
       alert('삭제할 이력서가 없습니다.');
       return;
     }
-    
+
     const confirmDelete = window.confirm('정말로 이력서를 삭제하시겠습니까?\n삭제된 이력서는 복구할 수 없습니다.');
     if (!confirmDelete) return;
-    
+
     try {
       await resumeAPI.deleteResume(currentResume.id);
-      
+
       // 상태 초기화
       setHasExistingResume(false);
       setCurrentResume(null);
@@ -329,7 +329,7 @@ const OTHER_JOB_TYPES = ["기타"];
         phone: "",
         certificateImages: []
       });
-      
+
       alert('이력서가 성공적으로 삭제되었습니다.');
     } catch (error) {
       console.error('이력서 삭제 실패:', error);
@@ -362,7 +362,7 @@ const OTHER_JOB_TYPES = ["기타"];
       // 백엔드 모델에 맞는 데이터 구조로 변환
       const historyValue = resumeData.history && resumeData.history !== "" ? parseInt(resumeData.history, 10) || 0 : 0;
       console.log('[Resume] history 변환:', resumeData.history, '->', historyValue, typeof historyValue);
-      
+
       const resumePayload = {
         userId: user.id,
         name: resumeData.name,
@@ -377,23 +377,23 @@ const OTHER_JOB_TYPES = ["기타"];
       };
 
       // 이름이 변경된 경우 사용자 정보도 업데이트
-      console.log('[Resume] 이름 변경 확인:', { 
-        resumeName: resumeData.name, 
-        userUsername: user.username, 
-        isChanged: resumeData.name !== user.username 
+      console.log('[Resume] 이름 변경 확인:', {
+        resumeName: resumeData.name,
+        userUsername: user.username,
+        isChanged: resumeData.name !== user.username
       });
-      
+
       if (resumeData.name !== user.username) {
         try {
-          console.log('[Resume] 사용자 이름 업데이트 시도:', { 
-            userId: user.id, 
-            oldUsername: user.username, 
-            newUsername: resumeData.name 
+          console.log('[Resume] 사용자 이름 업데이트 시도:', {
+            userId: user.id,
+            oldUsername: user.username,
+            newUsername: resumeData.name
           });
-          
+
           const updateResult = await updateUser(user.id, { username: resumeData.name });
           console.log('[Resume] 사용자 이름 업데이트 API 응답:', updateResult);
-          
+
           // 사용자 정보 새로고침
           await fetchUser();
           console.log('[Resume] 사용자 이름 업데이트 완료:', resumeData.name);
@@ -427,7 +427,7 @@ const OTHER_JOB_TYPES = ["기타"];
         setCurrentResume({ ...currentResume, ...resumeToSet });
         alert('이력서가 성공적으로 수정되었습니다.');
       }
-      
+
       setEditMode(false);
     } catch (error) {
       console.error('이력서 저장/업데이트 실패:', error);
@@ -463,11 +463,11 @@ const OTHER_JOB_TYPES = ["기타"];
       <div className="resume-page">
         <div className="resume-header-bar">
           <button className="resume-back-btn" onClick={() => navigate("/")} aria-label="뒤로가기">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </button>
           <span className="resume-header-title">내 이력서</span>
         </div>
-        <div style={{padding: '50px', textAlign: 'center'}}>
+        <div style={{ padding: '50px', textAlign: 'center' }}>
           <div>이력서를 불러오는 중...</div>
         </div>
       </div>
@@ -478,21 +478,28 @@ const OTHER_JOB_TYPES = ["기타"];
     <div className="resume-page">
       {/* 상단 네비게이션 */}
       <div className="resume-header-bar">
-        <button className="resume-back-btn" onClick={() => navigate("/")} aria-label="뒤로가기">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-        </button>
+        <div className="resume-header-left">
+          <button className="resume-back-btn" onClick={() => navigate("/")} aria-label="뒤로가기">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M15 19l-7-7 7-7" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+
         <span className="resume-header-title">
           {editMode ? (isCreatingNew ? '새 이력서 작성' : '이력서 편집') : '내 이력서'}
         </span>
-        <div className="resume-header-buttons">
-          {!editMode && hasExistingResume ? (
+
+        <div className="resume-header-right">
+          {!editMode && hasExistingResume && (
             <>
               <button className="resume-edit-btn" onClick={handleEditExisting}>편집</button>
               <button className="resume-delete-btn" onClick={handleDeleteResume}>삭제</button>
             </>
-          ) : null}
+          )}
         </div>
       </div>
+
 
       {/* 프로필 정보 */}
       <div className="resume-section">
@@ -503,7 +510,7 @@ const OTHER_JOB_TYPES = ["기타"];
           <div className="resume-form-item">
             <label className="resume-form-label">이름</label>
             {editMode ? (
-              <input 
+              <input
                 className="resume-form-input"
                 type="text"
                 name="name"
@@ -518,7 +525,7 @@ const OTHER_JOB_TYPES = ["기타"];
           <div className="resume-form-item">
             <label className="resume-form-label">경력</label>
             {editMode ? (
-              <input 
+              <input
                 className="resume-form-input"
                 type="number"
                 name="history"
@@ -543,58 +550,58 @@ const OTHER_JOB_TYPES = ["기타"];
             <label className="resume-form-label">희망 직종</label>
             {editMode ? (
               <div className="custom-select-container">
-                <input 
-                    name="jobType" 
-                    value={resumeData.jobType} 
-                    onChange={handleResumeChange}
-                    onClick={() => setShowJobTypeDropdown(!showJobTypeDropdown)}
-                    placeholder="직종을 선택하세요"
-                    readOnly
+                <input
+                  name="jobType"
+                  value={resumeData.jobType}
+                  onChange={handleResumeChange}
+                  onClick={() => setShowJobTypeDropdown(!showJobTypeDropdown)}
+                  placeholder="직종을 선택하세요"
+                  readOnly
                 />
                 {showJobTypeDropdown && (
-                    <div className="custom-select-options">
-                        <div className="job-type-categories">
-                            <div className="job-type-category">
-                                <h4 className="category-title">일반인부</h4>
-                                <div className="job-type-list">
-                                    {GENERAL_WORKERS.map((jobType) => (
-                                        <div 
-                                            key={jobType} 
-                                            className="job-type-option"
-                                            onClick={() => handleJobTypeSelect(jobType)}
-                                        >
-                                            {jobType}
-                                        </div>
-                                    ))}
-                                </div>
+                  <div className="custom-select-options">
+                    <div className="job-type-categories">
+                      <div className="job-type-category">
+                        <h4 className="category-title">일반인부</h4>
+                        <div className="job-type-list">
+                          {GENERAL_WORKERS.map((jobType) => (
+                            <div
+                              key={jobType}
+                              className="job-type-option"
+                              onClick={() => handleJobTypeSelect(jobType)}
+                            >
+                              {jobType}
                             </div>
-                            <div className="job-type-category">
-                                <h4 className="category-title">기능공</h4>
-                                <div className="job-type-list">
-                                    {SKILLED_WORKERS.map((jobType) => (
-                                        <div 
-                                            key={jobType} 
-                                            className="job-type-option"
-                                            onClick={() => handleJobTypeSelect(jobType)}
-                                        >
-                                            {jobType}
-                                        </div>
-                                    ))}
-                                </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="job-type-category">
+                        <h4 className="category-title">기능공</h4>
+                        <div className="job-type-list">
+                          {SKILLED_WORKERS.map((jobType) => (
+                            <div
+                              key={jobType}
+                              className="job-type-option"
+                              onClick={() => handleJobTypeSelect(jobType)}
+                            >
+                              {jobType}
                             </div>
+                          ))}
                         </div>
-                        <div className="job-type-other">
-                            {OTHER_JOB_TYPES.map((jobType) => (
-                                <div 
-                                    key={jobType} 
-                                    className="job-type-option other"
-                                    onClick={() => handleJobTypeSelect(jobType)}
-                                >
-                                    {jobType}
-                                </div>
-                            ))}
-                        </div>
+                      </div>
                     </div>
+                    <div className="job-type-other">
+                      {OTHER_JOB_TYPES.map((jobType) => (
+                        <div
+                          key={jobType}
+                          className="job-type-option other"
+                          onClick={() => handleJobTypeSelect(jobType)}
+                        >
+                          {jobType}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             ) : (
@@ -605,7 +612,7 @@ const OTHER_JOB_TYPES = ["기타"];
             <label className="resume-form-label">희망 지역</label>
             {editMode ? (
               <div className="resume-address-input-group">
-                <input 
+                <input
                   className="resume-form-input"
                   type="text"
                   name="region"
@@ -629,7 +636,7 @@ const OTHER_JOB_TYPES = ["기타"];
           <div className="resume-form-item">
             <label className="resume-form-label">희망 일급</label>
             {editMode ? (
-              <input 
+              <input
                 className="resume-form-input"
                 type="number"
                 name="desiredDailyWage"
@@ -657,9 +664,8 @@ const OTHER_JOB_TYPES = ["기타"];
                 <button
                   key={skill}
                   type="button"
-                  className={`resume-skill-option ${
-                    resumeData.skills.includes(skill) ? 'selected' : ''
-                  }`}
+                  className={`resume-skill-option ${resumeData.skills.includes(skill) ? 'selected' : ''
+                    }`}
                   onClick={() => handleSkillToggle(skill)}
                 >
                   {skill}
@@ -682,7 +688,7 @@ const OTHER_JOB_TYPES = ["기타"];
           <span role="img" aria-label="소개">💬</span> 자기소개
         </div>
         {editMode ? (
-          <textarea 
+          <textarea
             className="resume-form-textarea"
             name="selfIntroduction"
             value={resumeData.selfIntroduction}
@@ -764,8 +770,8 @@ const OTHER_JOB_TYPES = ["기타"];
               <div className="resume-certificate-list">
                 {resumeData.certificateImages.map((imageUrl, index) => (
                   <div key={index} className="resume-certificate-item">
-                    <img 
-                      src={imageUrl} 
+                    <img
+                      src={imageUrl}
                       alt={`자격증 ${index + 1}`}
                       className="resume-certificate-image"
                       onClick={() => handleImageClick(imageUrl)}
@@ -789,8 +795,8 @@ const OTHER_JOB_TYPES = ["기타"];
               <div className="resume-certificate-gallery">
                 {resumeData.certificateImages.map((imageUrl, index) => (
                   <div key={index} className="resume-certificate-item-display">
-                    <img 
-                      src={imageUrl} 
+                    <img
+                      src={imageUrl}
                       alt={`자격증 ${index + 1}`}
                       className="resume-certificate-image-display"
                       onClick={() => handleImageClick(imageUrl)}
@@ -821,7 +827,7 @@ const OTHER_JOB_TYPES = ["기타"];
           <div className="resume-form-item">
             <label className="resume-form-label">전화번호</label>
             {editMode ? (
-              <input 
+              <input
                 className="resume-form-input"
                 type="tel"
                 name="phone"
@@ -847,7 +853,7 @@ const OTHER_JOB_TYPES = ["기타"];
           <button className="resume-save-btn" onClick={handleSaveResume}>저장</button>
         </div>
       )}
-      
+
       {/* 주소 팝업 */}
       {showAddressPopup && (
         <AddressPopup
@@ -860,16 +866,16 @@ const OTHER_JOB_TYPES = ["기타"];
       {showImageModal && (
         <div className="image-modal-overlay" onClick={handleImageModalClose}>
           <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button 
+            <button
               type="button"
-              className="image-modal-close" 
+              className="image-modal-close"
               onClick={handleImageModalClose}
             >
               ✕
             </button>
-            <img 
-              src={modalImageUrl} 
-              alt="자격증 원본" 
+            <img
+              src={modalImageUrl}
+              alt="자격증 원본"
               className="image-modal-image"
             />
           </div>
