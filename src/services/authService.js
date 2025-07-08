@@ -9,11 +9,22 @@ export const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // 중요: 다른 출처(cross-origin)간 요청에 쿠키를 포함시키기 위해 필요  
+  withCredentials: false, // 쿠키 대신 세션 스토리지를 사용하므로 false로 설정  
 });
 
-// 백엔드에서 httpOnly 쿠키를 사용하므로, 프론트엔드에서 직접 헤더에 토큰을 추가할 필요가 없습니다.
-// 따라서 요청 인터셉터는 필요하지 않습니다. 
+// 요청 인터셉터: 모든 요청에 토큰을 추가
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem('jwtToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+); 
  
 export const signup = async (userData) => {
   try {
@@ -32,8 +43,10 @@ export const login = async (credentials) => {
   try {
     const response = await apiClient.post('/auth/login', credentials);
     console.log('[authService] Login API call successful. Response:', response.data);
-    // 로그인 성공 시 서버가 httpOnly 쿠키로 토큰을 설정해 줄 것이므로,
-    // 프론트엔드에서 토큰을 직접 저장할 필요가 없습니다.
+    // 로그인 성공 시 응답 본문에서 토큰을 받아 세션 스토리지에 저장
+    if (response.data.token) {
+      sessionStorage.setItem('jwtToken', response.data.token);
+    }
     return response.data.user; // user 객체만 반환
   } catch (error) {
     console.error('[authService] Login API call failed:', error.response ? error.response.data : error.message);
@@ -62,9 +75,8 @@ export const logout = async () => {
     console.log('[authService] Logout API call successful.');
   } catch (error) {
     console.error('[authService] Logout API call failed:', error.response ? error.response.data : error.message);
-    // 에러가 발생하더라도 클라이언트 측에서는 할 수 있는 추가적인 작업이 제한적입니다.
+  } finally {
+    // 로그아웃 성공 여부와 관계없이 클라이언트 측 세션 스토리지에서 토큰 제거
+    sessionStorage.removeItem('jwtToken');
   }
-  // 서버가 쿠키를 삭제하므로 클라이언트 측에서는 특별한 처리가 필요 없습니다.
 };
-
-// 다른 인증 관련 API 호출 함수들...

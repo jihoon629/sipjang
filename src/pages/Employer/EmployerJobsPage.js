@@ -70,7 +70,7 @@ function EmployerJobsPage() {
 
                                     <button
                                         className="view-btn"
-                                        onClick={() => alert("공고 마감 기능은 추후 구현 예정입니다.")}
+                                        onClick={() => handleStatusChange(job.id, 'closed')}
                                     >공고 마감</button>
 
                                     <button

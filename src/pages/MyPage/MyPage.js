@@ -145,7 +145,7 @@ function MyPage() {
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
 
-        <div className="mypage-menu-item" onClick={() => navigate('/payroll')}>
+        <div className="mypage-menu-item" onClick={() => navigate('/calendar')}>
           <span className="mypage-menu-icon" style={{ background: "#E6FCEF" }}>
             💸
           </span>
@@ -178,7 +178,7 @@ function MyPage() {
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
 
-        <div className="mypage-menu-item" onClick={() => navigate('/support')}>
+        <div className="mypage-menu-item" onClick={() => navigate('/service')}>
           <span className="mypage-menu-icon" style={{ background: "#FFEAEA" }}>
             ❗
           </span>

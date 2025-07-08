@@ -29,7 +29,6 @@ import Service from "./pages/Service/Service";
 
 
 
-
 function App() {
   return (
     <UserProvider>
@@ -57,6 +56,7 @@ function App() {
             <Route path="/employer/applicant-details/:resumeId/:userId" element={<ApplicantDetailPage />} />
             <Route path="/employer/payroll" element={<PayrollPage />} />
             <Route path="/service" element={<Service />} />
+
           </Routes>
         </div>
         <Footer />

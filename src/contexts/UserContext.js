@@ -35,6 +35,7 @@ export const UserProvider = ({ children }) => {
     } catch (error) {
       console.error('Failed to fetch current user:', error);
       setUser(null);
+      sessionStorage.removeItem('jwtToken'); // 토큰이 유효하지 않으면 세션 스토리지에서 제거
     } finally {
       setLoading(false);
     }
