@@ -156,38 +156,27 @@ function MyPage() {
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
 
-        {/* <div className="mypage-menu-item" onClick={() => navigate('/resume?tab=certificate')}>
-          <span className="mypage-menu-icon" style={{ background: "#F3EEFF" }}>
-            📛
+        <div className="mypage-menu-item" onClick={() => navigate('/nearby')}>
+          <span className="mypage-menu-icon" style={{ background: "#E6FCEF" }}>
+            📍
           </span>
           <div className="mypage-menu-text">
-            <div className="mypage-menu-title">신원 인증</div>
-            <div className="mypage-menu-desc">본인인증 및 자격증 등록</div>
+            <div className="mypage-menu-title">내 주변</div>
+            <div className="mypage-menu-desc">근처 일자리</div>
           </div>
           <span className="mypage-menu-arrow">&gt;</span>
         </div>
 
-        <div className="mypage-menu-item" onClick={() => navigate('/resume?tab=review')}>
-          <span className="mypage-menu-icon" style={{ background: "#FFF4E6" }}>
-            ⭐
-          </span>
-          <div className="mypage-menu-text">
-            <div className="mypage-menu-title">평가 관리</div>
-            <div className="mypage-menu-desc">받은 평가 및 후기</div>
-          </div>
-          <span className="mypage-menu-arrow">&gt;</span>
-        </div> */}
-
-        {/* <div className="mypage-menu-item" onClick={() => navigate('/resume?tab=alarm')}>
+        <div className="mypage-menu-item" onClick={() => navigate('/aijobs')}>
           <span className="mypage-menu-icon" style={{ background: "#F7F7F7" }}>
-            ⏰
+            🤖
           </span>
           <div className="mypage-menu-text">
-            <div className="mypage-menu-title">알림 설정</div>
-            <div className="mypage-menu-desc">매칭 및 급여 알림</div>
+            <div className="mypage-menu-title">AI 매칭</div>
+            <div className="mypage-menu-desc">일자리 자동 매칭</div>
           </div>
           <span className="mypage-menu-arrow">&gt;</span>
-        </div> */}
+        </div>
 
         <div className="mypage-menu-item" onClick={() => navigate('/support')}>
           <span className="mypage-menu-icon" style={{ background: "#FFEAEA" }}>
