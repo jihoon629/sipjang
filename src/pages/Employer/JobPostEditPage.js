@@ -54,7 +54,8 @@ function JobPostEditPage() {
     useEffect(() => {
         const fetchJobPosting = async () => {
             try {
-                const data = await getJobPostingDetails(id);
+                const responseData = await getJobPostingDetails(id);
+                const data = responseData.data;
                 const [startHour, endHour] = data.workHours?.split("-") || ["09:00", "18:00"];
                 setForm({
                     title: data.title,
