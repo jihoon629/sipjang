@@ -1,7 +1,7 @@
 // src/services/authService.js
 import axios from 'axios';
 
-const API_BASE_URL = 'https://c3c5e8f62cb9.ngrok-free.app/api';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // axios 인스턴스 생성 시 withCredentials 옵션 추가
 export const apiClient = axios.create({
