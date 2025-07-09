@@ -58,16 +58,13 @@ export const AIJobsProvider = ({ children }) => {
   }, [fetchRecommendations]);
 
   useEffect(() => {
-    if (user && user.id) {
-      fetchRecommendations();
-    }
     // 로그아웃 시 데이터 초기화
     if (!user) {
         setRecommendations([]);
         setFetched(false);
         setError(null);
     }
-  }, [user, fetchRecommendations]);
+  }, [user]);
 
   const value = {
     recommendations,
