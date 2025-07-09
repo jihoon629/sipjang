@@ -10,6 +10,10 @@ function AIJobs() {
   const navigate = useNavigate();
   const { recommendations, loading, error, refetch } = useAIJobs();
 
+  React.useEffect(() => {
+    refetch();
+  }, [refetch]);
+
   if (loading) {
     return (
       <div className="aijobs-page">
