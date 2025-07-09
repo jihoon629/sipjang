@@ -1,5 +1,5 @@
 
-import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback, useRef } from 'react';
 import { getJobRecommendations, getUserResumes } from '../services/resumesService';
 import { useUser } from './UserContext';
 
@@ -13,6 +13,11 @@ export const AIJobsProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [fetched, setFetched] = useState(false); // 데이터 요청 여부 플래그
+  const fetchedRef = useRef(fetched);
+
+  useEffect(() => {
+    fetchedRef.current = fetched;
+  }, [fetched]);
 
   const fetchRecommendations = useCallback(async (force = false) => {
     if (!user || !user.id) {
@@ -21,7 +26,7 @@ export const AIJobsProvider = ({ children }) => {
     }
 
     // 강제 새로고침이 아니고, 이미 데이터가 있다면 실행하지 않음
-    if (!force && fetched) {
+    if (!force && fetchedRef.current) {
       return;
     }
 
@@ -51,7 +56,7 @@ export const AIJobsProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [user, fetched]);
+  }, [user]);
 
   const refetch = useCallback(() => {
     fetchRecommendations(true); // 강제 새로고침
