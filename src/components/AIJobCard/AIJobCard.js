@@ -40,7 +40,7 @@ const AIJobCard = ({ job }) => {
         <div className="job-details">
           <h3 className="job-title" onClick={() => navigate(`/jobs/${job.id}`)}>{job.title}</h3>
           <div className="job-meta">
-            <span className="job-wage">일급 {job.daily_wage ? `${job.daily_wage.toLocaleString()}원` : '미정'}</span>
+            <span className="job-wage">일급 {job.dailyWage ? `${job.daily_wage.toLocaleString()}원` : '미정'}</span>
             <span className="job-region">{job.region}</span>
           </div>
         </div>
