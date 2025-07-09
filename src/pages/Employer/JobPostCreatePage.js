@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { createJobPosting } from "../../services/jobPostingsService";
 import { useUser } from "../../contexts/UserContext";
 import AddressPopup from "../../components/AddressPopup/AddressPopup";
 import "./JobPostCreatePage.css";
@@ -98,7 +98,7 @@ function JobPostCreatePage() {
                 siteDescription: form.siteDescription,
             };
 
-            await axios.post("/api/job-postings", payload);
+            await createJobPosting(payload);
             alert("공고 등록 완료!");
             navigate("/employerjobs");
         } catch (err) {
