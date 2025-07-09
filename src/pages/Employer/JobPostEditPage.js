@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+
 import { useUser } from "../../contexts/UserContext";
-import { deleteJobPosting } from "../../services/jobPostingsService";
+import { deleteJobPosting, getJobPostingDetails, updateJobPosting } from "../../services/jobPostingsService";
 import AddressPopup from "../../components/AddressPopup/AddressPopup";
 import "./JobPostCreatePage.css";
 
@@ -54,8 +54,7 @@ function JobPostEditPage() {
     useEffect(() => {
         const fetchJobPosting = async () => {
             try {
-                const response = await axios.get(`/api/job-postings/${id}`);
-                const data = response.data.data;
+                const data = await getJobPostingDetails(id);
                 const [startHour, endHour] = data.workHours?.split("-") || ["09:00", "18:00"];
                 setForm({
                     title: data.title,
@@ -133,7 +132,7 @@ function JobPostEditPage() {
                 siteDescription: form.siteDescription,
             };
 
-            await axios.put(`/api/job-postings/${id}`, payload);
+            await updateJobPosting(id, payload);
             alert("공고 수정 완료!");
             navigate("/employerjobs");
         } catch (err) {
